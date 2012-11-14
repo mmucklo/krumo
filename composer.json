@@ -1,0 +1,25 @@
+{
+    "name": "oodle/krumo",
+    "type": "library",
+    "description": "KRUMO - version 2.0 of print_r(); and var_dump();",
+    "license": "LGPL",
+    "authors": [
+        {
+	    "name": "Kaloyan K. Tsvetkov",
+	    "email": "kaloyan@kaloyan.info"
+	},
+	{
+	    "name": "Matthew J. Mucklo",
+	    "email": "mmucklo@corp.oodle.com"
+	}
+    ],
+    "require": {
+        "php": ">=5.2.17"
+    },
+    "autoload": {
+        "psr-0": {
+	    "Krumo": "/"
+	}
+    }
+}
+
