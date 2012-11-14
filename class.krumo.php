@@ -622,6 +622,11 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
 	/**
+	 * Configuration array.
+	 */
+	Private Static $_config = array();
+
+	/**
 	* Returns values from Krumo's configuration
 	*
 	* @param string $group
@@ -633,22 +638,23 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 	* @static
 	*/
 	Private Static Function _config($group, $name, $fallback=null) {
-
-		static $_config = array();
-
 		// not loaded ?
 		//
-		if (empty($_config)) {
-			$_config = (array) @parse_ini_file(
+		if (empty(self::$_config)) {
+			self::$_config = (array) @parse_ini_file(
 				KRUMO_DIR . 'krumo.ini',
 				true);
 			}
 
 		// exists ?
 		//
-		return (isset($_config[$group][$name]))
-			? $_config[$group][$name]
+		return (isset(self::$_config[$group][$name]))
+			? self::$_config[$group][$name]
 			: $fallback;
+		}
+
+	Public Static Function setConfig($config) {
+		self::$_config = $config;
 		}
 
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --

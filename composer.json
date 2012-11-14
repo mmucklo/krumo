@@ -11,7 +11,11 @@
 	{
 	    "name": "Matthew J. Mucklo",
 	    "email": "mmucklo@corp.oodle.com"
-	}
+	},
+	{
+	    "name": "Stefan Thomas",
+	    "email": "moon@justmoon.de"
+        }
     ],
     "require": {
         "php": ">=5.2.17"
