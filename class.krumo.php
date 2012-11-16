@@ -16,21 +16,6 @@
 //////////////////////////////////////////////////////////////////////////////
 
 /**
-* backward compatibility: the DIR_SEP constant isn't used anymore
-*/
-if(!defined('DIR_SEP')) {
-	define('DIR_SEP', DIRECTORY_SEPARATOR);
-	}
-/**
-* backward compatibility: the PATH_SEPARATOR constant is availble since 4.3.0RC2
-*/
-if (!defined('PATH_SEPARATOR')) {
-	define('PATH_SEPARATOR', OS_WINDOWS ? ';' : ':');
-        }
-
-// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-
-/**
 * Set the KRUMO_DIR constant up with the absolute path to Krumo files. If it is
 * not defined, include_path will be used. Set KRUMO_DIR only if any other module
 * or application has not already set it up.
