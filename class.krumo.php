@@ -566,21 +566,30 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 		?>
 <div class="krumo-root">
 	<ul class="krumo-node krumo-first">
-		<?php echo krumo::_dump($data);?>
+		<?php echo krumo::_dump($data);
+
+		$showVersion = krumo::_config('display', 'show_version', TRUE);
+		$showCallInfo = krumo::_config('display', 'show_call_info', TRUE);
+		$krumoUrl = 'https://github.com/oodle/krumo';
+
+		if ($showVersion || $showCall):
+		?>
 		<li class="krumo-footnote">
+			<?php if ($showVersion): ?>
 			<div class="krumo-version" style="white-space:nowrap;">
 				<h6>Krumo version <?php echo krumo::version();?></h6> | <a
-					href="http://krumo.sourceforge.net"
-					target="_blank">http://krumo.sourceforge.net</a>
+					href="<?php echo $krumoUrl; ?>"
+					target="_blank"><?php echo $krumoUrl; ?></a>
 			</div>
-
-		<?php if (isset($d['file']) && $d['file']) { ?>
+			<?php endif; ?>
+		<?php if ($showCallInfo && isset($d['file']) && $d['file']) { ?>
 		<span class="krumo-call" style="white-space:nowrap;">
 			Called from <code><?php echo $d['file']?></code>,
 				line <code><?php echo $d['line']?></code></span>
 		<?php } ?>
 		&nbsp;
 		</li>
+		<?php endif; ?>
 	</ul>
 </div>
 <?php
