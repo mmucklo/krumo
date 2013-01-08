@@ -572,7 +572,7 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 		$showCallInfo = krumo::_config('display', 'show_call_info', TRUE);
 		$krumoUrl = 'https://github.com/oodle/krumo';
 
-		if ($showVersion || $showCall):
+		if ($showVersion || $showCallInfo):
 		?>
 		<li class="krumo-footnote">
 			<?php if ($showVersion): ?>
