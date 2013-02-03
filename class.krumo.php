@@ -979,31 +979,54 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 	<ul class="krumo-node">
 	<?php
 
-	// keys ?
-	//
-	$keys = ($_is_object)
-		? array_keys(get_object_vars($data))
-		: array_keys($data);
+	// Object?? - use Reflection
+	if ($_is_object) {
+		$reflection = new ReflectionClass($data);
+		$properties = $reflection->getProperties();
+		foreach ($properties as $property) {
+			$prefix = null;
+			$setAccessible = false;
+			if ($property->isPrivate()) {
+				$setAccessible = true;
+				$prefix = 'private ';
+				}
+			else if ($property->isProtected()) {
+				$setAccessible = true;
+				$prefix = 'protected ';
+				}
+			else if ($property->isPublic()) {
+				$prefix = 'public ';
+				}
 
-	// itterate
-	//
-	foreach($keys as $k) {
+			$name = $property->getName();
+			if ($setAccessible)
+				$property->setAccessible(true);
+			$value = $property->getValue($data);
 
-		// skip marker
-		//
-		if ($k === $_recursion_marker) {
-			continue;
+			krumo::_dump($value, $prefix . " '$name'");
 			}
-
-		// get real value
+		}
+	else {
+		// keys ?
 		//
-		if ($_is_object) {
-			$v =& $data->$k;
-			} else {
+		$keys = array_keys($data);
+
+		// itterate
+		//
+		foreach($keys as $k) {
+
+			// skip marker
+			//
+			if ($k === $_recursion_marker) {
+				continue;
+				}
+
+			// get real value
+			//
 			$v =& $data[$k];
-			}
 
-		krumo::_dump($v,$k);
+			krumo::_dump($v,$k);
+			}
 		} ?>
 	</ul>
 </div>
@@ -1111,7 +1134,9 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 			<strong class="krumo-class"><?php echo get_class($data);?></strong>
 	</div>
 
-	<?php if (count($data)) {
+	<?php $reflection = new ReflectionClass($data);
+	$properties = $reflection->getProperties();
+	if ($properties) {
 		krumo::_vars($data);
 		} ?>
 </li>
