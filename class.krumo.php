@@ -599,8 +599,10 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 		if ($hive =& krumo::_hive($dummy)) {
 			foreach($hive as $i=>$bee){
 				if (is_object($bee)) {
-					unset($hive[$i]->$_recursion_marker);
-					} else {
+					$reflection = new ReflectionClass($bee);
+					if ($reflection->hasProperty($_recursion_marker))
+						unset($hive[$i]->$_recursion_marker);
+					} else if (isset($hive[$i]->$_recursion_marker)) {
 					unset($hive[$i][$_recursion_marker]);
 					}
 				}
@@ -921,8 +923,11 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 			{
 				if (isset($bee->$_recursion_marker))
 					$bee->$_recursion_marker++;
-				else
-					$bee->$_recursion_marker = 1;
+				else {
+					$reflection = new ReflectionClass($bee);
+					if (!$reflection->isFinal())
+						$bee->$_recursion_marker = 1;
+				}
 			}
 			else {
 				if (isset($bee[$_recursion_marker]))
@@ -1002,8 +1007,10 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 			if ($setAccessible)
 				$property->setAccessible(true);
 			$value = $property->getValue($data);
-
+			
 			krumo::_dump($value, $prefix . " '$name'");
+			if ($setAccessible)
+				$property->setAccessible(false);
 			}
 		}
 	else {
@@ -1095,7 +1102,10 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 				<span class="krumo-callback"> |
 					(<em class="krumo-type">Callback</em>)
 					<strong class="krumo-string"><?php
-						echo htmlSpecialChars($_[0]);?>::<?php
+						if (!is_object($_[0]))
+							echo htmlSpecialChars($_[0]);
+						else
+							echo htmlSpecialChars(get_class($_[0])); ?>::<?php
 						echo htmlSpecialChars($_[1]);?>();</strong></span>
 				<?php
 				}
