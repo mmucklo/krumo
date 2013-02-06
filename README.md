@@ -6,6 +6,9 @@ Krumo Fork (with updates)
 1. Dynamic Config
    * Ability to set the Config dynamically.
    * inspired by: [justmoon/krumo@a8208...](https://github.com/justmoon/krumo/commit/a82082d52f9dd348510175b508d5b2c73d69d7ad)
+1. Node Collapse Behavior
+   * Ability to specify nodes open by default
+   * largely copied from: [justmoon/krumo@bd1f3efd476122b5d6c79e881b6f1017c8771713](https://github.com/justmoon/krumo/commit/bd1f3efd476122b5d6c79e881b6f1017c8771713)
 1. Proper Object Dumping
    * Fixes for object dumping - to be able to dump Public, Protected, and Private members of objects
 1. New Options
