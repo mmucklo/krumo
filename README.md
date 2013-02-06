@@ -4,26 +4,31 @@ krumo
 Krumo Fork (with updates)
 
 1. Dynamic Config
-   Ability to set the Config dynamically
-   (inspired by justmoon/krumo@a82082d52f9dd348510175b508d5b2c73d69d7ad)
+
+   * Ability to set the Config dynamically.
+   * inspired by justmoon/krumo@a82082d52f9dd348510175b508d5b2c73d69d7ad
 
 1. Proper Object Dumping
-   Fixes for object dumping - to be able to dump Public, Protected, and Private members of objects
+
+   * Fixes for object dumping - to be able to dump Public, Protected, and Private members of objects
 
 1. New Options
-   New options under [display] in ini file (whether to show the line number / call info, plus whether to show the krumo version)
-   (inspired by justmoon/krumo@37e1b1c07ca0266baad699565314b11b80410df2)
+
+   * New options under [display] in ini file (whether to show the line number / call info, plus whether to show the krumo version)
+   * inspired by justmoon/krumo@37e1b1c07ca0266baad699565314b11b80410df2
 
 1. New Default Url
+
    * Default URL in krumo.ini is now /krumo/
 
 1. Cleanup
+
    * A few @($...) to isset($...) changes in class.krumo.php
    * All source code has been run through dos2unix
 
 Note: Thanks to justmoon https://github.com/justmoon/krumo for inspiration / code on a few features
 
-Original Readme from krumo_0.2.1a_PHP5-Only - http://sourceforge.net/projects/krumo/
+Original Readme from krumo_0.2.1a_PHP5-Only:
 
 =============================================================================
 
@@ -32,8 +37,7 @@ Original Readme from krumo_0.2.1a_PHP5-Only - http://sourceforge.net/projects/kr
 
 =============================================================================
 
-You probably got this package from...
-http://www.sourceforge.net/projects/krumo/
+[...]
 
 If there is no licence agreement with this package please download
 a version from the location above. You must read and accept that
@@ -125,7 +129,4 @@ CONTRIBUTION
 -----------------------------------------------------------------------------
 If you download and use and possibly even extend this tool, please let us know. 
 Any feedback, even bad, is always welcome and your suggestions are going to be 
-considered for our next release. Please use our SourceForge page for that:
- 
- http://www.sourceforge.net/projects/krumo/
-
+considered for our next release. [...]
