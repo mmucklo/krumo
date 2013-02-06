@@ -3,6 +3,7 @@
     "type": "library",
     "description": "KRUMO - version 2.0 of print_r(); and var_dump();",
     "license": "LGPL",
+    "keywords": ["debug", "debugging", "pretty", "print", "print_r", "var_dump"],
     "authors": [
         {
 	    "name": "Kaloyan K. Tsvetkov",
