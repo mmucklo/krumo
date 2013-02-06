@@ -660,7 +660,7 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 	*
 	* By default, all nodes are collapsed.
 	*/
-	Private Static $_cascade = array();
+	Private Static $_cascade = null;
 	
 	/**
 	* Set a cascade configuration array.
@@ -679,7 +679,7 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 	* @access public
 	* @static
 	*/
-	Public Static Function cascade($cascade) {
+	Public Static Function cascade(array $cascade) {
 		self::$_cascade = $cascade;
 		}
 
@@ -687,8 +687,13 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 	* Determines if a given node will be collapsed or not.
 	*/
 	Private Static Function _isCollapsed($level, $childCount) {
-		if (isset(self::$_cascade[$level])) {
-			return $childCount >= self::$_cascade[$level];
+		$cascade = self::$_cascade;
+		if ($cascade == null) {
+			$cascade = krumo::_config('display', 'cascade', array());
+			}
+
+		if (isset($cascade[$level])) {
+			return $childCount >= $cascade[$level];
 		} else {
 			return true;
 		}
