@@ -4,25 +4,16 @@ krumo
 Krumo Fork (with updates)
 
 1. Dynamic Config
-
    * Ability to set the Config dynamically.
    * inspired by: [justmoon/krumo@a8208...](https://github.com/justmoon/krumo/commit/a82082d52f9dd348510175b508d5b2c73d69d7ad)
-
 1. Proper Object Dumping
-
    * Fixes for object dumping - to be able to dump Public, Protected, and Private members of objects
-
 1. New Options
-
    * New options under [display] in ini file (whether to show the line number / call info, plus whether to show the krumo version)
    * inspired by: [justmoon/krumo@37e1b1...](https://github.com/justmoon/krumo/commit/37e1b1c07ca0266baad699565314b11b80410df2)
-
 1. New Default Url
-
    * Default URL in krumo.ini is now /krumo/
-
 1. Cleanup
-
    * A few @($...) to isset($...) changes in class.krumo.php
    * All source code has been run through dos2unix
 
