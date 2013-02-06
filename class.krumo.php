@@ -656,6 +656,47 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
 	/**
+	* Cascade configuration array
+	*
+	* By default, all nodes are collapsed.
+	*/
+	Private Static $_cascade = array();
+	
+	/**
+	* Set a cascade configuration array.
+	*
+	* Each value in the array is the maximum number of entries that node can
+	* have before it is being collapsed. The last value is repeated for all
+	* further levels.
+	*
+	* Example:
+	* array(10,5,0) - Nodes from the first level are expanded if they have less
+	*                 than or equal to 10 child nodes. Nodes from the second level are ex-
+	*                 panded if they have less or equal to 5 nodes and all lower levels
+	*                 are collapsed.
+	*
+	* @param array $cascade Cascading information
+	* @access public
+	* @static
+	*/
+	Public Static Function cascade($cascade) {
+		self::$_cascade = $cascade;
+		}
+
+	/**
+	* Determines if a given node will be collapsed or not.
+	*/
+	Private Static Function _isCollapsed($level, $childCount) {
+		if (isset(self::$_cascade[$level])) {
+			return $childCount >= self::$_cascade[$level];
+		} else {
+			return true;
+		}
+		}
+	
+	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+	
+	/**
 	* Print the skin (CSS)
 	*
 	* @return boolean
@@ -947,6 +988,11 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
 	/**
+	* Level of recursion.
+	*/
+	Private Static $_level = 0;	
+	
+	/**
 	* Render a dump for the properties of an array or objeect
 	*
 	* @param mixed &$data
@@ -979,10 +1025,14 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 
 		// render it
 		//
+		$collapsed = krumo::_isCollapsed(self::$_level, count($data)-1);
 		?>
-<div class="krumo-nest" style="display:none;">
+<div class="krumo-nest"<?php if ($collapsed): ?> style="display:none;"<?php endif;?>>
 	<ul class="krumo-node">
 	<?php
+
+	// we're descending one level deeper
+	self::$_level++;
 
 	// Object?? - use Reflection
 	if ($_is_object) {
@@ -1018,7 +1068,7 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 		//
 		$keys = array_keys($data);
 
-		// itterate
+		// iterate
 		//
 		foreach($keys as $k) {
 
@@ -1038,6 +1088,7 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 	</ul>
 </div>
 <?php
+		self::$_level--;
 		}
 
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
@@ -1077,10 +1128,15 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 	* @static
 	*/
 	Private Static Function _array(&$data, $name) {
+		$childCount = count($data);
+		$collapsed = krumo::_isCollapsed(self::$_level, count($data));
+		$elementClasses = ($childCount > 0) ? (
+				($collapsed) ? ' krumo-expand' : ' krumo-expand krumo-opened'
+			) : '';
 ?>
 <li class="krumo-child">
 
-	<div class="krumo-element<?php echo count($data) > 0 ? ' krumo-expand' : '';?>"
+	<div class="krumo-element<?php echo $elementClasses;?>"
 		<?php if (count($data) > 0) {?> onClick="krumo.toggle(this);"<?php } ?>
 		onMouseOver="krumo.over(this);"
 		onMouseOut="krumo.out(this);">
@@ -1131,10 +1187,15 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 	* @static
 	*/
 	Private Static Function _object(&$data, $name) {
+		$childCount = count($data);
+		$collapsed = krumo::_isCollapsed(self::$_level, count($data));
+		$elementClasses = ($childCount > 0) ? (
+				($collapsed) ? ' krumo-expand' : ' krumo-expand krumo-opened'
+			) : '';
 ?>
 <li class="krumo-child">
 
-	<div class="krumo-element<?php echo count($data) > 0 ? ' krumo-expand' : '';?>"
+	<div class="krumo-element<?php echo $elementClasses;?>"
 		<?php if (count($data) > 0) {?> onClick="krumo.toggle(this);"<?php } ?>
 		onMouseOver="krumo.over(this);"
 		onMouseOut="krumo.out(this);">
