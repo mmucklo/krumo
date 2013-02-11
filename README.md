@@ -3,6 +3,20 @@ krumo
 
 Krumo Fork (with updates / fixes)
 
+Installation:
+-------------
+Add this line to your composer.json "require" section:
+
+### composer.json
+```json
+    "require": {
+       ...
+       "oodle/krumo": "*"
+```
+
+Updates:
+--------
+
 1. Proper Object Dumping (ala var_dump)
    * Fixes for object dumping - to be able to dump Public, Protected, and Private members of objects
 1. Dynamic Config
@@ -19,9 +33,13 @@ Krumo Fork (with updates / fixes)
 1. Cleanup
    * A few @($...) to isset($...) changes in class.krumo.php
    * All source code has been run through dos2unix
-
+1. composer.json
+   * Allow to be loaded via composer
+   
 Note: Thanks to [justmoon](https://github.com/justmoon/krumo) for inspiration / code on a few features
 
+Documentation
+-------------
 Original Readme from krumo_0.2.1a_PHP5-Only:
 
 =============================================================================
