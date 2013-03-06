@@ -531,6 +531,11 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 	* @static
 	*/
 	Public Static Function dump($data) {
+		$clearObjectRecursionProtection = false;
+		if (self::$objectRecursionProtection === NULL) {
+			self::$objectRecursionProtection = array();
+			$clearObjectRecursionProtection = true;
+			}
 
 		// disabled ?
 		//
@@ -599,13 +604,12 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 		if ($hive =& krumo::_hive($dummy)) {
 			foreach($hive as $i=>$bee){
 				if (is_object($bee)) {
-					$reflection = new ReflectionClass($bee);
-					if ($reflection->hasProperty($_recursion_marker))
-						unset($hive[$i]->$_recursion_marker);
-					else if (($hash = spl_object_hash($bee)) && isset(self::$objectRecursionProtection[$hash]))
+					if (($hash = spl_object_hash($bee)) && isset(self::$objectRecursionProtection[$hash]))
 						unset(self::$objectRecursionProtection[$hash]);
-					} else if (isset($hive[$i]->$_recursion_marker))
+					}
+				else if (isset($hive[$i]->$_recursion_marker)) {
 					unset($hive[$i][$_recursion_marker]);
+					}
 				}
 			}
 
@@ -613,6 +617,10 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 		//
 		if (is_array($data) && version_compare(PHP_VERSION, "5", "<")) {
 			unset($GLOBALS[krumo::_marker()]);
+			}
+
+		if ($clearObjectRecursionProtection) {
+			self::$objectRecursionProtection = NULL;
 			}
 		}
 
@@ -955,11 +963,10 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 	* @access private
 	* @static
 	*/
-	Private Static $objectRecursionProtection = array();
+	Private Static $objectRecursionProtection = NULL;
 	Private Static Function &_hive(&$bee) {
 
 		static $_ = array();
-		static $objectRecursionProtection = array();
 
 		// new bee ?
 		//
@@ -970,22 +977,12 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 			$_recursion_marker = krumo::_marker();
 			if (is_object($bee))
 			{
-				if (isset($bee->$_recursion_marker))
-					$bee->$_recursion_marker++;
-				else {
-					$reflection = new ReflectionClass($bee);
-					if (!$reflection->isFinal())
-						$bee->$_recursion_marker = 1;
-					else 
-					{
-						$hash = spl_object_hash($bee);
-						if (isset(self::$objectRecursionProtection[$hash])) {
-							self::$objectRecursionProtection[$hash]++;
-							}
-						else {
-							self::$objectRecursionProtection[$hash] = 1;							
-							}
-						}
+				$hash = spl_object_hash($bee);
+				if ($hash && isset(self::$objectRecursionProtection[$hash])) {
+					self::$objectRecursionProtection[$hash]++;
+					}
+				else if ($hash) {
+					self::$objectRecursionProtection[$hash] = 1;
 					}
 				}
 			else {
@@ -1027,10 +1024,12 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 		$_recursion_marker = krumo::_marker();
 
 		if ($_is_object) {
-			if (($hash = spl_object_hash($data)) && isset(self::$objectRecursionProtection[$hash]))
+			if (($hash = spl_object_hash($data)) && isset(self::$objectRecursionProtection[$hash])) {
 				$_r = self::$objectRecursionProtection[$hash];
-			else
-				$_r = isset($data->$_recursion_marker) ? $data->$_recursion_marker : null;
+				}
+			else {
+				$_r = NULL;
+				}
 			}
 		else
 			$_r = isset($data[$_recursion_marker]) ? $data[$_recursion_marker] : null;
