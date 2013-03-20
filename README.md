@@ -38,7 +38,7 @@ Updates:
 1. setLineNumberTestCallback
    * Allow a custom line number test
 
-Sample usage of setLineNumberTestCallback
+### Sample usage of setLineNumberTestCallback
 ```php
 // Place this in a utilites.php file or whatever as a convenience method for calling krumo(...)
 function k()
