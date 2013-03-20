@@ -561,7 +561,9 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 		//
 		$_ = debug_backtrace();
 		while($d = array_pop($_)) {
-			if ((strToLower($d['function']) == 'krumo') || (strToLower(@$d['class']) == 'krumo')) {
+			$callback = self::$lineNumberTestCallback;
+			if ((strToLower($d['function']) == 'krumo') || (strToLower(@$d['class']) == 'krumo') ||
+				(is_callable($callback) && $callback($d))) {
 				break;
 				}
 			}
@@ -662,6 +664,12 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 		self::$_config = $config;
 		}
 
+	Public Static Function setLineNumberTestCallback($callback) {
+		self::$lineNumberTestCallback = $callback;
+		}
+	
+	Private Static $lineNumberTestCallback = null;
+	
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
 	/**
@@ -670,7 +678,7 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 	* By default, all nodes are collapsed.
 	*/
 	Private Static $_cascade = null;
-	
+
 	/**
 	* Set a cascade configuration array.
 	*
