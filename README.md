@@ -53,9 +53,8 @@ function k()
         return call_user_func_array(
             array('krumo', 'dump'), $args);
     }
-}    														 }
-```															 }
-															 
+}
+```
    
 
 Note: Thanks to [justmoon](https://github.com/justmoon/krumo) for inspiration / code on a few features
