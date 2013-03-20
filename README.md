@@ -35,7 +35,29 @@ Updates:
    * All source code has been run through dos2unix
 1. composer.json
    * Allow to be loaded via composer
+1. setLineNumberTestCallback
+   * Allow a custom line number test
+
+Sample usage of 
+```php
+// Place this in a utilites.php file or whatever as a convenience method for calling krumo(...)
+function k()
+{
+    if (function_exists('krumo'))
+    {
+        $args = func_get_args();
+        \krumo::setLineNumberTestCallback(function ($d) {
+            if (strtolower($d['function']) == 'k')
+                return true;
+        });
+        return call_user_func_array(
+            array('krumo', 'dump'), $args);
+    }
+}    														 }
+```															 }
+															 
    
+
 Note: Thanks to [justmoon](https://github.com/justmoon/krumo) for inspiration / code on a few features
 
 Documentation
