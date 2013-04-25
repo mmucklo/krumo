@@ -691,12 +691,15 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 	*                 than or equal to 10 child nodes. Nodes from the second level are ex-
 	*                 panded if they have less or equal to 5 nodes and all lower levels
 	*                 are collapsed.
+	* 
+	* Note:
+	*   To reset, simply  call this function with no arguments.
 	*
 	* @param array $cascade Cascading information
 	* @access public
 	* @static
 	*/
-	Public Static Function cascade(array $cascade) {
+	Public Static Function cascade(array $cascade = null) {
 		self::$_cascade = $cascade;
 		}
 
