@@ -693,7 +693,7 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 	*                 are collapsed.
 	* 
 	* Note:
-	*   To reset, simply  call this function with no arguments.
+	*   To reset, simply call this function with no arguments.
 	*
 	* @param array $cascade Cascading information
 	* @access public
