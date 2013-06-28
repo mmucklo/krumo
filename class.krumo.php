@@ -1068,7 +1068,7 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 
 	// Object?? - use Reflection
 	if ($_is_object) {
-		$reflection = new ReflectionClass($data);
+		$reflection = new ReflectionObject($data);
 		$properties = $reflection->getProperties();
 		foreach ($properties as $property) {
 			$prefix = null;
@@ -1237,7 +1237,7 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 			<strong class="krumo-class"><?php echo get_class($data);?></strong>
 	</div>
 
-	<?php $reflection = new ReflectionClass($data);
+	<?php $reflection = new ReflectionObject($data);
 	$properties = $reflection->getProperties();
 	if ($properties) {
 		krumo::_vars($data);
