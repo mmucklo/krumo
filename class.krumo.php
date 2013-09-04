@@ -778,7 +778,11 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 		//
 		if ($_css = $css != '') {
 
-			$css_url = krumo::calculate_relative_path(__FILE__,true);
+			$css_url = krumo::_config('css',
+						'url',
+						krumo::calculate_relative_path(__FILE__,true));
+
+			$css_url = rtrim($css_url, '/');
 
 			// fix the urls
 			$css_url = "$css_url/skins/{$skin}/";
