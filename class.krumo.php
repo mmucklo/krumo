@@ -53,8 +53,8 @@ Class krumo {
 	* @static
 	*/
 	Public Static Function version() {
-		return '0.2.1a';
-		}
+		return '0.3';
+	}
 
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
@@ -562,11 +562,11 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 		$_ = debug_backtrace();
 		while($d = array_pop($_)) {
 			$callback = self::$lineNumberTestCallback;
-			if ((strToLower($d['function']) == 'krumo') || (strToLower(@$d['class']) == 'krumo') ||
-				(is_callable($callback) && $callback($d))) {
+			$function = strToLower($d['function']);
+			if (in_array($function, array("krumo","k","kd")) || (strToLower(@$d['class']) == 'krumo') || (is_callable($callback) && $callback($d))) {
 				break;
-				}
 			}
+		}
 
 		// the content
 		//
@@ -1451,10 +1451,20 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 */
 Function krumo() {
 	$_ = func_get_args();
-	return call_user_func_array(
-		array('krumo', 'dump'), $_
-		);
-	}
+	return call_user_func_array(array('krumo', 'dump'), $_);
+}
+
+function k() {
+	$_ = func_get_args();
+	return call_user_func_array(array('krumo', 'dump'), $_);
+}
+
+function kd() {
+	$_ = func_get_args();
+	call_user_func_array(array('krumo', 'dump'), $_);
+
+	exit();
+}
 
 //////////////////////////////////////////////////////////////////////////////
 
