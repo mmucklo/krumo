@@ -871,7 +871,7 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 	* @access private
 	* @static
 	*/
-	Private Static Function _dump(&$data, $name='...', $collapsed = true) {
+	Private Static Function _dump(&$data, $name='...') {
 
 		// object ?
 		//
@@ -918,7 +918,7 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 		// scalar ?
 		//
 		if (is_string($data)) {
-			return krumo::_string($data, $name, $collapsed);
+			return krumo::_string($data, $name);
 			}
 
 		if (is_float($data)) {
@@ -1112,7 +1112,7 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 				$property->setAccessible(true);
 			$value = $property->getValue($data);
 			
-			krumo::_dump($value, $prefix . " '$name'", $collapsed);
+			krumo::_dump($value, $prefix . " '$name'");
 			if ($setAccessible)
 				$property->setAccessible(false);
 			}
@@ -1136,7 +1136,7 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 			//
 			$v =& $data[$k];
 
-			krumo::_dump($v,$k, $collapsed);
+			krumo::_dump($v,$k);
 			}
 		} ?>
 	</ul>
@@ -1386,7 +1386,8 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 	* @access private
 	* @static
 	*/
-	Private Static Function _string($data, $name, $collapsed) {
+	Private Static Function _string($data, $name) {
+		$collapsed = krumo::_isCollapsed(self::$_level, 1);
 
 		// extra ?
 		//
