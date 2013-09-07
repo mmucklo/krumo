@@ -1,4 +1,4 @@
-`<?php
+<?php
 /**
 * Krumo: Structured information display solution
 *
