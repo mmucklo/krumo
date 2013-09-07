@@ -1,4 +1,4 @@
-<?php
+`<?php
 /**
 * Krumo: Structured information display solution
 *
@@ -721,14 +721,14 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 	
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
-	private function calculate_relative_path($file, $return_dir = 0) {
+	Private Static function calculate_relative_path($file, $return_dir = 0) {
 		// We find the document root of the webserver
 		$doc_root = $_SERVER['DOCUMENT_ROOT'];
 
 		// Remove the document root, from the FULL absolute path of the 
 		// file we're looking for
 		$ret = "/" . str_replace($doc_root,"",$file,$ok);
-		if (!$ok) { die("Couldn't find the relative path"); }
+		if (!$ok) { return '/krumo/'; }
 
 		// If they want the path to the dir, only return the dir part
 		if ($return_dir) { $ret = dirname($ret) . "/"; }
