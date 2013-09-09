@@ -10,7 +10,7 @@
 * @license http://opensource.org/licenses/lgpl-license.php GNU Lesser General Public License Version 2.1
 *
 * @package Krumo
-* @version $Id: class.krumo.php 22 2007-12-02 07:38:18Z Mrasnika $
+* @version 0.2.8
 */
 
 //////////////////////////////////////////////////////////////////////////////
@@ -53,7 +53,7 @@ Class krumo {
 	* @static
 	*/
 	Public Static Function version() {
-		return '0.2.1a';
+		return '0.2.8';
 		}
 
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
