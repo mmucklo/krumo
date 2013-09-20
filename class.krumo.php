@@ -6,11 +6,10 @@
 * about any PHP variable. It is a nice replacement for print_r() or var_dump()
 * which are used by a lot of PHP developers.
 *
-* @author Kaloyan K. Tsvetkov <kaloyan@kaloyan.info>
+* @original author Kaloyan K. Tsvetkov <kaloyan@kaloyan.info>
 * @license http://opensource.org/licenses/lgpl-license.php GNU Lesser General Public License Version 2.1
 *
-* @package Krumo
-* @version 0.3.8
+* https://github.com/oodle/krumo
 */
 
 //////////////////////////////////////////////////////////////////////////////
