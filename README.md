@@ -25,12 +25,11 @@ $arr = array(
 	'likes' => array('animal' => 'kitten', 'color' => 'purple'),
 );
 
-// Dump out the array
+// Dump out the array, short and long versions
 k($arr); 
-or
 krumo($arr);
 
-// Dump out the array an then exit();
+// Dump out the array and then exit();
 kd($arr); 
 ```
 
