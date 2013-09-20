@@ -792,21 +792,18 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 			?>
 <!-- Using Krumo Skin: <?php echo preg_replace('~^' . preg_quote(realpath(KRUMO_DIR) . DIRECTORY_SEPARATOR) . '~Uis', '', realpath($_));?> -->
 <style type="text/css">
-<!--/**/
 <?php echo $css?>
-
-/**/-->
 </style>
+<!-- CSS -->
 <?php
 			// the JS
 			//
 			?>
 <script type="text/javascript">
-<!--//
-<?php echo join(file(KRUMO_DIR . "krumo.js"));?>
-
-//-->
+<?php echo join(file(KRUMO_DIR . "krumo.min.js"));?>
 </script>
+<!-- JavaScript -->
+
 <?php
 			}
 
