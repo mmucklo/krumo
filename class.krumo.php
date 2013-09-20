@@ -6,11 +6,10 @@
 * about any PHP variable. It is a nice replacement for print_r() or var_dump()
 * which are used by a lot of PHP developers.
 *
-* @author Kaloyan K. Tsvetkov <kaloyan@kaloyan.info>
+* @original author Kaloyan K. Tsvetkov <kaloyan@kaloyan.info>
 * @license http://opensource.org/licenses/lgpl-license.php GNU Lesser General Public License Version 2.1
 *
-* @package Krumo
-* @version 0.3.8
+* https://github.com/oodle/krumo
 */
 
 //////////////////////////////////////////////////////////////////////////////
@@ -53,7 +52,7 @@ Class krumo {
 	* @static
 	*/
 	Public Static Function version() {
-		return '0.3.0';
+		return '0.3.1';
 	}
 
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
@@ -793,21 +792,18 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 			?>
 <!-- Using Krumo Skin: <?php echo preg_replace('~^' . preg_quote(realpath(KRUMO_DIR) . DIRECTORY_SEPARATOR) . '~Uis', '', realpath($_));?> -->
 <style type="text/css">
-<!--/**/
 <?php echo $css?>
-
-/**/-->
 </style>
+<!-- CSS -->
 <?php
 			// the JS
 			//
 			?>
 <script type="text/javascript">
-<!--//
-<?php echo join(file(KRUMO_DIR . "krumo.js"));?>
-
-//-->
+<?php echo join(file(KRUMO_DIR . "krumo.min.js"));?>
 </script>
+<!-- JavaScript -->
+
 <?php
 			}
 
