@@ -712,7 +712,7 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 		// Remove the document root, from the FULL absolute path of the 
 		// file we're looking for
 		$ret = "/" . str_replace($doc_root,"",$file,$ok);
-		if (!$ok) { return '/krumo/'; }
+		if (!$ok) { return false; }
 
 		// If they want the path to the dir, only return the dir part
 		if ($return_dir) { $ret = dirname($ret) . "/"; }
@@ -762,10 +762,12 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 		//
 		if ($_css = $css != '') {
 
-			$css_url = krumo::_config('css',
-						'url',
-						krumo::calculate_relative_path(__FILE__,true));
+			// See if there is a CSS path in the config
+			$relative_krumo_path = krumo::calculate_relative_path(__FILE__,true);
+			$css_url = krumo::_config('css', 'url', $relative_krumo_path);
 
+			// Default to /krumo/ if nothing is found in the config
+			$css_url || $css_url = "/krumo/";
 			$css_url = rtrim($css_url, '/');
 
 			// fix the urls
