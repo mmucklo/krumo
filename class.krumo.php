@@ -605,12 +605,6 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 				}
 			}
 
-		// PHP 4.x.x array reference bug...
-		//
-		if (is_array($data) && version_compare(PHP_VERSION, "5", "<")) {
-			unset($GLOBALS[krumo::_marker()]);
-			}
-
 		if ($clearObjectRecursionProtection) {
 			self::$objectRecursionProtection = NULL;
 			}
