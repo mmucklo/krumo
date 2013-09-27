@@ -577,6 +577,8 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 
 		print "</ul></div>\n";
 
+		print "<!-- Krumo - HTML -->\n\n";
+
 		// flee the hive
 		$_recursion_marker = krumo::_marker();
 		if ($hive =& krumo::_hive($dummy)) {
@@ -769,7 +771,7 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 <style type="text/css">
 <?php echo $css?>
 </style>
-<!-- CSS -->
+<!-- Krumo - CSS -->
 <?php
 			// the JS
 			//
@@ -777,8 +779,7 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 <script type="text/javascript">
 <?php echo join(file(KRUMO_DIR . "krumo.min.js"));?>
 </script>
-<!-- JavaScript -->
-
+<!-- Krumo - JavaScript -->
 <?php
 			}
 
