@@ -720,38 +720,33 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 	* @static
 	*/
 	Private Static Function _css() {
-
 		static $_css = false;
 
 		// already set ?
-		//
 		if ($_css) {
 			return true;
-			}
+		}
 
 		$css = '';
 		$skin = krumo::_config('skin', 'selected', 'default');
 
-		// custom selected skin ?
-		//
-		$_ = KRUMO_DIR . "skins/{$skin}/skin.css";
-		if ($fp = @fopen($_, 'r', 1)) {
-			$css = fread($fp, filesize($_));
-			fclose($fp);
-			}
+		// custom selected skin
+		$rel_css_file = "skins/{$skin}/skin.css";
+		$css_file = KRUMO_DIR . $rel_css_file;
+		if (is_readable($css_file)) {
+			$css = join(file($css_file));
+		}
 
-		// defautl skin ?
-		//
+		// default skin
 		if (!$css && ($skin != 'default')) {
-			$skin = 'default';
-			$_ = KRUMO_DIR . "skins/default/skin.css";
-			$css = join('', @file($_));
-			}
+			$skin         = 'default';
+			$rel_css_file = "skins/default/skin.css";
+			$css_file     = KRUMO_DIR . $rel_css_file;
+			$css          = join(file($css_file));
+		}
 
-		// print ?
-		//
+		// print
 		if ($_css = $css != '') {
-
 			// See if there is a CSS path in the config
 			$relative_krumo_path = krumo::calculate_relative_path(__FILE__,true);
 			$css_url = krumo::_config('css', 'url', $relative_krumo_path);
@@ -762,29 +757,24 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 
 			// fix the urls
 			$css_url = "$css_url/skins/{$skin}/";
-			$css = preg_replace('~%url%~Uis', $css_url, $css);
+			$css     = preg_replace('~%url%~Uis', $css_url, $css);
 
 			// the CSS
-			//
-			?>
-<!-- Using Krumo Skin: <?php echo preg_replace('~^' . preg_quote(realpath(KRUMO_DIR) . DIRECTORY_SEPARATOR) . '~Uis', '', realpath($_));?> -->
-<style type="text/css">
-<?php echo $css?>
-</style>
-<!-- Krumo - CSS -->
-<?php
+			print "<!-- Using Krumo Skin: \"$skin\" $rel_css_file -->\n";
+			print "<style type=\"text/css\">\n";
+			print trim($css) . "\n";
+			print "</style>\n";
+			print "<!-- Krumo - CSS -->\n";
+
 			// the JS
-			//
-			?>
-<script type="text/javascript">
-<?php echo join(file(KRUMO_DIR . "krumo.min.js"));?>
-</script>
-<!-- Krumo - JavaScript -->
-<?php
-			}
+			print "<script type=\"text/javascript\">\n";
+			print join(file(KRUMO_DIR . "krumo.min.js"));
+			print "</script>\n";
+			print "<!-- Krumo - JavaScript -->\n";
+		}
 
 		return $_css;
-		}
+	}
 
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
