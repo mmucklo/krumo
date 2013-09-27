@@ -21,7 +21,7 @@
 */
 if (!defined('KRUMO_DIR')) {
 	define('KRUMO_DIR', dirname(__FILE__) . DIRECTORY_SEPARATOR);
-	}
+}
 
 //////////////////////////////////////////////////////////////////////////////
 
@@ -55,17 +55,14 @@ Class krumo {
 	* @static
 	*/
 	Public Static Function backtrace() {
-
 		// disabled ?
-		//
 		if (!krumo::_debug()) {
 			return false;
-			}
+		}
 
 		// render it
-		//
 		return krumo::dump(debug_backtrace());
-		}
+	}
 
 	/**
 	* Prints a list of all currently declared classes.
@@ -74,22 +71,17 @@ Class krumo {
 	* @static
 	*/
 	Public Static Function classes() {
-
 		// disabled ?
-		//
 		if (!krumo::_debug()) {
 			return false;
-			}
-
-		// render it
-		//
-		?>
-<div class="krumo-title">
-This is a list of all currently declared classes.
-</div>
-		<?php
-		return krumo::dump(get_declared_classes());
 		}
+
+		print "<div class=\"krumo-title\">\n";
+		print "This is a list of all currently declared classes.";
+		print "</div>\n";
+
+		return krumo::dump(get_declared_classes());
+	}
 
 	/**
 	* Prints a list of all currently declared interfaces (PHP5 only).
