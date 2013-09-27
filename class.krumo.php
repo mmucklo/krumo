@@ -513,34 +513,30 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 	* @static
 	*/
 	Public Static Function dump($data) {
-		$clearObjectRecursionProtection = false;
+		$clearObjectRecursionProtection   = false;
 		if (self::$objectRecursionProtection === NULL) {
 			self::$objectRecursionProtection = array();
-			$clearObjectRecursionProtection = true;
-			}
+			$clearObjectRecursionProtection  = true;
+		}
 
-		// disabled ?
-		//
+		// disabled
 		if (!krumo::_debug()) {
 			return false;
-			}
+		}
 
-		// more arguments ?
-		//
+		// more arguments
 		if (func_num_args() > 1) {
 			$_ = func_get_args();
 			foreach($_ as $d) {
 				krumo::dump($d);
-				}
-			return;
 			}
+			return;
+		}
 
-		// the css ?
-		//
+		// the css
 		krumo::_css();
 
 		// find caller
-		//
 		$_ = debug_backtrace();
 		while($d = array_pop($_)) {
 			$callback = self::$lineNumberTestCallback;
@@ -551,56 +547,56 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 		}
 
 		// the content
-		//
-		?>
-<div class="krumo-root">
-	<ul class="krumo-node krumo-first">
-		<?php echo krumo::_dump($data);
+		print "<div class=\"krumo-root\">\n";
+		print "\t<ul class=\"krumo-node krumo-first\">\n";
+		
+		print krumo::_dump($data);
 
-		$showVersion = krumo::_config('display', 'show_version', TRUE);
+		$showVersion  = krumo::_config('display', 'show_version', TRUE);
 		$showCallInfo = krumo::_config('display', 'show_call_info', TRUE);
-		$krumoUrl = 'https://github.com/oodle/krumo';
+		$krumoUrl     = 'https://github.com/oodle/krumo';
 
-		if ($showVersion || $showCallInfo):
-		?>
-		<li class="krumo-footnote">
-			<?php if ($showVersion): ?>
-			<div class="krumo-version" style="white-space:nowrap;">
-				<h6>Krumo version <?php echo krumo::version();?></h6> | <a
-					href="<?php echo $krumoUrl; ?>"
-					target="_blank"><?php echo $krumoUrl; ?></a>
-			</div>
-			<?php endif; ?>
-		<?php if ($showCallInfo && isset($d['file']) && $d['file']) { ?>
-		<span class="krumo-call" style="white-space:nowrap;">
-			Called from <code><?php echo $d['file']?></code>,
-				line <code><?php echo $d['line']?></code></span>
-		<?php } ?>
-		&nbsp;
-		</li>
-		<?php endif; ?>
-	</ul>
-</div>
-<?php
+		if ($showVersion || $showCallInfo) {
+			print "\t\t<li class=\"krumo-footnote\">\n";
+
+			if ($showVersion) {
+				$version = krumo::version();
+				print "<div class=\"krumo-version\" style=\"white-space:nowrap;\">\n";
+				print "<h6>Krumo version $version</h6> | <a href=\"$krumoUrl\"	target=\"_blank\">$krumoUrl</a>\n";
+				print "</div>\n";
+			}
+
+			if ($showCallInfo && isset($d['file']) && $d['file']) {
+				print "<span class=\"krumo-call\" style=\"white-space:nowrap;\">";
+				print "Called from <code>" . $d['file'] . "</code>, ";
+				print "line <code>" . $d['line'] . "</code></span>";
+			}
+
+			print "</li>";
+		}
+
+		print "</ul></div>\n";
+
 		// flee the hive
-		//
 		$_recursion_marker = krumo::_marker();
 		if ($hive =& krumo::_hive($dummy)) {
-			foreach($hive as $i=>$bee){
+			foreach($hive as $i => $bee) {
 				if (is_object($bee)) {
-					if (($hash = spl_object_hash($bee)) && isset(self::$objectRecursionProtection[$hash]))
+					if (($hash = spl_object_hash($bee)) && isset(self::$objectRecursionProtection[$hash])) {
 						unset(self::$objectRecursionProtection[$hash]);
 					}
-				else if (isset($hive[$i]->$_recursion_marker)) {
+				} else if (isset($hive[$i]->$_recursion_marker)) {
 					unset($hive[$i][$_recursion_marker]);
-					}
 				}
 			}
+		}
 
 		if ($clearObjectRecursionProtection) {
 			self::$objectRecursionProtection = NULL;
-			}
 		}
+
+	// End of dump()
+	}
 
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
@@ -847,49 +843,46 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 	* @static
 	*/
 	Private Static Function _dump(&$data, $name='...') {
-
-		// object ?
-		//
+		// object
 		if (is_object($data)) {
 			return krumo::_object($data, $name);
-			}
+		}
 
-		// array ?
-		//
+		// array
 		if (is_array($data)) {
 			return krumo::_array($data, $name);
-			}
+		}
 
-		// resource ?
-		//
+		// resource
 		if (is_resource($data)) {
 			return krumo::_resource($data, $name);
-			}
+		}
 
-		// scalar ?
-		//
+		// scalar
 		if (is_string($data)) {
 			return krumo::_string($data, $name);
-			}
+		}
 
+		// float
 		if (is_float($data)) {
 			return krumo::_float($data, $name);
-			}
+		}
 
+		// integer
 		if (is_integer($data)) {
 			return krumo::_integer($data, $name);
-			}
+		}
 
+		// boolean
 		if (is_bool($data)) {
 			return krumo::_boolean($data, $name);
-			}
+		}
 
-		// null ?
-		//
+		// null
 		if (is_null($data)) {
 			return krumo::_null($name);
-			}
 		}
+	}
 
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
