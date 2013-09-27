@@ -787,7 +787,7 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 	*/
 	Public Static Function enable() {
 		return true === krumo::_debug(true);
-		}
+	}
 
 	/**
 	* Disable Krumo
@@ -798,7 +798,7 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 	*/
 	Public Static Function disable() {
 		return false === krumo::_debug(false);
-		}
+	}
 
 	/**
 	* Get\Set Krumo state: whether it is enabled or disabled
@@ -808,20 +808,17 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 	* @access private
 	* @static
 	*/
-	Private Static Function _debug($state=null) {
-
+	Private Static Function _debug($state = null) {
 		static $_ = true;
 
 		// set
-		//
 		if (isset($state)) {
-			$_ = (boolean) $state;
-			}
+			$_ = (boolean)$state;
+		}
 
 		// get
-		//
 		return $_;
-		}
+	}
 
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
@@ -833,7 +830,7 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 	* @access private
 	* @static
 	*/
-	Private Static Function _dump(&$data, $name='...') {
+	Private Static Function _dump(&$data, $name = '...') {
 		// object
 		if (is_object($data)) {
 			return krumo::_object($data, $name);
@@ -886,18 +883,16 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 	* @static
 	*/
 	Private Static Function _null($name) {
-?>
-<li class="krumo-child">
-	<div class="krumo-element"
-		onMouseOver="krumo.over(this);"
-		onMouseOut="krumo.out(this);">
+	print "<li class=\"krumo-child\">
+	<div class=\"krumo-element\"
+		onMouseOver=\"krumo.over(this);\"
+		onMouseOut=\"krumo.out(this);\">
 
-			<a class="krumo-name"><?php echo $name;?></a>
-			(<em class="krumo-type krumo-null">NULL</em>)
+			<a class=\"krumo-name\">$name</a>
+			(<em class=\"krumo-type krumo-null\">NULL</em>)
 	</div>
-</li>
-<?php
-		}
+</li>";
+	}
 
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
@@ -910,14 +905,13 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 	* @static
 	*/
 	Private Static Function _marker() {
-
 		static $_recursion_marker;
 		if (!isset($_recursion_marker)) {
 			$_recursion_marker = uniqid('krumo');
-			}
+		}
 
 		return $_recursion_marker;
-		}
+	}
 
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
