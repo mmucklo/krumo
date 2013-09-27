@@ -865,30 +865,6 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 		// array ?
 		//
 		if (is_array($data)) {
-
-			// PHP 4.x.x array reference bug...
-			//
-			if (version_compare(PHP_VERSION, "5", "<")) {
-
-				// prepare the GLOBAL reference list...
-				//
-				if (!isset($GLOBALS[krumo::_marker()])) {
-					$GLOBALS[krumo::_marker()] = array();
-					}
-				if (!is_array($GLOBALS[krumo::_marker()])) {
-					$GLOBALS[krumo::_marker()] = (array) $GLOBALS[krumo::_marker()];
-					}
-
-				// extract ?
-				//
-				if (!empty($GLOBALS[krumo::_marker()])) {
-					$d = array_shift($GLOBALS[krumo::_marker()]);
-					if (is_array($d)) {
-						$data = $d;
-						}
-					}
-				}
-
 			return krumo::_array($data, $name);
 			}
 
