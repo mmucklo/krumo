@@ -23,15 +23,6 @@ if (!defined('KRUMO_DIR')) {
 	define('KRUMO_DIR', dirname(__FILE__) . DIRECTORY_SEPARATOR);
 	}
 
-/**
-* This constant sets the maximum strings of strings that will be shown
-* as they are. Longer strings will be truncated with this length, and
-* their `full form` will be shown in a child node.
-*/
-if (!defined('KRUMO_TRUNCATE_LENGTH')) {
-	define('KRUMO_TRUNCATE_LENGTH', 50);
-	}
-
 //////////////////////////////////////////////////////////////////////////////
 
 /**
@@ -1389,10 +1380,14 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 		//
 		$_extra = false;
 		$_ = $data;
-		if (strLen($data) > KRUMO_TRUNCATE_LENGTH) {
-			$_ = substr($data, 0, KRUMO_TRUNCATE_LENGTH - 3) . '...';
+
+		// Get the truncate length from the config, or default to 100
+		$truncate_length = krumo::_config('display', 'truncate_length', 100);
+
+		if (strLen($data) > $truncate_length ) {
+			$_ = substr($data, 0, $truncate_length - 3) . '...';
 			$_extra = true;
-			}
+		}
 ?>
 <li class="krumo-child">
 
