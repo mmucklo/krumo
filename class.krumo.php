@@ -1200,8 +1200,13 @@ This is a list of the configuration settings read from <code><b>" . get_cfg_var(
 	Private Static Function _string($data, $name) {
 		$collapsed = krumo::_isCollapsed(self::$_level, 1);
 
-		// extra ?
-		//
+		if ($collapsed) {
+			$collapse_style = 'style="display: none;"';
+		} else {
+			$collapse_style = '';
+		}
+
+		// extra
 		$_extra = false;
 		$_ = $data;
 
@@ -1212,48 +1217,38 @@ This is a list of the configuration settings read from <code><b>" . get_cfg_var(
 			$_ = substr($data, 0, $truncate_length - 3) . '...';
 			$_extra = true;
 		}
-?>
-<li class="krumo-child">
 
-	<div class="krumo-element<?php echo $_extra ? ' krumo-expand' : '';?>"
-		<?php if ($_extra) {?> onClick="krumo.toggle(this);"<?php } ?>
-		onMouseOver="krumo.over(this);"
-		onMouseOut="krumo.out(this);">
+		$expand_class = '';
+		if ($_extra) { $expand_class = 'krumo-expand'; }
 
-			<a class="krumo-name"><?php echo $name;?></a>
-			(<em class="krumo-type">String,
-				<strong class="krumo-string-length"><?php
-					echo strlen($data) ?> characters</strong> </em>)
-			<strong class="krumo-string"><?php echo htmlSpecialChars($_);?></strong>
-
-			<?php
-			// callback ?
-			//
-			if (is_callable($data)) {
-				?>
-				<span class="krumo-callback"> |
-					(<em class="krumo-type">Callback</em>)
-					<strong class="krumo-string"><?php echo htmlSpecialChars($_);?>();</strong></span>
-				<?php
-				}
-			?>
-
-	</div>
-
-	<?php if ($_extra) { ?>
-	<div class="krumo-nest" <?php if ($collapsed): ?> style="display:none;"<?php endif;?>>
-		<ul class="krumo-node">
-
-			<li class="krumo-child">
-				<div class="krumo-preview"><?php echo htmlSpecialChars($data);?></div>
-			</li>
-
-		</ul>
-	</div>
-	<?php } ?>
-</li>
-<?php
+		print "<li class=\"krumo-child\">";
+		print "<div class=\"krumo-element $expand_class\" ";
+		if ($_extra) { 
+			print " onClick=\"krumo.toggle(this);\" ";
 		}
+		print "onMouseOver=\"krumo.over(this);\" onMouseOut=\"krumo.out(this);\">\n";
+
+		print "<a class=\"krumo-name\">$name</a> ";
+		print "(<em class=\"krumo-type\">String, <strong class=\"krumo-string-length\">" . strlen($data) . " characters</strong></em>) ";
+		print "<strong class=\"krumo-string\">" . htmlSpecialChars($_) . "</strong>";
+
+		// callback
+		if (is_callable($data)) {
+			print "<span class=\"krumo-callback\"> | ";
+			print "(<em class=\"krumo-type\">Callback</em>) <strong class=\"krumo-string\">" . htmlSpecialChars($_) . "()</strong></span>";
+		}
+
+		print "</div>";
+
+		if ($_extra) {
+			print "<div class=\"krumo-nest\" $collapse_style>";
+			print "<ul class=\"krumo-node\">";
+			print "<li class=\"krumo-child\"> <div class=\"krumo-preview\">" . htmlSpecialChars($data) . "</div></li>";
+			print "</ul></div>";
+		}
+
+		print "</li>";
+	}
 
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
