@@ -118,9 +118,7 @@ This is a list of all currently declared interfaces.
 		}
 
 		// render it
-		print "<div class=\"krumo-title\">
-This is a list of all currently included (or required) files.
-</div>";
+		print "<div class=\"krumo-title\">This is a list of all currently included (or required) files.</div>";
 
 		return krumo::dump(get_included_files());
 	}
@@ -133,21 +131,16 @@ This is a list of all currently included (or required) files.
 	*/
 	Public Static Function functions() {
 
-		// disabled ?
-		//
+		// disabled
 		if (!krumo::_debug()) {
 			return false;
-			}
+		}
 
 		// render it
-		//
-		?>
-<div class="krumo-title">
-This is a list of all currently declared functions.
-</div>
-		<?php
+		print "<div class=\"krumo-title\">This is a list of all currently declared functions.</div>";
 		return krumo::dump(get_defined_functions());
-		}
+
+	}
 
 	/**
 	* Prints a list of all currently declared constants.
