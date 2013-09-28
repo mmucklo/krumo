@@ -541,28 +541,28 @@ This is a list of the configuration settings read from <code><b>" . get_cfg_var(
 	* @static
 	*/
 	Private Static Function _config($group, $name, $fallback=null) {
-		// not loaded ?
-		//
-		if (empty(self::$_config)) {
-			self::$_config = (array) @parse_ini_file(
-				KRUMO_DIR . 'krumo.ini',
-				true);
-			}
+		$krumo_ini = KRUMO_DIR . 'krumo.ini';
 
-		// exists ?
-		//
-		return (isset(self::$_config[$group][$name]))
-			? self::$_config[$group][$name]
-			: $fallback;
+		// The config isn't loaded yet
+		if (empty(self::$_config) && is_readable($krumo_ini)) {
+			self::$_config = (array) parse_ini_file($krumo_ini, true);
 		}
+
+		// exists
+		if (isset(self::$_config[$group][$name])) {
+			return self::$_config[$group][$name];
+		} else {
+			return $fallback;
+		}
+	}
 
 	Public Static Function setConfig($config) {
 		self::$_config = $config;
-		}
+	}
 
 	Public Static Function setLineNumberTestCallback($callback) {
 		self::$lineNumberTestCallback = $callback;
-		}
+	}
 	
 	Private Static $lineNumberTestCallback = null;
 	
