@@ -91,21 +91,18 @@ Class krumo {
 	*/
 	Public Static Function interfaces() {
 
-		// disabled ?
-		//
+		// disabled
 		if (!krumo::_debug()) {
 			return false;
-			}
+		}
 
 		// render it
-		//
-		?>
-<div class="krumo-title">
+		print "<div class=\"krumo-title\">
 This is a list of all currently declared interfaces.
-</div>
-		<?php
+</div>";
+
 		return krumo::dump(get_declared_interfaces());
-		}
+	}
 
 	/**
 	* Prints a list of all currently included (or required) files.
@@ -115,21 +112,18 @@ This is a list of all currently declared interfaces.
 	*/
 	Public Static Function includes() {
 
-		// disabled ?
-		//
+		// disabled
 		if (!krumo::_debug()) {
 			return false;
-			}
+		}
 
 		// render it
-		//
-		?>
-<div class="krumo-title">
+		print "<div class=\"krumo-title\">
 This is a list of all currently included (or required) files.
-</div>
-		<?php
+</div>";
+
 		return krumo::dump(get_included_files());
-		}
+	}
 
 	/**
 	* Prints a list of all currently declared functions.
