@@ -1124,21 +1124,13 @@ This is a list of the configuration settings read from <code><b>" . get_cfg_var(
 	* @static
 	*/
 	Private Static Function _resource($data, $name) {
-?>
-<li class="krumo-child">
-
-	<div class="krumo-element"
-		onMouseOver="krumo.over(this);"
-		onMouseOut="krumo.out(this);">
-
-			<a class="krumo-name"><?php echo $name;?></a>
-			(<em class="krumo-type">Resource</em>)
-			<strong class="krumo-resource"><?php echo get_resource_type($data);?></strong>
+		print "<li class=\"krumo-child\">
+	<div class=\"krumo-element\" onMouseOver=\"krumo.over(this);\" onMouseOut=\"krumo.out(this);\">
+		<a class=\"krumo-name\">$name</a> (<em class=\"krumo-type\">Resource</em>)
+		<strong class=\"krumo-resource\">" . get_resource_type($data) . "</strong>
 	</div>
-
-</li>
-<?php
-		}
+</li>";
+	}
 
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
