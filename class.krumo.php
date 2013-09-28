@@ -1026,7 +1026,7 @@ This is a list of the configuration settings read from <code><b>" . get_cfg_var(
 			$elementClasses = '';
 		}
 
-		if (count($data) == 1) { 
+		if (count($data) > 1) { 
 			$plural = '';
 		} else {
 			$plural = 's';
@@ -1080,32 +1080,38 @@ This is a list of the configuration settings read from <code><b>" . get_cfg_var(
 	* @static
 	*/
 	Private Static Function _object(&$data, $name) {
-		$childCount = count($data);
-		$collapsed = krumo::_isCollapsed(self::$_level, count($data));
-		$elementClasses = ($childCount > 0) ? (
-				($collapsed) ? ' krumo-expand' : ' krumo-expand krumo-opened'
-			) : '';
-?>
-<li class="krumo-child">
+		$reflection = new ReflectionObject($data);
+		$properties = $reflection->getProperties();
 
-	<div class="krumo-element<?php echo $elementClasses;?>"
-		<?php if (count($data) > 0) {?> onClick="krumo.toggle(this);"<?php } ?>
-		onMouseOver="krumo.over(this);"
-		onMouseOut="krumo.out(this);">
+		$childCount = count($properties);
+		$collapsed = krumo::_isCollapsed(self::$_level, $childCount);
 
-			<a class="krumo-name"><?php echo $name;?></a>
-			(<em class="krumo-type">Object</em>)
-			<strong class="krumo-class"><?php echo get_class($data);?></strong>
-	</div>
-
-	<?php $reflection = new ReflectionObject($data);
-	$properties = $reflection->getProperties();
-	if ($properties) {
-		krumo::_vars($data);
-		} ?>
-</li>
-<?php
+		// Setup the CSS classes depending on how many children there are
+		if ($childCount > 0 && $collapsed) {
+			$elementClasses = ' krumo-expand';
+		} elseif ($childCount > 0) {
+			$elementClasses = ' krumo-expand krumo-opened';
+		} else {
+			$elementClasses = '';
 		}
+		print "<li class=\"krumo-child\"> <div class=\"krumo-element $elementClasses\"";
+		if (count($data) > 0) {
+			print 'onClick="krumo.toggle(this);"';
+		}
+		print 'onMouseOver="krumo.over(this);" onMouseOut="krumo.out(this);">';
+
+		$empty_str = '';
+		if ($childCount == 0) { $empty_str = ' (empty)'; }
+
+		print "<a class=\"krumo-name\">$name</a> (<em class=\"krumo-type\">Object</em>) ";
+		print "<strong class=\"krumo-class\">" . get_class($data) . "</strong>$empty_str</div>";
+
+		if ($properties) {
+			krumo::_vars($data);
+		}
+		
+		print "</li>";
+	}
 
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
