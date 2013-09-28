@@ -1181,21 +1181,11 @@ This is a list of the configuration settings read from <code><b>" . get_cfg_var(
 	* @static
 	*/
 	Private Static Function _float($data, $name) {
-?>
-<li class="krumo-child">
-
-	<div class="krumo-element"
-		onMouseOver="krumo.over(this);"
-		onMouseOut="krumo.out(this);">
-
-			<a class="krumo-name"><?php echo $name;?></a>
-			(<em class="krumo-type">Float</em>)
-			<strong class="krumo-float"><?php echo $data;?></strong>
-	</div>
-
-</li>
-<?php
-		}
+		print "<li class=\"krumo-child\">";
+		print "<div class=\"krumo-element\" onMouseOver=\"krumo.over(this);\" onMouseOut=\"krumo.out(this);\">";
+		print "<a class=\"krumo-name\">$name</a> (<em class=\"krumo-type\">Float</em>) ";
+		print "<strong class=\"krumo-float\">$data</strong></div></li>";
+	}
 
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
