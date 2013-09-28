@@ -1143,21 +1143,15 @@ This is a list of the configuration settings read from <code><b>" . get_cfg_var(
 	* @static
 	*/
 	Private Static Function _boolean($data, $name) {
-?>
-<li class="krumo-child">
+		if ($data == false) { $value = "FALSE"; }
+		elseif ($data == true) { $value = "TRUE"; }
 
-	<div class="krumo-element"
-		onMouseOver="krumo.over(this);"
-		onMouseOut="krumo.out(this);">
-
-			<a class="krumo-name"><?php echo $name;?></a>
-			(<em class="krumo-type">Boolean</em>)
-			<strong class="krumo-boolean"><?php echo $data?'TRUE':'FALSE'?></strong>
-	</div>
-
-</li>
-<?php
-		}
+		print "<li class=\"krumo-child\">";
+		print "<div class=\"krumo-element\" onMouseOver=\"krumo.over(this);\" onMouseOut=\"krumo.out(this);\">";
+		print "<a class=\"krumo-name\">$name</a> (<em class=\"krumo-type\">Boolean</em>) ";
+		print "<strong class=\"krumo-boolean\">$value</strong>";
+		print "</div></li>";
+	}
 
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
