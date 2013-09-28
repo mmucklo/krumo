@@ -174,21 +174,16 @@ This is a list of all currently declared constants (defines).
 	*/
 	Public Static Function extensions() {
 
-		// disabled ?
-		//
+		// disabled
 		if (!krumo::_debug()) {
 			return false;
-			}
+		}
 
 		// render it
-		//
-		?>
-<div class="krumo-title">
-This is a list of all currently loaded PHP extensions.
-</div>
-		<?php
+		print "<div class=\"krumo-title\">This is a list of all currently loaded PHP extensions.</div>";
+
 		return krumo::dump(get_loaded_extensions());
-		}
+	}
 
 	/**
 	* Prints a list of all HTTP request headers.
@@ -198,21 +193,16 @@ This is a list of all currently loaded PHP extensions.
 	*/
 	Public Static Function headers() {
 
-		// disabled ?
-		//
+		// disabled
 		if (!krumo::_debug()) {
 			return false;
-			}
+		}
 
 		// render it
-		//
-		?>
-<div class="krumo-title">
-This is a list of all HTTP request headers.
-</div>
-		<?php
+		print "<div class=\"krumo-title\">This is a list of all HTTP request headers.</div>";
+
 		return krumo::dump(getAllHeaders());
-		}
+	}
 
 	/**
 	* Prints a list of the configuration settings read from <i>php.ini</i>
