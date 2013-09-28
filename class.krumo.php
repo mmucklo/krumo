@@ -1164,21 +1164,11 @@ This is a list of the configuration settings read from <code><b>" . get_cfg_var(
 	* @static
 	*/
 	Private Static Function _integer($data, $name) {
-?>
-<li class="krumo-child">
-
-	<div class="krumo-element"
-		onMouseOver="krumo.over(this);"
-		onMouseOut="krumo.out(this);">
-
-			<a class="krumo-name"><?php echo $name;?></a>
-			(<em class="krumo-type">Integer</em>)
-			<strong class="krumo-integer"><?php echo $data;?></strong>
-	</div>
-
-</li>
-<?php
-		}
+		print "<li class=\"krumo-child\">";
+		print "<div class=\"krumo-element\" onMouseOver=\"krumo.over(this);\" onMouseOut=\"krumo.out(this);\">";
+		print "<a class=\"krumo-name\">$name</a> (<em class=\"krumo-type\">Integer</em>) ";
+		print "<strong class=\"krumo-integer\">$data</strong></div></li>";
+	}
 
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
