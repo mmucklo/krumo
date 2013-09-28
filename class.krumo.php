@@ -23,15 +23,6 @@ if (!defined('KRUMO_DIR')) {
 	define('KRUMO_DIR', dirname(__FILE__) . DIRECTORY_SEPARATOR);
 	}
 
-/**
-* This constant sets the maximum strings of strings that will be shown
-* as they are. Longer strings will be truncated with this length, and
-* their `full form` will be shown in a child node.
-*/
-if (!defined('KRUMO_TRUNCATE_LENGTH')) {
-	define('KRUMO_TRUNCATE_LENGTH', 50);
-	}
-
 //////////////////////////////////////////////////////////////////////////////
 
 /**
@@ -258,7 +249,7 @@ This is a list of all HTTP request headers.
 			return false;
 			}
 
-		if (!readable(get_cfg_var('cfg_file_path'))) {
+		if (!is_readable(get_cfg_var('cfg_file_path'))) {
 			return false;
 			}
 
@@ -614,12 +605,6 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 				}
 			}
 
-		// PHP 4.x.x array reference bug...
-		//
-		if (is_array($data) && version_compare(PHP_VERSION, "5", "<")) {
-			unset($GLOBALS[krumo::_marker()]);
-			}
-
 		if ($clearObjectRecursionProtection) {
 			self::$objectRecursionProtection = NULL;
 			}
@@ -727,7 +712,7 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 		// Remove the document root, from the FULL absolute path of the 
 		// file we're looking for
 		$ret = "/" . str_replace($doc_root,"",$file,$ok);
-		if (!$ok) { return '/krumo/'; }
+		if (!$ok) { return false; }
 
 		// If they want the path to the dir, only return the dir part
 		if ($return_dir) { $ret = dirname($ret) . "/"; }
@@ -777,10 +762,12 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 		//
 		if ($_css = $css != '') {
 
-			$css_url = krumo::_config('css',
-						'url',
-						krumo::calculate_relative_path(__FILE__,true));
+			// See if there is a CSS path in the config
+			$relative_krumo_path = krumo::calculate_relative_path(__FILE__,true);
+			$css_url = krumo::_config('css', 'url', $relative_krumo_path);
 
+			// Default to /krumo/ if nothing is found in the config
+			$css_url || $css_url = "/krumo/";
 			$css_url = rtrim($css_url, '/');
 
 			// fix the urls
@@ -878,30 +865,6 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 		// array ?
 		//
 		if (is_array($data)) {
-
-			// PHP 4.x.x array reference bug...
-			//
-			if (version_compare(PHP_VERSION, "5", "<")) {
-
-				// prepare the GLOBAL reference list...
-				//
-				if (!isset($GLOBALS[krumo::_marker()])) {
-					$GLOBALS[krumo::_marker()] = array();
-					}
-				if (!is_array($GLOBALS[krumo::_marker()])) {
-					$GLOBALS[krumo::_marker()] = (array) $GLOBALS[krumo::_marker()];
-					}
-
-				// extract ?
-				//
-				if (!empty($GLOBALS[krumo::_marker()])) {
-					$d = array_shift($GLOBALS[krumo::_marker()]);
-					if (is_array($d)) {
-						$data = $d;
-						}
-					}
-				}
-
 			return krumo::_array($data, $name);
 			}
 
@@ -1389,10 +1352,14 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 		//
 		$_extra = false;
 		$_ = $data;
-		if (strLen($data) > KRUMO_TRUNCATE_LENGTH) {
-			$_ = substr($data, 0, KRUMO_TRUNCATE_LENGTH - 3) . '...';
+
+		// Get the truncate length from the config, or default to 100
+		$truncate_length = krumo::_config('display', 'truncate_length', 100);
+
+		if (strLen($data) > $truncate_length ) {
+			$_ = substr($data, 0, $truncate_length - 3) . '...';
 			$_extra = true;
-			}
+		}
 ?>
 <li class="krumo-child">
 
