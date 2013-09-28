@@ -150,21 +150,16 @@ This is a list of all currently declared interfaces.
 	*/
 	Public Static Function defines() {
 
-		// disabled ?
-		//
+		// disabled
 		if (!krumo::_debug()) {
 			return false;
-			}
+		}
 
 		// render it
-		//
-		?>
-<div class="krumo-title">
-This is a list of all currently declared constants (defines).
-</div>
-		<?php
+		print "<div class=\"krumo-title\">This is a list of all currently declared constants (defines).</div>";
+
 		return krumo::dump(get_defined_constants());
-		}
+	}
 
 	/**
 	* Prints a list of all currently loaded PHP extensions.
@@ -212,25 +207,21 @@ This is a list of all currently declared constants (defines).
 	*/
 	Public Static Function phpini() {
 
-		// disabled ?
-		//
+		// disabled
 		if (!krumo::_debug()) {
 			return false;
-			}
+		}
 
 		if (!is_readable(get_cfg_var('cfg_file_path'))) {
 			return false;
-			}
+		}
 
 		// render it
-		//
-		?>
-<div class="krumo-title">
-This is a list of the configuration settings read from <code><b><?php echo get_cfg_var('cfg_file_path');?></b></code>.
-</div>
-		<?php
+		print "<div class=\"krumo-title\">
+This is a list of the configuration settings read from <code><b>" . get_cfg_var('cfg_file_path') . "</b></code>.
+</div>";
 		return krumo::dump(parse_ini_file(get_cfg_var('cfg_file_path'), true));
-		}
+	}
 
 	/**
 	* Prints a list of all your configuration settings.
