@@ -231,21 +231,16 @@ This is a list of the configuration settings read from <code><b>" . get_cfg_var(
 	*/
 	Public Static Function conf() {
 
-		// disabled ?
-		//
+		// disabled
 		if (!krumo::_debug()) {
 			return false;
-			}
+		}
 
 		// render it
-		//
-		?>
-<div class="krumo-title">
-This is a list of all your configuration settings.
-</div>
-		<?php
+		print "<div class=\"krumo-title\">This is a list of all your configuration settings.</div>";
+
 		return krumo::dump(ini_get_all());
-		}
+	}
 
 	/**
 	* Prints a list of the specified directories under your <i>include_path</i> option.
@@ -255,21 +250,16 @@ This is a list of all your configuration settings.
 	*/
 	Public Static Function path() {
 
-		// disabled ?
-		//
+		// disabled
 		if (!krumo::_debug()) {
 			return false;
-			}
+		}
 
 		// render it
-		//
-		?>
-<div class="krumo-title">
-This is a list of the specified directories under your <code><b>include_path</b></code> option.
-</div>
-		<?php
+		print "<div class=\"krumo-title\"> This is a list of the specified directories under your <code><b>include_path</b></code> option.</div>";
+
 		return krumo::dump(explode(PATH_SEPARATOR, ini_get('include_path')));
-		}
+	}
 
 	/**
 	* Prints a list of all the values from the <i>$_REQUEST</i> array.
@@ -279,21 +269,16 @@ This is a list of the specified directories under your <code><b>include_path</b>
 	*/
 	Public Static Function request() {
 
-		// disabled ?
-		//
+		// disabled
 		if (!krumo::_debug()) {
 			return false;
-			}
+		}
 
 		// render it
-		//
-		?>
-<div class="krumo-title">
-This is a list of all the values from the <code><b>$_REQUEST</b></code> array.
-</div>
-		<?php
+		print "<div class=\"krumo-title\">This is a list of all the values from the <code><b>\$_REQUEST</b></code> array.</div>";
+
 		return krumo::dump($_REQUEST);
-		}
+	}
 
 	/**
 	* Prints a list of all the values from the <i>$_GET</i> array.
@@ -303,21 +288,16 @@ This is a list of all the values from the <code><b>$_REQUEST</b></code> array.
 	*/
 	Public Static Function get() {
 
-		// disabled ?
-		//
+		// disabled
 		if (!krumo::_debug()) {
 			return false;
-			}
+		}
 
 		// render it
-		//
-		?>
-<div class="krumo-title">
-This is a list of all the values from the <code><b>$_GET</b></code> array.
-</div>
-		<?php
+		print "<div class=\"krumo-title\">This is a list of all the values from the <code><b>\$_GET</b></code> array.</div>";
+
 		return krumo::dump($_GET);
-		}
+	}
 
 	/**
 	* Prints a list of all the values from the <i>$_POST</i> array.
@@ -327,21 +307,16 @@ This is a list of all the values from the <code><b>$_GET</b></code> array.
 	*/
 	Public Static Function post() {
 
-		// disabled ?
-		//
+		// disabled
 		if (!krumo::_debug()) {
 			return false;
-			}
+		}
 
 		// render it
-		//
-		?>
-<div class="krumo-title">
-This is a list of all the values from the <code><b>$_POST</b></code> array.
-</div>
-		<?php
+		print "<div class=\"krumo-title\">This is a list of all the values from the <code><b>\$_POST</b></code> array.</div>";
+
 		return krumo::dump($_POST);
-		}
+	}
 
 	/**
 	* Prints a list of all the values from the <i>$_SERVER</i> array.
@@ -351,21 +326,16 @@ This is a list of all the values from the <code><b>$_POST</b></code> array.
 	*/
 	Public Static Function server() {
 
-		// disabled ?
-		//
+		// disabled
 		if (!krumo::_debug()) {
 			return false;
-			}
+		}
 
 		// render it
-		//
-		?>
-<div class="krumo-title">
-This is a list of all the values from the <code><b>$_SERVER</b></code> array.
-</div>
-		<?php
+		print "<div class=\"krumo-title\">This is a list of all the values from the <code><b>\$_SERVER</b></code> array.</div>";
+
 		return krumo::dump($_SERVER);
-		}
+	}
 
 	/**
 	* Prints a list of all the values from the <i>$_COOKIE</i> array.
@@ -375,21 +345,16 @@ This is a list of all the values from the <code><b>$_SERVER</b></code> array.
 	*/
 	Public Static Function cookie() {
 
-		// disabled ?
-		//
+		// disabled
 		if (!krumo::_debug()) {
 			return false;
-			}
+		}
 
 		// render it
-		//
-		?>
-<div class="krumo-title">
-This is a list of all the values from the <code><b>$_COOKIE</b></code> array.
-</div>
-		<?php
+		print "<div class=\"krumo-title\">This is a list of all the values from the <code><b>\$_COOKIE</b></code> array.</div>";
+
 		return krumo::dump($_COOKIE);
-		}
+	}
 
 	/**
 	* Prints a list of all the values from the <i>$_ENV</i> array.
@@ -399,21 +364,16 @@ This is a list of all the values from the <code><b>$_COOKIE</b></code> array.
 	*/
 	Public Static Function env() {
 
-		// disabled ?
-		//
+		// disabled
 		if (!krumo::_debug()) {
 			return false;
-			}
+		}
 
 		// render it
-		//
-		?>
-<div class="krumo-title">
-This is a list of all the values from the <code><b>$_ENV</b></code> array.
-</div>
-		<?php
+		print "<div class=\"krumo-title\">This is a list of all the values from the <code><b>\$_ENV</b></code> array.</div>";
+
 		return krumo::dump($_ENV);
-		}
+	}
 
 	/**
 	* Prints a list of all the values from the <i>$_SESSION</i> array.
@@ -423,21 +383,16 @@ This is a list of all the values from the <code><b>$_ENV</b></code> array.
 	*/
 	Public Static Function session() {
 
-		// disabled ?
-		//
+		// disabled
 		if (!krumo::_debug()) {
 			return false;
-			}
+		}
 
 		// render it
-		//
-		?>
-<div class="krumo-title">
-This is a list of all the values from the <code><b>$_SESSION</b></code> array.
-</div>
-		<?php
+		print "<div class=\"krumo-title\">This is a list of all the values from the <code><b>\$_SESSION</b></code> array.</div>";
+
 		return krumo::dump($_SESSION);
-		}
+	}
 
 	/**
 	* Prints a list of all the values from an INI file.
@@ -449,27 +404,26 @@ This is a list of all the values from the <code><b>$_SESSION</b></code> array.
 	*/
 	Public Static Function ini($ini_file) {
 
-		// disabled ?
-		//
+		// disabled
 		if (!krumo::_debug()) {
 			return false;
-			}
+		}
 
 		// read it
-		//
 		if (!$_ = @parse_ini_file($ini_file, 1)) {
 			return false;
-			}
+		}
 
 		// render it
-		//
-		?>
-<div class="krumo-title">
-This is a list of all the values from the <code><b><?php echo realpath($ini_file) ? realpath($ini_file) : $ini_file;?></b></code> INI file.
-</div>
-		<?php
-		return krumo::dump($_);
+		if (realpath($ini_file)) { 
+			$ini_file = realpath($ini_file);
 		}
+
+		print "<div class=\"krumo-title\">";
+		print "This is a list of all the values from the <code><b>" . $ini_file . "</b></code> INI file.</div>";
+
+		return krumo::dump($_);
+	}
 
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
