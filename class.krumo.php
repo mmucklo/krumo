@@ -597,23 +597,24 @@ This is a list of the configuration settings read from <code><b>" . get_cfg_var(
 	*/
 	Public Static Function cascade(array $cascade = null) {
 		self::$_cascade = $cascade;
-		}
+	}
 
 	/**
 	* Determines if a given node will be collapsed or not.
 	*/
 	Private Static Function _isCollapsed($level, $childCount) {
 		$cascade = self::$_cascade;
+
 		if ($cascade == null) {
 			$cascade = krumo::_config('display', 'cascade', array());
-			}
+		}
 
 		if (isset($cascade[$level])) {
 			return $childCount >= $cascade[$level];
 		} else {
 			return true;
 		}
-		}
+	}
 	
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
@@ -628,8 +629,6 @@ This is a list of the configuration settings read from <code><b>" . get_cfg_var(
 
 		// If they want the path to the dir, only return the dir part
 		if ($return_dir) { $ret = dirname($ret) . "/"; }
-
-		#print "$file => $ret"; exit;
 
 		return $ret;
 	}
@@ -806,12 +805,9 @@ This is a list of the configuration settings read from <code><b>" . get_cfg_var(
 	*/
 	Private Static Function _null($name) {
 	print "<li class=\"krumo-child\">
-	<div class=\"krumo-element\"
-		onMouseOver=\"krumo.over(this);\"
-		onMouseOut=\"krumo.out(this);\">
-
-			<a class=\"krumo-name\">$name</a>
-			(<em class=\"krumo-type krumo-null\">NULL</em>)
+	<div class=\"krumo-element\" onMouseOver=\"krumo.over(this);\" onMouseOut=\"krumo.out(this);\"> 
+		<a class=\"krumo-name\">$name</a>
+		(<em class=\"krumo-type krumo-null\">NULL</em>)
 	</div>
 </li>";
 	}
@@ -899,97 +895,92 @@ This is a list of the configuration settings read from <code><b>" . get_cfg_var(
 
 		// test for references in order to
 		// prevent endless recursion loops
-		//
 		$_recursion_marker = krumo::_marker();
 
 		if ($_is_object) {
 			if (($hash = spl_object_hash($data)) && isset(self::$objectRecursionProtection[$hash])) {
 				$_r = self::$objectRecursionProtection[$hash];
-				}
-			else {
+			} else {
 				$_r = NULL;
-				}
 			}
-		else
+		} else {
 			$_r = isset($data[$_recursion_marker]) ? $data[$_recursion_marker] : null;
+		}
 
 		// recursion detected
-		//
 		if ($_r > 0) {
 			return krumo::_recursion();
-			}
+		}
 
 		// stain it
-		//
 		krumo::_hive($data);
 
 		// render it
-		//
 		$collapsed = krumo::_isCollapsed(self::$_level, count($data)-1);
-		?>
-<div class="krumo-nest"<?php if ($collapsed): ?> style="display:none;"<?php endif;?>>
-	<ul class="krumo-node">
-	<?php
-
-	// we're descending one level deeper
-	self::$_level++;
-
-	// Object?? - use Reflection
-	if ($_is_object) {
-		$reflection = new ReflectionObject($data);
-		$properties = $reflection->getProperties();
-		foreach ($properties as $property) {
-			$prefix = null;
-			$setAccessible = false;
-			if ($property->isPrivate()) {
-				$setAccessible = true;
-				$prefix = 'private ';
-				}
-			else if ($property->isProtected()) {
-				$setAccessible = true;
-				$prefix = 'protected ';
-				}
-			else if ($property->isPublic()) {
-				$prefix = 'public ';
-				}
-
-			$name = $property->getName();
-			if ($setAccessible)
-				$property->setAccessible(true);
-			$value = $property->getValue($data);
-			
-			krumo::_dump($value, $prefix . " '$name'");
-			if ($setAccessible)
-				$property->setAccessible(false);
-			}
+		if ($collapsed) {
+			$collapse_style = 'style="display: none;"';
+		} else {
+			$collapse_style = '';
 		}
-	else {
-		// keys ?
-		//
-		$keys = array_keys($data);
 
-		// iterate
-		//
-		foreach($keys as $k) {
+		print "<div class=\"krumo-nest\" $collapse_style>
+	<ul class=\"krumo-node\">";
 
-			// skip marker
-			//
-			if ($k === $_recursion_marker) {
-				continue;
+			// we're descending one level deeper
+			self::$_level++;
+
+			// Object?? - use Reflection
+			if ($_is_object) {
+				$reflection = new ReflectionObject($data);
+				$properties = $reflection->getProperties();
+
+				foreach ($properties as $property) {
+					$prefix = null;
+					$setAccessible = false;
+
+					if ($property->isPrivate()) {
+						$setAccessible = true;
+						$prefix = 'private ';
+					} else if ($property->isProtected()) {
+						$setAccessible = true;
+						$prefix = 'protected ';
+					} else if ($property->isPublic()) {
+						$prefix = 'public ';
+					}
+
+					$name = $property->getName();
+					if ($setAccessible) {
+						$property->setAccessible(true);
+					}
+
+					$value = $property->getValue($data);
+					
+					krumo::_dump($value, $prefix . " '$name'");
+					if ($setAccessible) {
+						$property->setAccessible(false);
+					}
 				}
+			} else {
+				// keys
+				$keys = array_keys($data);
 
-			// get real value
-			//
-			$v =& $data[$k];
+				// iterate
+				foreach($keys as $k) {
+					// skip marker
+					if ($k === $_recursion_marker) {
+						continue;
+					}
 
-			krumo::_dump($v,$k);
-			}
-		} ?>
-	</ul>
-</div>
-<?php
-		self::$_level--;
-		}
+					// get real value
+					$v =& $data[$k];
+
+					krumo::_dump($v,$k);
+				}
+			} 
+
+			print "</ul>\n</div>";
+			self::$_level--;
+	}
 
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
@@ -1000,22 +991,17 @@ This is a list of the configuration settings read from <code><b>" . get_cfg_var(
 	* @static
 	*/
 	Private Static Function _recursion() {
-?>
-<div class="krumo-nest" style="display:none;">
+	print '<div class="krumo-nest" style="display:none;">
 	<ul class="krumo-node">
 		<li class="krumo-child">
-			<div class="krumo-element"
-				onMouseOver="krumo.over(this);"
-				onMouseOut="krumo.out(this);">
-					<a class="krumo-name"><big>&#8734;</big></a>
-					(<em class="krumo-type">Recursion</em>)
+			<div class="krumo-element" onMouseOver="krumo.over(this);" onMouseOut="krumo.out(this);">
+				<a class="krumo-name"><big>&#8734;</big></a>
+				(<em class="krumo-type">Recursion</em>)
 			</div>
 
 		</li>
-	</ul>
-</div>
-<?php
-		}
+	</ul>';
+	}
 
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
@@ -1030,51 +1016,58 @@ This is a list of the configuration settings read from <code><b>" . get_cfg_var(
 	Private Static Function _array(&$data, $name) {
 		$childCount = count($data);
 		$collapsed = krumo::_isCollapsed(self::$_level, count($data));
-		$elementClasses = ($childCount > 0) ? (
-				($collapsed) ? ' krumo-expand' : ' krumo-expand krumo-opened'
-			) : '';
-?>
-<li class="krumo-child">
 
-	<div class="krumo-element<?php echo $elementClasses;?>"
-		<?php if (count($data) > 0) {?> onClick="krumo.toggle(this);"<?php } ?>
-		onMouseOver="krumo.over(this);"
-		onMouseOut="krumo.out(this);">
-
-			<a class="krumo-name"><?php echo $name;?></a>
-			(<em class="krumo-type">Array, <strong class="krumo-array-length"><?php echo
-				(count($data)==1)
-					?("1 element")
-					:(count($data)." elements");
-				?></strong></em>)
-
-
-			<?php
-			// callback ?
-			//
-			if (is_callable($data)) {
-				$_ = array_values($data);
-				?>
-				<span class="krumo-callback"> |
-					(<em class="krumo-type">Callback</em>)
-					<strong class="krumo-string"><?php
-						if (!is_object($_[0]))
-							echo htmlSpecialChars($_[0]);
-						else
-							echo htmlSpecialChars(get_class($_[0])); ?>::<?php
-						echo htmlSpecialChars($_[1]);?>();</strong></span>
-				<?php
-				}
-			?>
-
-	</div>
-
-	<?php if (count($data)) {
-		krumo::_vars($data);
-		} ?>
-</li>
-<?php
+		// Setup the CSS classes depending on how many children there are
+		if ($childCount > 0 && $collapsed) {
+			$elementClasses = ' krumo-expand';
+		} elseif ($childCount > 0) {
+			$elementClasses = ' krumo-expand krumo-opened';
+		} else {
+			$elementClasses = '';
 		}
+
+		if (count($data) == 1) { 
+			$plural = '';
+		} else {
+			$plural = 's';
+		}
+
+		print "<li class=\"krumo-child\">";
+		print "<div class=\"krumo-element $elementClasses\"";
+
+		// If there is more than one, make a dropdown
+		if (count($data) > 0) {
+			print "onClick=\"krumo.toggle(this);\"";
+		}
+
+		print "onMouseOver=\"krumo.over(this);\" onMouseOut=\"krumo.out(this);\">";
+		print "<a class=\"krumo-name\">$name</a> (<em class=\"krumo-type\">Array, <strong class=\"krumo-array-length\">";
+		print count($data) . " element" . $plural;
+		print "</strong></em>)";
+
+		// callback
+		if (is_callable($data)) {
+			$_ = array_values($data);
+			print "<span class=\"krumo-callback\"> |";
+			print "	(<em class=\"krumo-type\">Callback</em>) <strong class=\"krumo-string\">";
+
+			if (!is_object($_[0])) {
+					echo htmlSpecialChars($_[0]);
+			} else {
+					echo htmlSpecialChars(get_class($_[0])) . "::";
+			}
+			
+			echo htmlSpecialChars($_[1]) . "()</strong></span>";
+		}
+	
+		print "</div>";
+
+		if (count($data)) {
+			krumo::_vars($data);
+		}
+
+		print "</li>";
+	}
 
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
