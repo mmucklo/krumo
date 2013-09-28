@@ -1026,10 +1026,10 @@ This is a list of the configuration settings read from <code><b>" . get_cfg_var(
 			$elementClasses = '';
 		}
 
-		if (count($data) > 1) { 
-			$plural = '';
-		} else {
+		if (count($data) > 1 || count($data) == 0) { 
 			$plural = 's';
+		} else {
+			$plural = '';
 		}
 
 		print "<li class=\"krumo-child\">";
