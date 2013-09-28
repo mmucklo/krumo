@@ -930,37 +930,32 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 
 		static $_ = array();
 
-		// new bee ?
-		//
+		// new bee
 		if (!is_null($bee)) {
 
 			// stain it
-			//
 			$_recursion_marker = krumo::_marker();
-			if (is_object($bee))
-			{
+			if (is_object($bee)) {
 				$hash = spl_object_hash($bee);
 				if ($hash && isset(self::$objectRecursionProtection[$hash])) {
 					self::$objectRecursionProtection[$hash]++;
-					}
-				else if ($hash) {
+				} else if ($hash) {
 					self::$objectRecursionProtection[$hash] = 1;
-					}
 				}
-			else {
-				if (isset($bee[$_recursion_marker]))
+			} else {
+				if (isset($bee[$_recursion_marker])) {
 					$bee[$_recursion_marker]++;
-				else
+				} else {
 					$bee[$_recursion_marker] = 1;
 				}
+			}
 
 			$_[0][] =& $bee;
 		}
 
 		// return all bees
-		//
 		return $_[0];
-		}
+	}
 
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
