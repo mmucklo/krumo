@@ -97,9 +97,7 @@ Class krumo {
 		}
 
 		// render it
-		print "<div class=\"krumo-title\">
-This is a list of all currently declared interfaces.
-</div>";
+		print "<div class=\"krumo-title\">This is a list of all currently declared interfaces.</div>";
 
 		return krumo::dump(get_declared_interfaces());
 	}
@@ -138,8 +136,8 @@ This is a list of all currently declared interfaces.
 
 		// render it
 		print "<div class=\"krumo-title\">This is a list of all currently declared functions.</div>";
-		return krumo::dump(get_defined_functions());
 
+		return krumo::dump(get_defined_functions());
 	}
 
 	/**
@@ -217,9 +215,10 @@ This is a list of all currently declared interfaces.
 		}
 
 		// render it
-		print "<div class=\"krumo-title\">
-This is a list of the configuration settings read from <code><b>" . get_cfg_var('cfg_file_path') . "</b></code>.
-</div>";
+		print "<div class=\"krumo-title\">";
+		print "This is a list of the configuration settings read from <code><b>" . get_cfg_var('cfg_file_path') . "</b></code>.";
+		print "</div>";
+
 		return krumo::dump(parse_ini_file(get_cfg_var('cfg_file_path'), true));
 	}
 
@@ -468,15 +467,18 @@ This is a list of the configuration settings read from <code><b>" . get_cfg_var(
 			}
 		}
 
-		// the content
-		print "<div class=\"krumo-root\">\n";
-		print "\t<ul class=\"krumo-node krumo-first\">\n";
-		
-		print krumo::_dump($data);
-
 		$showVersion  = krumo::_config('display', 'show_version', TRUE);
 		$showCallInfo = krumo::_config('display', 'show_call_info', TRUE);
 		$krumoUrl     = 'https://github.com/oodle/krumo';
+
+		//////////////////////
+		// Start HTML header//
+		//////////////////////
+		print "<div class=\"krumo-root\">\n";
+		print "\t<ul class=\"krumo-node krumo-first\">\n";
+		
+		// The actual item itself
+		print krumo::_dump($data);
 
 		if ($showVersion || $showCallInfo) {
 			print "\t\t<li class=\"krumo-footnote\">\n";
@@ -498,8 +500,10 @@ This is a list of the configuration settings read from <code><b>" . get_cfg_var(
 		}
 
 		print "</ul></div>\n";
-
 		print "<!-- Krumo - HTML -->\n\n";
+		////////////////////
+		// End HTML header//
+		////////////////////
 
 		// flee the hive
 		$_recursion_marker = krumo::_marker();
@@ -509,7 +513,7 @@ This is a list of the configuration settings read from <code><b>" . get_cfg_var(
 					if (($hash = spl_object_hash($bee)) && isset(self::$objectRecursionProtection[$hash])) {
 						unset(self::$objectRecursionProtection[$hash]);
 					}
-				} else if (isset($hive[$i]->$_recursion_marker)) {
+				} elseif (isset($hive[$i]->$_recursion_marker)) {
 					unset($hive[$i][$_recursion_marker]);
 				}
 			}
@@ -618,7 +622,14 @@ This is a list of the configuration settings read from <code><b>" . get_cfg_var(
 	
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
-	Private Static function calculate_relative_path($file, $return_dir = 0) {
+	/**
+	* Calculate the relative path of a given absolute URL
+	*
+	* @return string
+	* @access public
+	* @static
+	*/
+	Public Static function calculate_relative_path($file, $return_dir = 0) {
 		// We find the document root of the webserver
 		$doc_root = $_SERVER['DOCUMENT_ROOT'];
 
@@ -804,12 +815,10 @@ This is a list of the configuration settings read from <code><b>" . get_cfg_var(
 	* @static
 	*/
 	Private Static Function _null($name) {
-	print "<li class=\"krumo-child\">
-	<div class=\"krumo-element\" onMouseOver=\"krumo.over(this);\" onMouseOut=\"krumo.out(this);\"> 
-		<a class=\"krumo-name\">$name</a>
-		(<em class=\"krumo-type krumo-null\">NULL</em>)
-	</div>
-</li>";
+		print "<li class=\"krumo-child\">";
+		print "<div class=\"krumo-element\" onMouseOver=\"krumo.over(this);\" onMouseOut=\"krumo.out(this);\">";
+		print "<a class=\"krumo-name\">$name</a> (<em class=\"krumo-type krumo-null\">NULL</em>)";
+		print "</div></li>";
 	}
 
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
@@ -923,63 +932,63 @@ This is a list of the configuration settings read from <code><b>" . get_cfg_var(
 			$collapse_style = '';
 		}
 
-		print "<div class=\"krumo-nest\" $collapse_style>
-	<ul class=\"krumo-node\">";
+		print "<div class=\"krumo-nest\" $collapse_style>";
+		print "<ul class=\"krumo-node\">";
 
-			// we're descending one level deeper
-			self::$_level++;
+		// we're descending one level deeper
+		self::$_level++;
 
-			// Object?? - use Reflection
-			if ($_is_object) {
-				$reflection = new ReflectionObject($data);
-				$properties = $reflection->getProperties();
+		// Object?? - use Reflection
+		if ($_is_object) {
+			$reflection = new ReflectionObject($data);
+			$properties = $reflection->getProperties();
 
-				foreach ($properties as $property) {
-					$prefix = null;
-					$setAccessible = false;
+			foreach ($properties as $property) {
+				$prefix = null;
+				$setAccessible = false;
 
-					if ($property->isPrivate()) {
-						$setAccessible = true;
-						$prefix = 'private ';
-					} else if ($property->isProtected()) {
-						$setAccessible = true;
-						$prefix = 'protected ';
-					} else if ($property->isPublic()) {
-						$prefix = 'public ';
-					}
-
-					$name = $property->getName();
-					if ($setAccessible) {
-						$property->setAccessible(true);
-					}
-
-					$value = $property->getValue($data);
-					
-					krumo::_dump($value, $prefix . " '$name'");
-					if ($setAccessible) {
-						$property->setAccessible(false);
-					}
+				if ($property->isPrivate()) {
+					$setAccessible = true;
+					$prefix = 'private ';
+				} else if ($property->isProtected()) {
+					$setAccessible = true;
+					$prefix = 'protected ';
+				} else if ($property->isPublic()) {
+					$prefix = 'public ';
 				}
-			} else {
-				// keys
-				$keys = array_keys($data);
 
-				// iterate
-				foreach($keys as $k) {
-					// skip marker
-					if ($k === $_recursion_marker) {
-						continue;
-					}
-
-					// get real value
-					$v =& $data[$k];
-
-					krumo::_dump($v,$k);
+				$name = $property->getName();
+				if ($setAccessible) {
+					$property->setAccessible(true);
 				}
-			} 
 
-			print "</ul>\n</div>";
-			self::$_level--;
+				$value = $property->getValue($data);
+				
+				krumo::_dump($value, $prefix . " '$name'");
+				if ($setAccessible) {
+					$property->setAccessible(false);
+				}
+			}
+		} else {
+			// keys
+			$keys = array_keys($data);
+
+			// iterate
+			foreach($keys as $k) {
+				// skip marker
+				if ($k === $_recursion_marker) {
+					continue;
+				}
+
+				// get real value
+				$v =& $data[$k];
+
+				krumo::_dump($v,$k);
+			}
+		} 
+
+		print "</ul>\n</div>";
+		self::$_level--;
 	}
 
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
@@ -1049,7 +1058,7 @@ This is a list of the configuration settings read from <code><b>" . get_cfg_var(
 		if (is_callable($data)) {
 			$_ = array_values($data);
 			print "<span class=\"krumo-callback\"> |";
-			print "	(<em class=\"krumo-type\">Callback</em>) <strong class=\"krumo-string\">";
+			print " (<em class=\"krumo-type\">Callback</em>) <strong class=\"krumo-string\">";
 
 			if (!is_object($_[0])) {
 					echo htmlSpecialChars($_[0]);
@@ -1094,6 +1103,7 @@ This is a list of the configuration settings read from <code><b>" . get_cfg_var(
 		} else {
 			$elementClasses = '';
 		}
+
 		print "<li class=\"krumo-child\"> <div class=\"krumo-element $elementClasses\"";
 		if (count($data) > 0) {
 			print 'onClick="krumo.toggle(this);"';
@@ -1124,12 +1134,11 @@ This is a list of the configuration settings read from <code><b>" . get_cfg_var(
 	* @static
 	*/
 	Private Static Function _resource($data, $name) {
-		print "<li class=\"krumo-child\">
-	<div class=\"krumo-element\" onMouseOver=\"krumo.over(this);\" onMouseOut=\"krumo.out(this);\">
-		<a class=\"krumo-name\">$name</a> (<em class=\"krumo-type\">Resource</em>)
-		<strong class=\"krumo-resource\">" . get_resource_type($data) . "</strong>
-	</div>
-</li>";
+		print "<li class=\"krumo-child\">";
+		print "<div class=\"krumo-element\" onMouseOver=\"krumo.over(this);\" onMouseOut=\"krumo.out(this);\">";
+		print "<a class=\"krumo-name\">$name</a> (<em class=\"krumo-type\">Resource</em>) ";
+		print "<strong class=\"krumo-resource\">" . get_resource_type($data) . "</strong>";
+		print "</div></li>";
 	}
 
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
