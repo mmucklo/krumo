@@ -23,6 +23,10 @@ if (!defined('KRUMO_DIR')) {
 	define('KRUMO_DIR', dirname(__FILE__) . DIRECTORY_SEPARATOR);
 }
 
+if (!defined('KRUMO_CAPTURE')) {
+	define('KRUMO_CAPTURE','158bafa5-b505-4661-9904-46504e00a5bb');
+}
+
 //////////////////////////////////////////////////////////////////////////////
 
 /**
@@ -433,7 +437,17 @@ Class krumo {
 	* @access public
 	* @static
 	*/
-	Public Static Function dump($data) {
+	Public Static Function dump($data, $capture = '') {
+		// If we're capturing call dump() with just data and capture the output
+		if ($capture === KRUMO_CAPTURE) {
+			ob_start();
+
+			krumo::dump($data);
+
+			$str = ob_get_clean();
+			return $str;
+		}
+
 		$clearObjectRecursionProtection   = false;
 		if (self::$objectRecursionProtection === NULL) {
 			self::$objectRecursionProtection = array();
