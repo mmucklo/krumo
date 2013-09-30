@@ -784,6 +784,9 @@ Class krumo {
 
 		// array
 		if (is_array($data)) {
+			if (krumo::_config('display','sort_arrays',true)) {
+				ksort($data);
+			}
 			return krumo::_array($data, $name);
 		}
 
