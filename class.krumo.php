@@ -21,7 +21,11 @@
 */
 if (!defined('KRUMO_DIR')) {
 	define('KRUMO_DIR', dirname(__FILE__) . DIRECTORY_SEPARATOR);
-	}
+}
+
+if (!defined('KRUMO_CAPTURE')) {
+	define('KRUMO_CAPTURE','158bafa5-b505-4661-9904-46504e00a5bb');
+}
 
 //////////////////////////////////////////////////////////////////////////////
 
@@ -43,7 +47,7 @@ Class krumo {
 	* @static
 	*/
 	Public Static Function version() {
-		return '0.3.1';
+		return '0.4.1';
 	}
 
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
@@ -55,17 +59,14 @@ Class krumo {
 	* @static
 	*/
 	Public Static Function backtrace() {
-
 		// disabled ?
-		//
 		if (!krumo::_debug()) {
 			return false;
-			}
+		}
 
 		// render it
-		//
 		return krumo::dump(debug_backtrace());
-		}
+	}
 
 	/**
 	* Prints a list of all currently declared classes.
@@ -74,22 +75,17 @@ Class krumo {
 	* @static
 	*/
 	Public Static Function classes() {
-
 		// disabled ?
-		//
 		if (!krumo::_debug()) {
 			return false;
-			}
-
-		// render it
-		//
-		?>
-<div class="krumo-title">
-This is a list of all currently declared classes.
-</div>
-		<?php
-		return krumo::dump(get_declared_classes());
 		}
+
+		print "<div class=\"krumo-title\">\n";
+		print "This is a list of all currently declared classes.";
+		print "</div>\n";
+
+		return krumo::dump(get_declared_classes());
+	}
 
 	/**
 	* Prints a list of all currently declared interfaces (PHP5 only).
@@ -99,21 +95,16 @@ This is a list of all currently declared classes.
 	*/
 	Public Static Function interfaces() {
 
-		// disabled ?
-		//
+		// disabled
 		if (!krumo::_debug()) {
 			return false;
-			}
+		}
 
 		// render it
-		//
-		?>
-<div class="krumo-title">
-This is a list of all currently declared interfaces.
-</div>
-		<?php
+		print "<div class=\"krumo-title\">This is a list of all currently declared interfaces.</div>";
+
 		return krumo::dump(get_declared_interfaces());
-		}
+	}
 
 	/**
 	* Prints a list of all currently included (or required) files.
@@ -123,21 +114,16 @@ This is a list of all currently declared interfaces.
 	*/
 	Public Static Function includes() {
 
-		// disabled ?
-		//
+		// disabled
 		if (!krumo::_debug()) {
 			return false;
-			}
+		}
 
 		// render it
-		//
-		?>
-<div class="krumo-title">
-This is a list of all currently included (or required) files.
-</div>
-		<?php
+		print "<div class=\"krumo-title\">This is a list of all currently included (or required) files.</div>";
+
 		return krumo::dump(get_included_files());
-		}
+	}
 
 	/**
 	* Prints a list of all currently declared functions.
@@ -147,21 +133,16 @@ This is a list of all currently included (or required) files.
 	*/
 	Public Static Function functions() {
 
-		// disabled ?
-		//
+		// disabled
 		if (!krumo::_debug()) {
 			return false;
-			}
+		}
 
 		// render it
-		//
-		?>
-<div class="krumo-title">
-This is a list of all currently declared functions.
-</div>
-		<?php
+		print "<div class=\"krumo-title\">This is a list of all currently declared functions.</div>";
+
 		return krumo::dump(get_defined_functions());
-		}
+	}
 
 	/**
 	* Prints a list of all currently declared constants.
@@ -171,21 +152,16 @@ This is a list of all currently declared functions.
 	*/
 	Public Static Function defines() {
 
-		// disabled ?
-		//
+		// disabled
 		if (!krumo::_debug()) {
 			return false;
-			}
+		}
 
 		// render it
-		//
-		?>
-<div class="krumo-title">
-This is a list of all currently declared constants (defines).
-</div>
-		<?php
+		print "<div class=\"krumo-title\">This is a list of all currently declared constants (defines).</div>";
+
 		return krumo::dump(get_defined_constants());
-		}
+	}
 
 	/**
 	* Prints a list of all currently loaded PHP extensions.
@@ -195,21 +171,16 @@ This is a list of all currently declared constants (defines).
 	*/
 	Public Static Function extensions() {
 
-		// disabled ?
-		//
+		// disabled
 		if (!krumo::_debug()) {
 			return false;
-			}
+		}
 
 		// render it
-		//
-		?>
-<div class="krumo-title">
-This is a list of all currently loaded PHP extensions.
-</div>
-		<?php
+		print "<div class=\"krumo-title\">This is a list of all currently loaded PHP extensions.</div>";
+
 		return krumo::dump(get_loaded_extensions());
-		}
+	}
 
 	/**
 	* Prints a list of all HTTP request headers.
@@ -219,21 +190,16 @@ This is a list of all currently loaded PHP extensions.
 	*/
 	Public Static Function headers() {
 
-		// disabled ?
-		//
+		// disabled
 		if (!krumo::_debug()) {
 			return false;
-			}
+		}
 
 		// render it
-		//
-		?>
-<div class="krumo-title">
-This is a list of all HTTP request headers.
-</div>
-		<?php
+		print "<div class=\"krumo-title\">This is a list of all HTTP request headers.</div>";
+
 		return krumo::dump(getAllHeaders());
-		}
+	}
 
 	/**
 	* Prints a list of the configuration settings read from <i>php.ini</i>
@@ -243,25 +209,22 @@ This is a list of all HTTP request headers.
 	*/
 	Public Static Function phpini() {
 
-		// disabled ?
-		//
+		// disabled
 		if (!krumo::_debug()) {
 			return false;
-			}
+		}
 
 		if (!is_readable(get_cfg_var('cfg_file_path'))) {
 			return false;
-			}
+		}
 
 		// render it
-		//
-		?>
-<div class="krumo-title">
-This is a list of the configuration settings read from <code><b><?php echo get_cfg_var('cfg_file_path');?></b></code>.
-</div>
-		<?php
+		print "<div class=\"krumo-title\">";
+		print "This is a list of the configuration settings read from <code><b>" . get_cfg_var('cfg_file_path') . "</b></code>.";
+		print "</div>";
+
 		return krumo::dump(parse_ini_file(get_cfg_var('cfg_file_path'), true));
-		}
+	}
 
 	/**
 	* Prints a list of all your configuration settings.
@@ -271,21 +234,16 @@ This is a list of the configuration settings read from <code><b><?php echo get_c
 	*/
 	Public Static Function conf() {
 
-		// disabled ?
-		//
+		// disabled
 		if (!krumo::_debug()) {
 			return false;
-			}
+		}
 
 		// render it
-		//
-		?>
-<div class="krumo-title">
-This is a list of all your configuration settings.
-</div>
-		<?php
+		print "<div class=\"krumo-title\">This is a list of all your configuration settings.</div>";
+
 		return krumo::dump(ini_get_all());
-		}
+	}
 
 	/**
 	* Prints a list of the specified directories under your <i>include_path</i> option.
@@ -295,21 +253,16 @@ This is a list of all your configuration settings.
 	*/
 	Public Static Function path() {
 
-		// disabled ?
-		//
+		// disabled
 		if (!krumo::_debug()) {
 			return false;
-			}
+		}
 
 		// render it
-		//
-		?>
-<div class="krumo-title">
-This is a list of the specified directories under your <code><b>include_path</b></code> option.
-</div>
-		<?php
+		print "<div class=\"krumo-title\"> This is a list of the specified directories under your <code><b>include_path</b></code> option.</div>";
+
 		return krumo::dump(explode(PATH_SEPARATOR, ini_get('include_path')));
-		}
+	}
 
 	/**
 	* Prints a list of all the values from the <i>$_REQUEST</i> array.
@@ -319,21 +272,16 @@ This is a list of the specified directories under your <code><b>include_path</b>
 	*/
 	Public Static Function request() {
 
-		// disabled ?
-		//
+		// disabled
 		if (!krumo::_debug()) {
 			return false;
-			}
+		}
 
 		// render it
-		//
-		?>
-<div class="krumo-title">
-This is a list of all the values from the <code><b>$_REQUEST</b></code> array.
-</div>
-		<?php
+		print "<div class=\"krumo-title\">This is a list of all the values from the <code><b>\$_REQUEST</b></code> array.</div>";
+
 		return krumo::dump($_REQUEST);
-		}
+	}
 
 	/**
 	* Prints a list of all the values from the <i>$_GET</i> array.
@@ -343,21 +291,16 @@ This is a list of all the values from the <code><b>$_REQUEST</b></code> array.
 	*/
 	Public Static Function get() {
 
-		// disabled ?
-		//
+		// disabled
 		if (!krumo::_debug()) {
 			return false;
-			}
+		}
 
 		// render it
-		//
-		?>
-<div class="krumo-title">
-This is a list of all the values from the <code><b>$_GET</b></code> array.
-</div>
-		<?php
+		print "<div class=\"krumo-title\">This is a list of all the values from the <code><b>\$_GET</b></code> array.</div>";
+
 		return krumo::dump($_GET);
-		}
+	}
 
 	/**
 	* Prints a list of all the values from the <i>$_POST</i> array.
@@ -367,21 +310,16 @@ This is a list of all the values from the <code><b>$_GET</b></code> array.
 	*/
 	Public Static Function post() {
 
-		// disabled ?
-		//
+		// disabled
 		if (!krumo::_debug()) {
 			return false;
-			}
+		}
 
 		// render it
-		//
-		?>
-<div class="krumo-title">
-This is a list of all the values from the <code><b>$_POST</b></code> array.
-</div>
-		<?php
+		print "<div class=\"krumo-title\">This is a list of all the values from the <code><b>\$_POST</b></code> array.</div>";
+
 		return krumo::dump($_POST);
-		}
+	}
 
 	/**
 	* Prints a list of all the values from the <i>$_SERVER</i> array.
@@ -391,21 +329,16 @@ This is a list of all the values from the <code><b>$_POST</b></code> array.
 	*/
 	Public Static Function server() {
 
-		// disabled ?
-		//
+		// disabled
 		if (!krumo::_debug()) {
 			return false;
-			}
+		}
 
 		// render it
-		//
-		?>
-<div class="krumo-title">
-This is a list of all the values from the <code><b>$_SERVER</b></code> array.
-</div>
-		<?php
+		print "<div class=\"krumo-title\">This is a list of all the values from the <code><b>\$_SERVER</b></code> array.</div>";
+
 		return krumo::dump($_SERVER);
-		}
+	}
 
 	/**
 	* Prints a list of all the values from the <i>$_COOKIE</i> array.
@@ -415,21 +348,16 @@ This is a list of all the values from the <code><b>$_SERVER</b></code> array.
 	*/
 	Public Static Function cookie() {
 
-		// disabled ?
-		//
+		// disabled
 		if (!krumo::_debug()) {
 			return false;
-			}
+		}
 
 		// render it
-		//
-		?>
-<div class="krumo-title">
-This is a list of all the values from the <code><b>$_COOKIE</b></code> array.
-</div>
-		<?php
+		print "<div class=\"krumo-title\">This is a list of all the values from the <code><b>\$_COOKIE</b></code> array.</div>";
+
 		return krumo::dump($_COOKIE);
-		}
+	}
 
 	/**
 	* Prints a list of all the values from the <i>$_ENV</i> array.
@@ -439,21 +367,16 @@ This is a list of all the values from the <code><b>$_COOKIE</b></code> array.
 	*/
 	Public Static Function env() {
 
-		// disabled ?
-		//
+		// disabled
 		if (!krumo::_debug()) {
 			return false;
-			}
+		}
 
 		// render it
-		//
-		?>
-<div class="krumo-title">
-This is a list of all the values from the <code><b>$_ENV</b></code> array.
-</div>
-		<?php
+		print "<div class=\"krumo-title\">This is a list of all the values from the <code><b>\$_ENV</b></code> array.</div>";
+
 		return krumo::dump($_ENV);
-		}
+	}
 
 	/**
 	* Prints a list of all the values from the <i>$_SESSION</i> array.
@@ -463,21 +386,16 @@ This is a list of all the values from the <code><b>$_ENV</b></code> array.
 	*/
 	Public Static Function session() {
 
-		// disabled ?
-		//
+		// disabled
 		if (!krumo::_debug()) {
 			return false;
-			}
+		}
 
 		// render it
-		//
-		?>
-<div class="krumo-title">
-This is a list of all the values from the <code><b>$_SESSION</b></code> array.
-</div>
-		<?php
+		print "<div class=\"krumo-title\">This is a list of all the values from the <code><b>\$_SESSION</b></code> array.</div>";
+
 		return krumo::dump($_SESSION);
-		}
+	}
 
 	/**
 	* Prints a list of all the values from an INI file.
@@ -489,27 +407,26 @@ This is a list of all the values from the <code><b>$_SESSION</b></code> array.
 	*/
 	Public Static Function ini($ini_file) {
 
-		// disabled ?
-		//
+		// disabled
 		if (!krumo::_debug()) {
 			return false;
-			}
+		}
 
 		// read it
-		//
 		if (!$_ = @parse_ini_file($ini_file, 1)) {
 			return false;
-			}
+		}
 
 		// render it
-		//
-		?>
-<div class="krumo-title">
-This is a list of all the values from the <code><b><?php echo realpath($ini_file) ? realpath($ini_file) : $ini_file;?></b></code> INI file.
-</div>
-		<?php
-		return krumo::dump($_);
+		if (realpath($ini_file)) { 
+			$ini_file = realpath($ini_file);
 		}
+
+		print "<div class=\"krumo-title\">";
+		print "This is a list of all the values from the <code><b>" . $ini_file . "</b></code> INI file.</div>";
+
+		return krumo::dump($_);
+	}
 
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
@@ -520,35 +437,41 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 	* @access public
 	* @static
 	*/
-	Public Static Function dump($data) {
-		$clearObjectRecursionProtection = false;
+	Public Static Function dump($data, $capture = '') {
+		// If we're capturing call dump() with just data and capture the output
+		if ($capture === KRUMO_CAPTURE) {
+			ob_start();
+
+			krumo::dump($data);
+
+			$str = ob_get_clean();
+			return $str;
+		}
+
+		$clearObjectRecursionProtection   = false;
 		if (self::$objectRecursionProtection === NULL) {
 			self::$objectRecursionProtection = array();
-			$clearObjectRecursionProtection = true;
-			}
+			$clearObjectRecursionProtection  = true;
+		}
 
-		// disabled ?
-		//
+		// disabled
 		if (!krumo::_debug()) {
 			return false;
-			}
+		}
 
-		// more arguments ?
-		//
+		// more arguments
 		if (func_num_args() > 1) {
 			$_ = func_get_args();
 			foreach($_ as $d) {
 				krumo::dump($d);
-				}
-			return;
 			}
+			return;
+		}
 
-		// the css ?
-		//
+		// the css
 		krumo::_css();
 
 		// find caller
-		//
 		$_ = debug_backtrace();
 		while($d = array_pop($_)) {
 			$callback = self::$lineNumberTestCallback;
@@ -558,57 +481,64 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 			}
 		}
 
-		// the content
-		//
-		?>
-<div class="krumo-root">
-	<ul class="krumo-node krumo-first">
-		<?php echo krumo::_dump($data);
-
-		$showVersion = krumo::_config('display', 'show_version', TRUE);
+		$showVersion  = krumo::_config('display', 'show_version', TRUE);
 		$showCallInfo = krumo::_config('display', 'show_call_info', TRUE);
-		$krumoUrl = 'https://github.com/oodle/krumo';
+		$krumoUrl     = 'https://github.com/oodle/krumo';
 
-		if ($showVersion || $showCallInfo):
-		?>
-		<li class="krumo-footnote">
-			<?php if ($showVersion): ?>
-			<div class="krumo-version" style="white-space:nowrap;">
-				<h6>Krumo version <?php echo krumo::version();?></h6> | <a
-					href="<?php echo $krumoUrl; ?>"
-					target="_blank"><?php echo $krumoUrl; ?></a>
-			</div>
-			<?php endif; ?>
-		<?php if ($showCallInfo && isset($d['file']) && $d['file']) { ?>
-		<span class="krumo-call" style="white-space:nowrap;">
-			Called from <code><?php echo $d['file']?></code>,
-				line <code><?php echo $d['line']?></code></span>
-		<?php } ?>
-		&nbsp;
-		</li>
-		<?php endif; ?>
-	</ul>
-</div>
-<?php
+		//////////////////////
+		// Start HTML header//
+		//////////////////////
+		print "<div class=\"krumo-root\">\n";
+		print "\t<ul class=\"krumo-node krumo-first\">\n";
+		
+		// The actual item itself
+		print krumo::_dump($data);
+
+		if ($showVersion || $showCallInfo) {
+			print "\t\t<li class=\"krumo-footnote\">\n";
+
+			if ($showVersion) {
+				$version = krumo::version();
+				print "<div class=\"krumo-version\" style=\"white-space:nowrap;\">\n";
+				print "<h6>Krumo version $version</h6> | <a href=\"$krumoUrl\"	target=\"_blank\">$krumoUrl</a>\n";
+				print "</div>\n";
+			}
+
+			if ($showCallInfo && isset($d['file']) && $d['file']) {
+				print "<span class=\"krumo-call\" style=\"white-space:nowrap;\">";
+				print "Called from <code>" . $d['file'] . "</code>, ";
+				print "line <code>" . $d['line'] . "</code></span>";
+			}
+
+			print "</li>";
+		}
+
+		print "</ul></div>\n";
+		print "<!-- Krumo - HTML -->\n\n";
+		////////////////////
+		// End HTML header//
+		////////////////////
+
 		// flee the hive
-		//
 		$_recursion_marker = krumo::_marker();
 		if ($hive =& krumo::_hive($dummy)) {
-			foreach($hive as $i=>$bee){
+			foreach($hive as $i => $bee) {
 				if (is_object($bee)) {
-					if (($hash = spl_object_hash($bee)) && isset(self::$objectRecursionProtection[$hash]))
+					if (($hash = spl_object_hash($bee)) && isset(self::$objectRecursionProtection[$hash])) {
 						unset(self::$objectRecursionProtection[$hash]);
 					}
-				else if (isset($hive[$i]->$_recursion_marker)) {
+				} elseif (isset($hive[$i]->$_recursion_marker)) {
 					unset($hive[$i][$_recursion_marker]);
-					}
 				}
 			}
+		}
 
 		if ($clearObjectRecursionProtection) {
 			self::$objectRecursionProtection = NULL;
-			}
 		}
+
+	// End of dump()
+	}
 
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
@@ -629,28 +559,28 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 	* @static
 	*/
 	Private Static Function _config($group, $name, $fallback=null) {
-		// not loaded ?
-		//
-		if (empty(self::$_config)) {
-			self::$_config = (array) @parse_ini_file(
-				KRUMO_DIR . 'krumo.ini',
-				true);
-			}
+		$krumo_ini = KRUMO_DIR . 'krumo.ini';
 
-		// exists ?
-		//
-		return (isset(self::$_config[$group][$name]))
-			? self::$_config[$group][$name]
-			: $fallback;
+		// The config isn't loaded yet
+		if (empty(self::$_config) && is_readable($krumo_ini)) {
+			self::$_config = (array) parse_ini_file($krumo_ini, true);
 		}
+
+		// exists
+		if (isset(self::$_config[$group][$name])) {
+			return self::$_config[$group][$name];
+		} else {
+			return $fallback;
+		}
+	}
 
 	Public Static Function setConfig($config) {
 		self::$_config = $config;
-		}
+	}
 
 	Public Static Function setLineNumberTestCallback($callback) {
 		self::$lineNumberTestCallback = $callback;
-		}
+	}
 	
 	Private Static $lineNumberTestCallback = null;
 	
@@ -685,27 +615,35 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 	*/
 	Public Static Function cascade(array $cascade = null) {
 		self::$_cascade = $cascade;
-		}
+	}
 
 	/**
 	* Determines if a given node will be collapsed or not.
 	*/
 	Private Static Function _isCollapsed($level, $childCount) {
 		$cascade = self::$_cascade;
+
 		if ($cascade == null) {
 			$cascade = krumo::_config('display', 'cascade', array());
-			}
+		}
 
 		if (isset($cascade[$level])) {
 			return $childCount >= $cascade[$level];
 		} else {
 			return true;
 		}
-		}
+	}
 	
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
-	Private Static function calculate_relative_path($file, $return_dir = 0) {
+	/**
+	* Calculate the relative path of a given absolute URL
+	*
+	* @return string
+	* @access public
+	* @static
+	*/
+	Public Static function calculate_relative_path($file, $return_dir = 0) {
 		// We find the document root of the webserver
 		$doc_root = $_SERVER['DOCUMENT_ROOT'];
 
@@ -716,8 +654,6 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 
 		// If they want the path to the dir, only return the dir part
 		if ($return_dir) { $ret = dirname($ret) . "/"; }
-
-		#print "$file => $ret"; exit;
 
 		return $ret;
 	}
@@ -730,38 +666,33 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 	* @static
 	*/
 	Private Static Function _css() {
-
 		static $_css = false;
 
 		// already set ?
-		//
 		if ($_css) {
 			return true;
-			}
+		}
 
 		$css = '';
 		$skin = krumo::_config('skin', 'selected', 'default');
 
-		// custom selected skin ?
-		//
-		$_ = KRUMO_DIR . "skins/{$skin}/skin.css";
-		if ($fp = @fopen($_, 'r', 1)) {
-			$css = fread($fp, filesize($_));
-			fclose($fp);
-			}
+		// custom selected skin
+		$rel_css_file = "skins/{$skin}/skin.css";
+		$css_file = KRUMO_DIR . $rel_css_file;
+		if (is_readable($css_file)) {
+			$css = join(file($css_file));
+		}
 
-		// defautl skin ?
-		//
+		// default skin
 		if (!$css && ($skin != 'default')) {
-			$skin = 'default';
-			$_ = KRUMO_DIR . "skins/default/skin.css";
-			$css = join('', @file($_));
-			}
+			$skin         = 'default';
+			$rel_css_file = "skins/default/skin.css";
+			$css_file     = KRUMO_DIR . $rel_css_file;
+			$css          = join(file($css_file));
+		}
 
-		// print ?
-		//
+		// print
 		if ($_css = $css != '') {
-
 			// See if there is a CSS path in the config
 			$relative_krumo_path = krumo::calculate_relative_path(__FILE__,true);
 			$css_url = krumo::_config('css', 'url', $relative_krumo_path);
@@ -772,30 +703,24 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 
 			// fix the urls
 			$css_url = "$css_url/skins/{$skin}/";
-			$css = preg_replace('~%url%~Uis', $css_url, $css);
+			$css     = preg_replace('~%url%~Uis', $css_url, $css);
 
 			// the CSS
-			//
-			?>
-<!-- Using Krumo Skin: <?php echo preg_replace('~^' . preg_quote(realpath(KRUMO_DIR) . DIRECTORY_SEPARATOR) . '~Uis', '', realpath($_));?> -->
-<style type="text/css">
-<?php echo $css?>
-</style>
-<!-- CSS -->
-<?php
-			// the JS
-			//
-			?>
-<script type="text/javascript">
-<?php echo join(file(KRUMO_DIR . "krumo.min.js"));?>
-</script>
-<!-- JavaScript -->
+			print "<!-- Using Krumo Skin: \"$skin\" $rel_css_file -->\n";
+			print "<style type=\"text/css\">\n";
+			print trim($css) . "\n";
+			print "</style>\n";
+			print "<!-- Krumo - CSS -->\n";
 
-<?php
-			}
+			// the JS
+			print "<script type=\"text/javascript\">\n";
+			print join(file(KRUMO_DIR . "krumo.min.js"));
+			print "</script>\n";
+			print "<!-- Krumo - JavaScript -->\n";
+		}
 
 		return $_css;
-		}
+	}
 
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
@@ -808,7 +733,7 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 	*/
 	Public Static Function enable() {
 		return true === krumo::_debug(true);
-		}
+	}
 
 	/**
 	* Disable Krumo
@@ -819,7 +744,7 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 	*/
 	Public Static Function disable() {
 		return false === krumo::_debug(false);
-		}
+	}
 
 	/**
 	* Get\Set Krumo state: whether it is enabled or disabled
@@ -829,20 +754,17 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 	* @access private
 	* @static
 	*/
-	Private Static Function _debug($state=null) {
-
+	Private Static Function _debug($state = null) {
 		static $_ = true;
 
 		// set
-		//
 		if (isset($state)) {
-			$_ = (boolean) $state;
-			}
+			$_ = (boolean)$state;
+		}
 
 		// get
-		//
 		return $_;
-		}
+	}
 
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
@@ -854,50 +776,47 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 	* @access private
 	* @static
 	*/
-	Private Static Function _dump(&$data, $name='...') {
-
-		// object ?
-		//
+	Private Static Function _dump(&$data, $name = '...') {
+		// object
 		if (is_object($data)) {
 			return krumo::_object($data, $name);
-			}
+		}
 
-		// array ?
-		//
+		// array
 		if (is_array($data)) {
 			return krumo::_array($data, $name);
-			}
+		}
 
-		// resource ?
-		//
+		// resource
 		if (is_resource($data)) {
 			return krumo::_resource($data, $name);
-			}
+		}
 
-		// scalar ?
-		//
+		// scalar
 		if (is_string($data)) {
 			return krumo::_string($data, $name);
-			}
+		}
 
+		// float
 		if (is_float($data)) {
 			return krumo::_float($data, $name);
-			}
+		}
 
+		// integer
 		if (is_integer($data)) {
 			return krumo::_integer($data, $name);
-			}
+		}
 
+		// boolean
 		if (is_bool($data)) {
 			return krumo::_boolean($data, $name);
-			}
+		}
 
-		// null ?
-		//
+		// null
 		if (is_null($data)) {
 			return krumo::_null($name);
-			}
 		}
+	}
 
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
@@ -910,18 +829,11 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 	* @static
 	*/
 	Private Static Function _null($name) {
-?>
-<li class="krumo-child">
-	<div class="krumo-element"
-		onMouseOver="krumo.over(this);"
-		onMouseOut="krumo.out(this);">
-
-			<a class="krumo-name"><?php echo $name;?></a>
-			(<em class="krumo-type krumo-null">NULL</em>)
-	</div>
-</li>
-<?php
-		}
+		print "<li class=\"krumo-child\">";
+		print "<div class=\"krumo-element\" onMouseOver=\"krumo.over(this);\" onMouseOut=\"krumo.out(this);\">";
+		print "<a class=\"krumo-name\">$name</a> (<em class=\"krumo-type krumo-null\">NULL</em>)";
+		print "</div></li>";
+	}
 
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
@@ -934,14 +846,13 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 	* @static
 	*/
 	Private Static Function _marker() {
-
 		static $_recursion_marker;
 		if (!isset($_recursion_marker)) {
 			$_recursion_marker = uniqid('krumo');
-			}
+		}
 
 		return $_recursion_marker;
-		}
+	}
 
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
@@ -960,37 +871,32 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 
 		static $_ = array();
 
-		// new bee ?
-		//
+		// new bee
 		if (!is_null($bee)) {
 
 			// stain it
-			//
 			$_recursion_marker = krumo::_marker();
-			if (is_object($bee))
-			{
+			if (is_object($bee)) {
 				$hash = spl_object_hash($bee);
 				if ($hash && isset(self::$objectRecursionProtection[$hash])) {
 					self::$objectRecursionProtection[$hash]++;
-					}
-				else if ($hash) {
+				} else if ($hash) {
 					self::$objectRecursionProtection[$hash] = 1;
-					}
 				}
-			else {
-				if (isset($bee[$_recursion_marker]))
+			} else {
+				if (isset($bee[$_recursion_marker])) {
 					$bee[$_recursion_marker]++;
-				else
+				} else {
 					$bee[$_recursion_marker] = 1;
 				}
+			}
 
 			$_[0][] =& $bee;
 		}
 
 		// return all bees
-		//
 		return $_[0];
-		}
+	}
 
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
@@ -1012,97 +918,92 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 
 		// test for references in order to
 		// prevent endless recursion loops
-		//
 		$_recursion_marker = krumo::_marker();
 
 		if ($_is_object) {
 			if (($hash = spl_object_hash($data)) && isset(self::$objectRecursionProtection[$hash])) {
 				$_r = self::$objectRecursionProtection[$hash];
-				}
-			else {
+			} else {
 				$_r = NULL;
-				}
 			}
-		else
+		} else {
 			$_r = isset($data[$_recursion_marker]) ? $data[$_recursion_marker] : null;
+		}
 
 		// recursion detected
-		//
 		if ($_r > 0) {
 			return krumo::_recursion();
-			}
+		}
 
 		// stain it
-		//
 		krumo::_hive($data);
 
 		// render it
-		//
 		$collapsed = krumo::_isCollapsed(self::$_level, count($data)-1);
-		?>
-<div class="krumo-nest"<?php if ($collapsed): ?> style="display:none;"<?php endif;?>>
-	<ul class="krumo-node">
-	<?php
-
-	// we're descending one level deeper
-	self::$_level++;
-
-	// Object?? - use Reflection
-	if ($_is_object) {
-		$reflection = new ReflectionObject($data);
-		$properties = $reflection->getProperties();
-		foreach ($properties as $property) {
-			$prefix = null;
-			$setAccessible = false;
-			if ($property->isPrivate()) {
-				$setAccessible = true;
-				$prefix = 'private ';
-				}
-			else if ($property->isProtected()) {
-				$setAccessible = true;
-				$prefix = 'protected ';
-				}
-			else if ($property->isPublic()) {
-				$prefix = 'public ';
-				}
-
-			$name = $property->getName();
-			if ($setAccessible)
-				$property->setAccessible(true);
-			$value = $property->getValue($data);
-			
-			krumo::_dump($value, $prefix . " '$name'");
-			if ($setAccessible)
-				$property->setAccessible(false);
-			}
+		if ($collapsed) {
+			$collapse_style = 'style="display: none;"';
+		} else {
+			$collapse_style = '';
 		}
-	else {
-		// keys ?
-		//
-		$keys = array_keys($data);
 
-		// iterate
-		//
-		foreach($keys as $k) {
+		print "<div class=\"krumo-nest\" $collapse_style>";
+		print "<ul class=\"krumo-node\">";
 
-			// skip marker
-			//
-			if ($k === $_recursion_marker) {
-				continue;
+		// we're descending one level deeper
+		self::$_level++;
+
+		// Object?? - use Reflection
+		if ($_is_object) {
+			$reflection = new ReflectionObject($data);
+			$properties = $reflection->getProperties();
+
+			foreach ($properties as $property) {
+				$prefix = null;
+				$setAccessible = false;
+
+				if ($property->isPrivate()) {
+					$setAccessible = true;
+					$prefix = 'private ';
+				} else if ($property->isProtected()) {
+					$setAccessible = true;
+					$prefix = 'protected ';
+				} else if ($property->isPublic()) {
+					$prefix = 'public ';
 				}
 
-			// get real value
-			//
-			$v =& $data[$k];
+				$name = $property->getName();
+				if ($setAccessible) {
+					$property->setAccessible(true);
+				}
 
-			krumo::_dump($v,$k);
+				$value = $property->getValue($data);
+				
+				krumo::_dump($value, $prefix . " '$name'");
+				if ($setAccessible) {
+					$property->setAccessible(false);
+				}
 			}
-		} ?>
-	</ul>
-</div>
-<?php
+		} else {
+			// keys
+			$keys = array_keys($data);
+
+			// iterate
+			foreach($keys as $k) {
+				// skip marker
+				if ($k === $_recursion_marker) {
+					continue;
+				}
+
+				// get real value
+				$v =& $data[$k];
+
+				krumo::_dump($v,$k);
+			}
+		} 
+
+		print "</ul>\n</div>";
 		self::$_level--;
-		}
+	}
 
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
@@ -1113,22 +1014,17 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 	* @static
 	*/
 	Private Static Function _recursion() {
-?>
-<div class="krumo-nest" style="display:none;">
+	print '<div class="krumo-nest" style="display:none;">
 	<ul class="krumo-node">
 		<li class="krumo-child">
-			<div class="krumo-element"
-				onMouseOver="krumo.over(this);"
-				onMouseOut="krumo.out(this);">
-					<a class="krumo-name"><big>&#8734;</big></a>
-					(<em class="krumo-type">Recursion</em>)
+			<div class="krumo-element" onMouseOver="krumo.over(this);" onMouseOut="krumo.out(this);">
+				<a class="krumo-name"><big>&#8734;</big></a>
+				(<em class="krumo-type">Recursion</em>)
 			</div>
 
 		</li>
-	</ul>
-</div>
-<?php
-		}
+	</ul>';
+	}
 
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
@@ -1143,51 +1039,58 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 	Private Static Function _array(&$data, $name) {
 		$childCount = count($data);
 		$collapsed = krumo::_isCollapsed(self::$_level, count($data));
-		$elementClasses = ($childCount > 0) ? (
-				($collapsed) ? ' krumo-expand' : ' krumo-expand krumo-opened'
-			) : '';
-?>
-<li class="krumo-child">
 
-	<div class="krumo-element<?php echo $elementClasses;?>"
-		<?php if (count($data) > 0) {?> onClick="krumo.toggle(this);"<?php } ?>
-		onMouseOver="krumo.over(this);"
-		onMouseOut="krumo.out(this);">
-
-			<a class="krumo-name"><?php echo $name;?></a>
-			(<em class="krumo-type">Array, <strong class="krumo-array-length"><?php echo
-				(count($data)==1)
-					?("1 element")
-					:(count($data)." elements");
-				?></strong></em>)
-
-
-			<?php
-			// callback ?
-			//
-			if (is_callable($data)) {
-				$_ = array_values($data);
-				?>
-				<span class="krumo-callback"> |
-					(<em class="krumo-type">Callback</em>)
-					<strong class="krumo-string"><?php
-						if (!is_object($_[0]))
-							echo htmlSpecialChars($_[0]);
-						else
-							echo htmlSpecialChars(get_class($_[0])); ?>::<?php
-						echo htmlSpecialChars($_[1]);?>();</strong></span>
-				<?php
-				}
-			?>
-
-	</div>
-
-	<?php if (count($data)) {
-		krumo::_vars($data);
-		} ?>
-</li>
-<?php
+		// Setup the CSS classes depending on how many children there are
+		if ($childCount > 0 && $collapsed) {
+			$elementClasses = ' krumo-expand';
+		} elseif ($childCount > 0) {
+			$elementClasses = ' krumo-expand krumo-opened';
+		} else {
+			$elementClasses = '';
 		}
+
+		if (count($data) > 1 || count($data) == 0) { 
+			$plural = 's';
+		} else {
+			$plural = '';
+		}
+
+		print "<li class=\"krumo-child\">";
+		print "<div class=\"krumo-element $elementClasses\"";
+
+		// If there is more than one, make a dropdown
+		if (count($data) > 0) {
+			print "onClick=\"krumo.toggle(this);\"";
+		}
+
+		print "onMouseOver=\"krumo.over(this);\" onMouseOut=\"krumo.out(this);\">";
+		print "<a class=\"krumo-name\">$name</a> (<em class=\"krumo-type\">Array, <strong class=\"krumo-array-length\">";
+		print count($data) . " element" . $plural;
+		print "</strong></em>)";
+
+		// callback
+		if (is_callable($data)) {
+			$_ = array_values($data);
+			print "<span class=\"krumo-callback\"> |";
+			print " (<em class=\"krumo-type\">Callback</em>) <strong class=\"krumo-string\">";
+
+			if (!is_object($_[0])) {
+					echo htmlSpecialChars($_[0]);
+			} else {
+					echo htmlSpecialChars(get_class($_[0])) . "::";
+			}
+			
+			echo htmlSpecialChars($_[1]) . "()</strong></span>";
+		}
+	
+		print "</div>";
+
+		if (count($data)) {
+			krumo::_vars($data);
+		}
+
+		print "</li>";
+	}
 
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
@@ -1200,32 +1103,39 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 	* @static
 	*/
 	Private Static Function _object(&$data, $name) {
-		$childCount = count($data);
-		$collapsed = krumo::_isCollapsed(self::$_level, count($data));
-		$elementClasses = ($childCount > 0) ? (
-				($collapsed) ? ' krumo-expand' : ' krumo-expand krumo-opened'
-			) : '';
-?>
-<li class="krumo-child">
+		$reflection = new ReflectionObject($data);
+		$properties = $reflection->getProperties();
 
-	<div class="krumo-element<?php echo $elementClasses;?>"
-		<?php if (count($data) > 0) {?> onClick="krumo.toggle(this);"<?php } ?>
-		onMouseOver="krumo.over(this);"
-		onMouseOut="krumo.out(this);">
+		$childCount = count($properties);
+		$collapsed = krumo::_isCollapsed(self::$_level, $childCount);
 
-			<a class="krumo-name"><?php echo $name;?></a>
-			(<em class="krumo-type">Object</em>)
-			<strong class="krumo-class"><?php echo get_class($data);?></strong>
-	</div>
-
-	<?php $reflection = new ReflectionObject($data);
-	$properties = $reflection->getProperties();
-	if ($properties) {
-		krumo::_vars($data);
-		} ?>
-</li>
-<?php
+		// Setup the CSS classes depending on how many children there are
+		if ($childCount > 0 && $collapsed) {
+			$elementClasses = ' krumo-expand';
+		} elseif ($childCount > 0) {
+			$elementClasses = ' krumo-expand krumo-opened';
+		} else {
+			$elementClasses = '';
 		}
+
+		print "<li class=\"krumo-child\"> <div class=\"krumo-element $elementClasses\"";
+		if (count($data) > 0) {
+			print 'onClick="krumo.toggle(this);"';
+		}
+		print 'onMouseOver="krumo.over(this);" onMouseOut="krumo.out(this);">';
+
+		$empty_str = '';
+		if ($childCount == 0) { $empty_str = ' (empty)'; }
+
+		print "<a class=\"krumo-name\">$name</a> (<em class=\"krumo-type\">Object</em>) ";
+		print "<strong class=\"krumo-class\">" . get_class($data) . "</strong>$empty_str</div>";
+
+		if ($properties) {
+			krumo::_vars($data);
+		}
+		
+		print "</li>";
+	}
 
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
@@ -1238,21 +1148,12 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 	* @static
 	*/
 	Private Static Function _resource($data, $name) {
-?>
-<li class="krumo-child">
-
-	<div class="krumo-element"
-		onMouseOver="krumo.over(this);"
-		onMouseOut="krumo.out(this);">
-
-			<a class="krumo-name"><?php echo $name;?></a>
-			(<em class="krumo-type">Resource</em>)
-			<strong class="krumo-resource"><?php echo get_resource_type($data);?></strong>
-	</div>
-
-</li>
-<?php
-		}
+		print "<li class=\"krumo-child\">";
+		print "<div class=\"krumo-element\" onMouseOver=\"krumo.over(this);\" onMouseOut=\"krumo.out(this);\">";
+		print "<a class=\"krumo-name\">$name</a> (<em class=\"krumo-type\">Resource</em>) ";
+		print "<strong class=\"krumo-resource\">" . get_resource_type($data) . "</strong>";
+		print "</div></li>";
+	}
 
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
@@ -1265,21 +1166,15 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 	* @static
 	*/
 	Private Static Function _boolean($data, $name) {
-?>
-<li class="krumo-child">
+		if ($data == false) { $value = "FALSE"; }
+		elseif ($data == true) { $value = "TRUE"; }
 
-	<div class="krumo-element"
-		onMouseOver="krumo.over(this);"
-		onMouseOut="krumo.out(this);">
-
-			<a class="krumo-name"><?php echo $name;?></a>
-			(<em class="krumo-type">Boolean</em>)
-			<strong class="krumo-boolean"><?php echo $data?'TRUE':'FALSE'?></strong>
-	</div>
-
-</li>
-<?php
-		}
+		print "<li class=\"krumo-child\">";
+		print "<div class=\"krumo-element\" onMouseOver=\"krumo.over(this);\" onMouseOut=\"krumo.out(this);\">";
+		print "<a class=\"krumo-name\">$name</a> (<em class=\"krumo-type\">Boolean</em>) ";
+		print "<strong class=\"krumo-boolean\">$value</strong>";
+		print "</div></li>";
+	}
 
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
@@ -1292,21 +1187,11 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 	* @static
 	*/
 	Private Static Function _integer($data, $name) {
-?>
-<li class="krumo-child">
-
-	<div class="krumo-element"
-		onMouseOver="krumo.over(this);"
-		onMouseOut="krumo.out(this);">
-
-			<a class="krumo-name"><?php echo $name;?></a>
-			(<em class="krumo-type">Integer</em>)
-			<strong class="krumo-integer"><?php echo $data;?></strong>
-	</div>
-
-</li>
-<?php
-		}
+		print "<li class=\"krumo-child\">";
+		print "<div class=\"krumo-element\" onMouseOver=\"krumo.over(this);\" onMouseOut=\"krumo.out(this);\">";
+		print "<a class=\"krumo-name\">$name</a> (<em class=\"krumo-type\">Integer</em>) ";
+		print "<strong class=\"krumo-integer\">$data</strong></div></li>";
+	}
 
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
@@ -1319,21 +1204,11 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 	* @static
 	*/
 	Private Static Function _float($data, $name) {
-?>
-<li class="krumo-child">
-
-	<div class="krumo-element"
-		onMouseOver="krumo.over(this);"
-		onMouseOut="krumo.out(this);">
-
-			<a class="krumo-name"><?php echo $name;?></a>
-			(<em class="krumo-type">Float</em>)
-			<strong class="krumo-float"><?php echo $data;?></strong>
-	</div>
-
-</li>
-<?php
-		}
+		print "<li class=\"krumo-child\">";
+		print "<div class=\"krumo-element\" onMouseOver=\"krumo.over(this);\" onMouseOut=\"krumo.out(this);\">";
+		print "<a class=\"krumo-name\">$name</a> (<em class=\"krumo-type\">Float</em>) ";
+		print "<strong class=\"krumo-float\">$data</strong></div></li>";
+	}
 
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
@@ -1348,8 +1223,13 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 	Private Static Function _string($data, $name) {
 		$collapsed = krumo::_isCollapsed(self::$_level, 1);
 
-		// extra ?
-		//
+		if ($collapsed) {
+			$collapse_style = 'style="display: none;"';
+		} else {
+			$collapse_style = '';
+		}
+
+		// extra
 		$_extra = false;
 		$_ = $data;
 
@@ -1360,48 +1240,38 @@ This is a list of all the values from the <code><b><?php echo realpath($ini_file
 			$_ = substr($data, 0, $truncate_length - 3) . '...';
 			$_extra = true;
 		}
-?>
-<li class="krumo-child">
 
-	<div class="krumo-element<?php echo $_extra ? ' krumo-expand' : '';?>"
-		<?php if ($_extra) {?> onClick="krumo.toggle(this);"<?php } ?>
-		onMouseOver="krumo.over(this);"
-		onMouseOut="krumo.out(this);">
+		$expand_class = '';
+		if ($_extra) { $expand_class = 'krumo-expand'; }
 
-			<a class="krumo-name"><?php echo $name;?></a>
-			(<em class="krumo-type">String,
-				<strong class="krumo-string-length"><?php
-					echo strlen($data) ?> characters</strong> </em>)
-			<strong class="krumo-string"><?php echo htmlSpecialChars($_);?></strong>
-
-			<?php
-			// callback ?
-			//
-			if (is_callable($data)) {
-				?>
-				<span class="krumo-callback"> |
-					(<em class="krumo-type">Callback</em>)
-					<strong class="krumo-string"><?php echo htmlSpecialChars($_);?>();</strong></span>
-				<?php
-				}
-			?>
-
-	</div>
-
-	<?php if ($_extra) { ?>
-	<div class="krumo-nest" <?php if ($collapsed): ?> style="display:none;"<?php endif;?>>
-		<ul class="krumo-node">
-
-			<li class="krumo-child">
-				<div class="krumo-preview"><?php echo htmlSpecialChars($data);?></div>
-			</li>
-
-		</ul>
-	</div>
-	<?php } ?>
-</li>
-<?php
+		print "<li class=\"krumo-child\">";
+		print "<div class=\"krumo-element $expand_class\" ";
+		if ($_extra) { 
+			print " onClick=\"krumo.toggle(this);\" ";
 		}
+		print "onMouseOver=\"krumo.over(this);\" onMouseOut=\"krumo.out(this);\">\n";
+
+		print "<a class=\"krumo-name\">$name</a> ";
+		print "(<em class=\"krumo-type\">String, <strong class=\"krumo-string-length\">" . strlen($data) . " characters</strong></em>) ";
+		print "<strong class=\"krumo-string\">" . htmlSpecialChars($_) . "</strong>";
+
+		// callback
+		if (is_callable($data)) {
+			print "<span class=\"krumo-callback\"> | ";
+			print "(<em class=\"krumo-type\">Callback</em>) <strong class=\"krumo-string\">" . htmlSpecialChars($_) . "()</strong></span>";
+		}
+
+		print "</div>";
+
+		if ($_extra) {
+			print "<div class=\"krumo-nest\" $collapse_style>";
+			print "<ul class=\"krumo-node\">";
+			print "<li class=\"krumo-child\"> <div class=\"krumo-preview\">" . htmlSpecialChars($data) . "</div></li>";
+			print "</ul></div>";
+		}
+
+		print "</li>";
+	}
 
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
