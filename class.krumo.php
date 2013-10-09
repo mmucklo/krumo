@@ -1082,7 +1082,8 @@ Class krumo {
 		print count($data) . " element" . $plural;
 		print "</strong></em>)";
 		if ($sort) { 
-			print " - <span style=\"color: darkred\"><b>sorted</b></span>";
+			$title = "Array has been sorted prior to display. This is configurable in krumo.ini.";
+			print " - <span title=\"$title\" style=\"color: darkred\"><b>sorted</b></span>";
 		}
 
 		// callback
