@@ -784,9 +784,6 @@ Class krumo {
 
 		// array
 		if (is_array($data)) {
-			if (krumo::_config('display','sort_arrays',true)) {
-				ksort($data);
-			}
 			return krumo::_array($data, $name);
 		}
 
@@ -1029,6 +1026,10 @@ Class krumo {
 	</ul>';
 	}
 
+	Private Function is_assoc($var) {
+		return is_array($var) && array_diff_key($var,array_keys(array_keys($var)));
+	}
+
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
 	/**
@@ -1039,7 +1040,17 @@ Class krumo {
 	* @access private
 	* @static
 	*/
-	Private Static Function _array(&$data, $name) {
+	Private Static Function _array($data, $name) {
+		$config_sort = krumo::_config('display','sort_arrays',true);
+
+		// If the sort is enabled in the config (default = yes) and the array is assoc (non-numeric)
+		if (krumo::is_assoc($data) && $config_sort) {
+			ksort($data);
+			$sort = 1;
+		} else {
+			$sort = 0;
+		}
+
 		$childCount = count($data);
 		$collapsed = krumo::_isCollapsed(self::$_level, count($data));
 
@@ -1070,6 +1081,9 @@ Class krumo {
 		print "<a class=\"krumo-name\">$name</a> (<em class=\"krumo-type\">Array, <strong class=\"krumo-array-length\">";
 		print count($data) . " element" . $plural;
 		print "</strong></em>)";
+		if ($sort) { 
+			print " - <span style=\"color: darkred\"><b>sorted</b></span>";
+		}
 
 		// callback
 		if (is_callable($data)) {
