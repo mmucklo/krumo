@@ -1045,8 +1045,17 @@ Class krumo {
 
 		// If the sort is enabled in the config (default = yes) and the array is assoc (non-numeric)
 		if (sizeof($data) > 1 && $config_sort && krumo::is_assoc($data)) {
-			ksort($data);
-			$sort = 1;
+			// Copy the array to a temp variable and sort it
+			$new = $data;
+			ksort($new);
+
+			// If the sorted array is the same as the old don't sort it
+			if ($new === $data) {
+				$sort = 0;
+			} else {
+				$data = $new;
+				$sort = 1;
+			}
 		} else {
 			$sort = 0;
 		}
