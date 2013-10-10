@@ -1044,7 +1044,7 @@ Class krumo {
 		$config_sort = krumo::_config('display','sort_arrays',true);
 
 		// If the sort is enabled in the config (default = yes) and the array is assoc (non-numeric)
-		if (krumo::is_assoc($data) && $config_sort) {
+		if (sizeof($data) > 1 && $config_sort && krumo::is_assoc($data)) {
 			ksort($data);
 			$sort = 1;
 		} else {
