@@ -810,7 +810,7 @@ Class krumo {
 		// boolean
 		if (is_bool($data)) {
 			return krumo::_boolean($data, $name);
-		}
+		}a
 
 		// null
 		if (is_null($data)) {
@@ -1026,7 +1026,7 @@ Class krumo {
 	</ul>';
 	}
 
-	Private Function is_assoc($var) {
+	Private Static Function is_assoc($var) {
 		return is_array($var) && array_diff_key($var,array_keys(array_keys($var)));
 	}
 
