@@ -810,7 +810,7 @@ Class krumo {
 		// boolean
 		if (is_bool($data)) {
 			return krumo::_boolean($data, $name);
-		}a
+		}
 
 		// null
 		if (is_null($data)) {
