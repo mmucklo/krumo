@@ -655,6 +655,8 @@ Class krumo {
 		// If they want the path to the dir, only return the dir part
 		if ($return_dir) { $ret = dirname($ret) . "/"; }
 
+		$ret = preg_replace("|//|","/",$ret);
+
 		return $ret;
 	}
 	
@@ -1237,6 +1239,15 @@ Class krumo {
 		print "<strong class=\"krumo-float\">$data</strong></div></li>";
 	}
 
+	public static function get_icon($name,$title) {
+		$path = dirname(__FILE__) . "/icons/$name.png";
+		$rel  = krumo::calculate_relative_path($path);
+
+		$ret = "<img src=\"$rel\" title=\"$title\" alt=\"name\" />";
+
+		return $ret;
+	}
+
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
 	/**
@@ -1278,7 +1289,18 @@ Class krumo {
 		}
 		print "onMouseOver=\"krumo.over(this);\" onMouseOut=\"krumo.out(this);\">\n";
 
-		print "<a class=\"krumo-name\">$name</a> ";
+		// Check if the key has whitespace in it, if so show it and add an icon explanation
+		$has_white_space = preg_match("/\s/",$name);
+		if ($has_white_space) {
+			// Convert the white space to unicode underbars to visualize it
+			$name  = preg_replace("/\s/","&#9251;",$name);
+			$title = "Note: key contains white space";
+			$icon  = krumo::get_icon("information",$title) . " ";
+		} else {
+			$icon = "";
+		}
+
+		print "<a class=\"krumo-name\">$name</a> $icon";
 		print "(<em class=\"krumo-type\">String, <strong class=\"krumo-string-length\">" . strlen($data) . " characters</strong></em>) ";
 		print "<strong class=\"krumo-string\">" . htmlSpecialChars($_) . "</strong>";
 
