@@ -768,6 +768,24 @@ Class krumo {
 		return $_;
 	}
 
+	private static function sanitize_name($name) {
+		// Check if the key has whitespace in it, if so show it and add an icon explanation
+		$has_white_space = preg_match("/\s/",$name);
+		if ($has_white_space) {
+			// Convert the white space to unicode underbars to visualize it
+			$name  = preg_replace("/\s/","&#9251;",$name);
+			$title = "Note: Key contains white space";
+			$icon  = krumo::get_icon("information",$title);
+
+			$ret = $name . $icon;
+		} else {
+			$ret = $name;
+		}
+
+		return $ret;
+	}
+
+
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
 	/**
@@ -779,6 +797,8 @@ Class krumo {
 	* @static
 	*/
 	private static function _dump(&$data, $name = '...') {
+		$name = krumo::sanitize_name($name);
+
 		// object
 		if (is_object($data)) {
 			return krumo::_object($data, $name);
@@ -1243,7 +1263,7 @@ Class krumo {
 		$path = dirname(__FILE__) . "/icons/$name.png";
 		$rel  = krumo::calculate_relative_path($path);
 
-		$ret = "<img src=\"$rel\" title=\"$title\" alt=\"name\" />";
+		$ret = "<img style=\"padding: 0 2px 0 2px\" src=\"$rel\" title=\"$title\" alt=\"name\" />";
 
 		return $ret;
 	}
