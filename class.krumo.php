@@ -1239,7 +1239,14 @@ Class krumo {
 		print "<li class=\"krumo-child\">";
 		print "<div class=\"krumo-element\" onMouseOver=\"krumo.over(this);\" onMouseOut=\"krumo.out(this);\">";
 		print "<a class=\"krumo-name\">$name</a> (<em class=\"krumo-type\">Integer</em>) ";
-		print "<strong class=\"krumo-integer\">$data</strong></div></li>";
+		print "<strong class=\"krumo-integer\">$data</strong>";
+
+		$ut = krumo::is_datetime($name,$data);
+		if ($ut) {
+			print " aka <strong style=\"color: darkred\">$ut</strong>";
+		}
+
+		print "</div></li>";
 	}
 
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
@@ -1267,6 +1274,17 @@ Class krumo {
 
 		return $ret;
 	}
+
+	private static function is_datetime($name,$value) {
+		// If the name contains date or time, and the value looks like a unixtime
+		if (preg_match("/date|time/i",$name) && ($value > 10000000 && $value < 4000000000)) {
+			$ret = date("r",$value);
+			return $ret;
+		}
+
+		return false;
+	}
+
 
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
@@ -1323,6 +1341,11 @@ Class krumo {
 		print "<a class=\"krumo-name\">$name</a> $icon";
 		print "(<em class=\"krumo-type\">String, <strong class=\"krumo-string-length\">" . strlen($data) . " characters</strong></em>) ";
 		print "<strong class=\"krumo-string\">" . htmlSpecialChars($_) . "</strong>";
+
+		$ut   = krumo::is_datetime($name,$data);
+		if ($ut) {
+			print " aka <strong style=\"color: darkred\">$ut</strong>";
+		}
 
 		// callback
 		if (is_callable($data)) {
