@@ -37,7 +37,7 @@ if (!defined('KRUMO_CAPTURE')) {
 *
 * @package Krumo
 */
-Class krumo {
+class krumo {
 
     /**
     * Return Krumo version
@@ -60,7 +60,7 @@ Class krumo {
     */
     public static function backtrace() {
         // disabled ?
-        if (!krumo::_debug()) {
+        if (!self::_debug()) {
             return false;
         }
 
@@ -795,7 +795,6 @@ Class krumo {
         return $ret;
     }
 
-
     // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
     /**
@@ -1295,7 +1294,6 @@ Class krumo {
         return false;
     }
 
-
     // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
     /**
@@ -1337,18 +1335,7 @@ Class krumo {
         }
         print "onMouseOver=\"krumo.over(this);\" onMouseOut=\"krumo.out(this);\">\n";
 
-        // Check if the key has whitespace in it, if so show it and add an icon explanation
-        $has_white_space = preg_match("/\s/",$name);
-        if ($has_white_space) {
-            // Convert the white space to unicode underbars to visualize it
-            $name  = preg_replace("/\s/","&#9251;",$name);
-            $title = "Note: key contains white space";
-            $icon  = krumo::get_icon("information",$title) . " ";
-        } else {
-            $icon = "";
-        }
-
-        print "<a class=\"krumo-name\">$name</a> $icon";
+        print "<a class=\"krumo-name\">$name</a>";
         print "(<em class=\"krumo-type\">String, <strong class=\"krumo-string-length\">" . strlen($data) . " characters</strong></em>) ";
         print "<strong class=\"krumo-string\">" . htmlSpecialChars($_) . "</strong>";
 
@@ -1356,6 +1343,10 @@ Class krumo {
         if ($ut) {
             print " aka <strong style=\"color: darkred\">$ut</strong>";
         }
+
+        print "<a class=\"krumo-name\">$name</a> ";
+        print "(<em class=\"krumo-type\">String, <strong class=\"krumo-string-length\">" . strlen($data) . " characters</strong></em>) ";
+        print "<strong class=\"krumo-string\">" . htmlSpecialChars($_) . "</strong>";
 
         // callback
         if (is_callable($data)) {
