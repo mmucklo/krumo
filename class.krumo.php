@@ -994,7 +994,7 @@ class krumo {
                 $prefix = null;
                 $setAccessible = false;
 
-                if ($property->isprivate()) {
+                if ($property->isPrivate()) {
                     $setAccessible = true;
                     $prefix = 'private&nbsp;';
                 } else if ($property->isProtected()) {
