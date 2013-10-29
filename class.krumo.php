@@ -47,7 +47,7 @@ class krumo {
     * @static
     */
     public static function version() {
-        return '0.4.3';
+        return '0.4.4';
     }
 
     // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
@@ -617,10 +617,20 @@ class krumo {
         self::$_cascade = $cascade;
     }
 
+    /** 
+    * This allows you to uncollapse items programattically. Example:
+    *
+    * krumo::$expand_all = 1;
+    * krumo($my_array);
+    */
+    public static $expand_all = 0;
+
     /**
     * Determines if a given node will be collapsed or not.
     */
     private static function _isCollapsed($level, $childCount) {
+        if (self::$expand_all) { return false; }
+
         $cascade = self::$_cascade;
 
         if ($cascade == null) {
@@ -654,6 +664,8 @@ class krumo {
 
         // If they want the path to the dir, only return the dir part
         if ($return_dir) { $ret = dirname($ret) . "/"; }
+
+        $ret = preg_replace("|//|","/",$ret);
 
         return $ret;
     }
@@ -766,6 +778,23 @@ class krumo {
         return $_;
     }
 
+    private static function sanitize_name($name) {
+        // Check if the key has whitespace in it, if so show it and add an icon explanation
+        $has_white_space = preg_match("/\s/",$name);
+        if ($has_white_space) {
+            // Convert the white space to unicode underbars to visualize it
+            $name  = preg_replace("/\s/","&#9251;",$name);
+            $title = "Note: Key contains white space";
+            $icon  = krumo::get_icon("information",$title);
+
+            $ret = $name . $icon;
+        } else {
+            $ret = $name;
+        }
+
+        return $ret;
+    }
+
     // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
     /**
@@ -777,6 +806,10 @@ class krumo {
     * @static
     */
     private static function _dump(&$data, $name = '...') {
+        // Highlight elements that have a space in their name.
+        // Spaces are hard to see in the HTML and are hard to troubleshoot
+        $name = krumo::sanitize_name($name);
+
         // object
         if (is_object($data)) {
             return krumo::_object($data, $name);
@@ -831,7 +864,7 @@ class krumo {
     private static function _null($name) {
         print "<li class=\"krumo-child\">";
         print "<div class=\"krumo-element\" onMouseOver=\"krumo.over(this);\" onMouseOut=\"krumo.out(this);\">";
-        print "<a class=\"krumo-name\">$name</a> (<em class=\"krumo-type krumo-null\">NULL</em>)";
+        print "<a class=\"krumo-name\">$name</a> (<strong class=\"krumo-type krumo-null\" style=\"color: darkred;\">NULL</strong>)";
         print "</div></li>";
     }
 
@@ -963,12 +996,12 @@ class krumo {
 
                 if ($property->isPrivate()) {
                     $setAccessible = true;
-                    $prefix = 'private ';
+                    $prefix = 'private&nbsp;';
                 } else if ($property->isProtected()) {
                     $setAccessible = true;
-                    $prefix = 'protected ';
+                    $prefix = 'protected&nbsp;';
                 } else if ($property->isPublic()) {
-                    $prefix = 'public ';
+                    $prefix = 'public&nbsp;';
                 }
 
                 $name = $property->getName();
@@ -978,7 +1011,7 @@ class krumo {
 
                 $value = $property->getValue($data);
                 
-                krumo::_dump($value, $prefix . " '$name'");
+                krumo::_dump($value, $prefix . "'$name'");
                 if ($setAccessible) {
                     $property->setAccessible(false);
                 }
@@ -1092,7 +1125,7 @@ class krumo {
         print "</strong></em>)";
         if ($sort) { 
             $title = "Array has been sorted prior to display. This is configurable in krumo.ini.";
-            print " - <span title=\"$title\" style=\"color: darkred\"><b>sorted</b></span>";
+            print " - <span title=\"$title\" style=\"color: darkred\"><strong>Sorted</strong></span>";
         }
 
         // callback
@@ -1199,7 +1232,7 @@ class krumo {
         print "<li class=\"krumo-child\">";
         print "<div class=\"krumo-element\" onMouseOver=\"krumo.over(this);\" onMouseOut=\"krumo.out(this);\">";
         print "<a class=\"krumo-name\">$name</a> (<em class=\"krumo-type\">Boolean</em>) ";
-        print "<strong class=\"krumo-boolean\">$value</strong>";
+        print "<strong class=\"krumo-boolean\" style=\"color: darkred;\">$value</strong>";
         print "</div></li>";
     }
 
@@ -1217,7 +1250,14 @@ class krumo {
         print "<li class=\"krumo-child\">";
         print "<div class=\"krumo-element\" onMouseOver=\"krumo.over(this);\" onMouseOut=\"krumo.out(this);\">";
         print "<a class=\"krumo-name\">$name</a> (<em class=\"krumo-type\">Integer</em>) ";
-        print "<strong class=\"krumo-integer\">$data</strong></div></li>";
+        print "<strong class=\"krumo-integer\">$data</strong>";
+
+        $ut = krumo::is_datetime($name,$data);
+        if ($ut) {
+            print " aka <strong style=\"color: darkred\">$ut</strong>";
+        }
+
+        print "</div></li>";
     }
 
     // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
@@ -1235,6 +1275,25 @@ class krumo {
         print "<div class=\"krumo-element\" onMouseOver=\"krumo.over(this);\" onMouseOut=\"krumo.out(this);\">";
         print "<a class=\"krumo-name\">$name</a> (<em class=\"krumo-type\">Float</em>) ";
         print "<strong class=\"krumo-float\">$data</strong></div></li>";
+    }
+
+    public static function get_icon($name,$title) {
+        $path = dirname(__FILE__) . "/icons/$name.png";
+        $rel  = krumo::calculate_relative_path($path);
+
+        $ret = "<img style=\"padding: 0 2px 0 2px\" src=\"$rel\" title=\"$title\" alt=\"name\" />";
+
+        return $ret;
+    }
+
+    private static function is_datetime($name,$value) {
+        // If the name contains date or time, and the value looks like a unixtime
+        if (preg_match("/date|time/i",$name) && ($value > 10000000 && $value < 4000000000)) {
+            $ret = date("r",$value);
+            return $ret;
+        }
+
+        return false;
     }
 
     // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
@@ -1282,6 +1341,11 @@ class krumo {
         print "(<em class=\"krumo-type\">String, <strong class=\"krumo-string-length\">" . strlen($data) . " characters</strong></em>) ";
         print "<strong class=\"krumo-string\">" . htmlSpecialChars($_) . "</strong>";
 
+        $ut   = krumo::is_datetime($name,$data);
+        if ($ut) {
+            print " aka <strong style=\"color: darkred\">$ut</strong>";
+        }
+
         // callback
         if (is_callable($data)) {
             print "<span class=\"krumo-callback\"> | ";
@@ -1314,7 +1378,7 @@ class krumo {
 *
 * @see krumo::dump()
 */
-Function krumo() {
+function krumo() {
     $_ = func_get_args();
     return call_user_func_array(array('krumo', 'dump'), $_);
 }
@@ -1333,4 +1397,5 @@ function kd() {
 
 //////////////////////////////////////////////////////////////////////////////
 
+// vim: tabstop=4 shiftwidth=4 expandtab autoindent
 ?>
