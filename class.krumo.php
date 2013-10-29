@@ -806,6 +806,8 @@ class krumo {
     * @static
     */
     private static function _dump(&$data, $name = '...') {
+        // Highlight elements that have a space in their name.
+        // Spaces are hard to see in the HTML and are hard to troubleshoot
         $name = krumo::sanitize_name($name);
 
         // object
@@ -1343,10 +1345,6 @@ class krumo {
         if ($ut) {
             print " aka <strong style=\"color: darkred\">$ut</strong>";
         }
-
-        print "<a class=\"krumo-name\">$name</a> ";
-        print "(<em class=\"krumo-type\">String, <strong class=\"krumo-string-length\">" . strlen($data) . " characters</strong></em>) ";
-        print "<strong class=\"krumo-string\">" . htmlSpecialChars($_) . "</strong>";
 
         // callback
         if (is_callable($data)) {
