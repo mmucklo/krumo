@@ -776,7 +776,7 @@ class krumo {
     * @access private
     * @static
     */
-    private static function _dump(&$data, $name = '...') {
+    private static function _dump(&$data, $name = '&hellip;') {
         // object
         if (is_object($data)) {
             return krumo::_object($data, $name);
@@ -831,7 +831,7 @@ class krumo {
     private static function _null($name) {
         print "<li class=\"krumo-child\">";
         print "<div class=\"krumo-element\" onMouseOver=\"krumo.over(this);\" onMouseOut=\"krumo.out(this);\">";
-        print "<a class=\"krumo-name\">$name</a> (<em class=\"krumo-type krumo-null\">NULL</em>)";
+        print "<a class=\"krumo-name\">$name</a> =&gt; <em class=\"krumo-type krumo-null\">NULL</em>";
         print "</div></li>";
     }
 
@@ -978,7 +978,7 @@ class krumo {
 
                 $value = $property->getValue($data);
                 
-                krumo::_dump($value, $prefix . " '$name'");
+                krumo::_dump($value, "<span>$prefix</span> $name");
                 if ($setAccessible) {
                     $property->setAccessible(false);
                 }
@@ -1018,7 +1018,7 @@ class krumo {
     <ul class="krumo-node">
         <li class="krumo-child">
             <div class="krumo-element" onMouseOver="krumo.over(this);" onMouseOut="krumo.out(this);">
-                <a class="krumo-name"><big>&#8734;</big></a>
+                <a class="krumo-name">&#8734;</a>
                 (<em class="krumo-type">Recursion</em>)
             </div>
 
@@ -1087,10 +1087,14 @@ class krumo {
         }
 
         print "onMouseOver=\"krumo.over(this);\" onMouseOut=\"krumo.out(this);\">";
-        print "<a class=\"krumo-name\">$name</a> (<em class=\"krumo-type\">Array, <strong class=\"krumo-array-length\">";
-        print count($data) . " element" . $plural;
-        print "</strong></em>)";
-        if ($sort) { 
+        print "<a class=\"krumo-name\">$name</a> <em class=\"krumo-type\">arr(<strong class=\"krumo-array-length\">";
+        print count($data) . ")</strong></em>";
+
+        if (count($data)>0) {
+            print " &hellip;";
+        }
+
+        if ($sort) {
             $title = "Array has been sorted prior to display. This is configurable in krumo.ini.";
             print " - <span title=\"$title\" style=\"color: darkred\"><b>sorted</b></span>";
         }
@@ -1154,8 +1158,8 @@ class krumo {
         $empty_str = '';
         if ($childCount == 0) { $empty_str = ' (empty)'; }
 
-        print "<a class=\"krumo-name\">$name</a> (<em class=\"krumo-type\">Object</em>) ";
-        print "<strong class=\"krumo-class\">" . get_class($data) . "</strong>$empty_str</div>";
+        print "<a class=\"krumo-name\">$name</a> <em class=\"krumo-type\">obj</em> ";
+        print "=&gt; <strong class=\"krumo-class\">" . get_class($data) . "</strong>$empty_str</div>";
 
         if ($properties) {
             krumo::_vars($data);
@@ -1177,8 +1181,8 @@ class krumo {
     private static function _resource($data, $name) {
         print "<li class=\"krumo-child\">";
         print "<div class=\"krumo-element\" onMouseOver=\"krumo.over(this);\" onMouseOut=\"krumo.out(this);\">";
-        print "<a class=\"krumo-name\">$name</a> (<em class=\"krumo-type\">Resource</em>) ";
-        print "<strong class=\"krumo-resource\">" . get_resource_type($data) . "</strong>";
+        print "<a class=\"krumo-name\">$name</a> <em class=\"krumo-type\">res</em> ";
+        print "=&gt; <strong class=\"krumo-resource\">" . get_resource_type($data) . "</strong>";
         print "</div></li>";
     }
 
@@ -1198,8 +1202,8 @@ class krumo {
 
         print "<li class=\"krumo-child\">";
         print "<div class=\"krumo-element\" onMouseOver=\"krumo.over(this);\" onMouseOut=\"krumo.out(this);\">";
-        print "<a class=\"krumo-name\">$name</a> (<em class=\"krumo-type\">Boolean</em>) ";
-        print "<strong class=\"krumo-boolean\">$value</strong>";
+        print "<a class=\"krumo-name\">$name</a> <em class=\"krumo-type\">bool</em> ";
+        print "=&gt; <strong class=\"krumo-boolean\">$value</strong>";
         print "</div></li>";
     }
 
@@ -1216,8 +1220,8 @@ class krumo {
     private static function _integer($data, $name) {
         print "<li class=\"krumo-child\">";
         print "<div class=\"krumo-element\" onMouseOver=\"krumo.over(this);\" onMouseOut=\"krumo.out(this);\">";
-        print "<a class=\"krumo-name\">$name</a> (<em class=\"krumo-type\">Integer</em>) ";
-        print "<strong class=\"krumo-integer\">$data</strong></div></li>";
+        print "<a class=\"krumo-name\">$name</a> <em class=\"krumo-type\">int</em> ";
+        print "=&gt; <strong class=\"krumo-integer\">$data</strong></div></li>";
     }
 
     // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
@@ -1233,8 +1237,8 @@ class krumo {
     private static function _float($data, $name) {
         print "<li class=\"krumo-child\">";
         print "<div class=\"krumo-element\" onMouseOver=\"krumo.over(this);\" onMouseOut=\"krumo.out(this);\">";
-        print "<a class=\"krumo-name\">$name</a> (<em class=\"krumo-type\">Float</em>) ";
-        print "<strong class=\"krumo-float\">$data</strong></div></li>";
+        print "<a class=\"krumo-name\">$name</a> <em class=\"krumo-type\">float</em> ";
+        print "=&gt; <strong class=\"krumo-float\">$data</strong></div></li>";
     }
 
     // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
@@ -1264,7 +1268,7 @@ class krumo {
         $truncate_length = krumo::_config('display', 'truncate_length', 100);
 
         if (strLen($data) > $truncate_length ) {
-            $_ = substr($data, 0, $truncate_length - 3) . '...';
+            $_ = substr($data, 0, $truncate_length - 3) . '&hellip;';
             $_extra = true;
         }
 
@@ -1279,8 +1283,8 @@ class krumo {
         print "onMouseOver=\"krumo.over(this);\" onMouseOut=\"krumo.out(this);\">\n";
 
         print "<a class=\"krumo-name\">$name</a> ";
-        print "(<em class=\"krumo-type\">String, <strong class=\"krumo-string-length\">" . strlen($data) . " characters</strong></em>) ";
-        print "<strong class=\"krumo-string\">" . htmlSpecialChars($_) . "</strong>";
+        print "<em class=\"krumo-type\">str(<strong class=\"krumo-string-length\">" . strlen($data) . ")</strong></em> ";
+        print "=&gt; <strong class=\"krumo-string\">" . htmlSpecialChars($_) . "</strong>";
 
         // callback
         if (is_callable($data)) {
