@@ -985,12 +985,12 @@ Class krumo {
 
 				if ($property->isprivate()) {
 					$setAccessible = true;
-					$prefix = 'private ';
+					$prefix = 'private&nbsp;';
 				} else if ($property->isProtected()) {
 					$setAccessible = true;
-					$prefix = 'protected ';
+					$prefix = 'protected&nbsp;';
 				} else if ($property->isPublic()) {
-					$prefix = 'public ';
+					$prefix = 'public&nbsp;';
 				}
 
 				$name = $property->getName();
@@ -1000,7 +1000,7 @@ Class krumo {
 
 				$value = $property->getValue($data);
 				
-				krumo::_dump($value, $prefix . " '$name'");
+				krumo::_dump($value, $prefix . "'$name'");
 				if ($setAccessible) {
 					$property->setAccessible(false);
 				}
