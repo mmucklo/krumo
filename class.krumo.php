@@ -1337,7 +1337,7 @@ class krumo {
         }
         print "onMouseOver=\"krumo.over(this);\" onMouseOut=\"krumo.out(this);\">\n";
 
-        print "<a class=\"krumo-name\">$name</a>";
+        print "<a class=\"krumo-name\">$name</a> ";
         print "(<em class=\"krumo-type\">String, <strong class=\"krumo-string-length\">" . strlen($data) . " characters</strong></em>) ";
         print "<strong class=\"krumo-string\">" . htmlSpecialChars($_) . "</strong>";
 
