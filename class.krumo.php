@@ -617,10 +617,20 @@ Class krumo {
 		self::$_cascade = $cascade;
 	}
 
+	/** 
+	* This allows you to uncollapse items programattically. Example:
+	*
+	* krumo::$expand_all = 1;
+	* krumo($my_array);
+	*/
+	public static $expand_all = 0;
+
 	/**
 	* Determines if a given node will be collapsed or not.
 	*/
 	private static function _isCollapsed($level, $childCount) {
+		if (self::$expand_all) { return false; }
+
 		$cascade = self::$_cascade;
 
 		if ($cascade == null) {

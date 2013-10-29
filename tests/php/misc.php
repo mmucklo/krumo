@@ -1,6 +1,6 @@
 <?PHP
 
-include("class.krumo.php");
+include("../../class.krumo.php");
 
 $fp = fopen(__FILE__,"r");
 
@@ -16,6 +16,11 @@ $a = array(
 	'func_str'  => 'preg_replace',
 	'address'   => array('street' => '123 Fake Street', 'city' => 'Portland', 'state' => 'Maine'),
 );
+
+if (isset($_GET['short'])) {
+	krumo::$expand_all = 1;
+	kd($a);
+}
 
 print "<h2>krumo capture</h2>\n";
 $str = k(array('foo' => 'bar'),KRUMO_CAPTURE);
