@@ -47,7 +47,7 @@ class krumo {
     * @static
     */
     public static function version() {
-        return '0.4.3';
+        return '0.4.4';
     }
 
     // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
@@ -864,7 +864,7 @@ class krumo {
     private static function _null($name) {
         print "<li class=\"krumo-child\">";
         print "<div class=\"krumo-element\" onMouseOver=\"krumo.over(this);\" onMouseOut=\"krumo.out(this);\">";
-        print "<a class=\"krumo-name\">$name</a> (<em class=\"krumo-type krumo-null\">NULL</em>)";
+        print "<a class=\"krumo-name\">$name</a> (<strong class=\"krumo-type krumo-null\" style=\"color: darkred;\">NULL</strong>)";
         print "</div></li>";
     }
 
@@ -1125,7 +1125,7 @@ class krumo {
         print "</strong></em>)";
         if ($sort) { 
             $title = "Array has been sorted prior to display. This is configurable in krumo.ini.";
-            print " - <span title=\"$title\" style=\"color: darkred\"><b>sorted</b></span>";
+            print " - <span title=\"$title\" style=\"color: darkred\"><strong>Sorted</strong></span>";
         }
 
         // callback
@@ -1232,7 +1232,7 @@ class krumo {
         print "<li class=\"krumo-child\">";
         print "<div class=\"krumo-element\" onMouseOver=\"krumo.over(this);\" onMouseOut=\"krumo.out(this);\">";
         print "<a class=\"krumo-name\">$name</a> (<em class=\"krumo-type\">Boolean</em>) ";
-        print "<strong class=\"krumo-boolean\">$value</strong>";
+        print "<strong class=\"krumo-boolean\" style=\"color: darkred;\">$value</strong>";
         print "</div></li>";
     }
 
