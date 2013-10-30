@@ -12,6 +12,7 @@ $a = array(
 	'bool'            => true,
 	' leading_space'  => 6*8,
 	'trailing_space ' => 'grapes',
+	'middle space'    => 'Mt. Rushmore',
 	'phones'          => array(5036541278,8714077831,'x253'),
 	'long_str'        => "This is a really long string full of a\n bunch of crap that should eventually wrap. There once was a man from New Mexico...",
 	'empty_arr'       => array(),
