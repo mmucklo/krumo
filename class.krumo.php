@@ -805,7 +805,7 @@ class krumo {
     * @access private
     * @static
     */
-    private static function _dump(&$data, $name = '...') {
+    private static function _dump(&$data, $name = '…') {
         // Highlight elements that have a space in their name.
         // Spaces are hard to see in the HTML and are hard to troubleshoot
         $name = krumo::sanitize_name($name);
@@ -864,8 +864,7 @@ class krumo {
     private static function _null($name) {
         print "<li class=\"krumo-child\">";
         print "<div class=\"krumo-element\" onMouseOver=\"krumo.over(this);\" onMouseOut=\"krumo.out(this);\">";
-        print "<a class=\"krumo-name\">$name</a> (<strong class=\"krumo-type krumo-null\" style=\"color: darkred;\">NULL</strong>)";
-
+        print "<a class=\"krumo-name\">$name</a> " . krumo::get_separator() . " <em class=\"krumo-type krumo-null\">NULL</em>";
         print "</div></li>";
     }
 
@@ -1011,10 +1010,8 @@ class krumo {
                 }
 
                 $value = $property->getValue($data);
-                
 
-                krumo::_dump($value, $prefix . "'$name'");
-
+                krumo::_dump($value, "<span>$prefix</span>&nbsp;$name");
                 if ($setAccessible) {
                     $property->setAccessible(false);
                 }
@@ -1123,7 +1120,7 @@ class krumo {
         }
 
         print "onMouseOver=\"krumo.over(this);\" onMouseOut=\"krumo.out(this);\">";
-        print "<a class=\"krumo-name\">$name</a> <em class=\"krumo-type\">arr(<strong class=\"krumo-array-length\">";
+        print "<a class=\"krumo-name\">$name</a> <em class=\"krumo-type\">Array(<strong class=\"krumo-array-length\">";
         print count($data) . ")</strong></em>";
 
         if (count($data)>0) {
@@ -1194,8 +1191,8 @@ class krumo {
         $empty_str = '';
         if ($childCount == 0) { $empty_str = ' (empty)'; }
 
-        print "<a class=\"krumo-name\">$name</a> <em class=\"krumo-type\">obj</em> ";
-        print "=&gt; <strong class=\"krumo-class\">" . get_class($data) . "</strong>$empty_str</div>";
+        print "<a class=\"krumo-name\">$name</a> <em class=\"krumo-type\">Object</em> ";
+        print krumo::get_separator() . " <strong class=\"krumo-class\">" . get_class($data) . "</strong>$empty_str</div>";
 
         if ($properties) {
             krumo::_vars($data);
@@ -1217,8 +1214,8 @@ class krumo {
     private static function _resource($data, $name) {
         print "<li class=\"krumo-child\">";
         print "<div class=\"krumo-element\" onMouseOver=\"krumo.over(this);\" onMouseOut=\"krumo.out(this);\">";
-        print "<a class=\"krumo-name\">$name</a> <em class=\"krumo-type\">res</em> ";
-        print "=&gt; <strong class=\"krumo-resource\">" . get_resource_type($data) . "</strong>";
+        print "<a class=\"krumo-name\">$name</a> <em class=\"krumo-type\">Resource</em> ";
+        print krumo::get_separator() . " <strong class=\"krumo-resource\">" . get_resource_type($data) . "</strong>";
         print "</div></li>";
     }
 
@@ -1238,10 +1235,8 @@ class krumo {
 
         print "<li class=\"krumo-child\">";
         print "<div class=\"krumo-element\" onMouseOver=\"krumo.over(this);\" onMouseOut=\"krumo.out(this);\">";
-
-        print "<a class=\"krumo-name\">$name</a> (<em class=\"krumo-type\">Boolean</em>) ";
-        print "<strong class=\"krumo-boolean\" style=\"color: darkred;\">$value</strong>";
-
+        print "<a class=\"krumo-name\">$name</a> <em class=\"krumo-type\">Boolean</em> ";
+        print krumo::get_separator() . " <strong class=\"krumo-boolean\">$value</strong>";
         print "</div></li>";
     }
 
@@ -1258,17 +1253,15 @@ class krumo {
     private static function _integer($data, $name) {
         print "<li class=\"krumo-child\">";
         print "<div class=\"krumo-element\" onMouseOver=\"krumo.over(this);\" onMouseOut=\"krumo.out(this);\">";
+        print "<a class=\"krumo-name\">$name</a> <em class=\"krumo-type\">Integer</em> ";
+        print krumo::get_separator() . " <strong class=\"krumo-integer\">$data</strong>";
 
-        print "<a class=\"krumo-name\">$name</a> (<em class=\"krumo-type\">Integer</em>) ";
-        print "<strong class=\"krumo-integer\">$data</strong>";
-
-        $ut = krumo::is_datetime($name,$data);
+        $ut = krumo::is_datetime($name, $data);
         if ($ut) {
-            print " aka <strong style=\"color: darkred\">$ut</strong>";
+            print " ~ <strong class=\"krumo-datetime\">$ut</strong>";
         }
 
         print "</div></li>";
-
     }
 
     // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
@@ -1284,8 +1277,8 @@ class krumo {
     private static function _float($data, $name) {
         print "<li class=\"krumo-child\">";
         print "<div class=\"krumo-element\" onMouseOver=\"krumo.over(this);\" onMouseOut=\"krumo.out(this);\">";
-        print "<a class=\"krumo-name\">$name</a> <em class=\"krumo-type\">float</em> ";
-        print "=&gt; <strong class=\"krumo-float\">$data</strong></div></li>";
+        print "<a class=\"krumo-name\">$name</a> <em class=\"krumo-type\">Float</em> ";
+        print krumo::get_separator() . " <strong class=\"krumo-float\">$data</strong></div></li>";
     }
 
     public static function get_icon($name,$title) {
@@ -1296,6 +1289,20 @@ class krumo {
 
         return $ret;
     }
+
+
+    /**
+     * Get the separator to use for separating 'key' / 'value' pairs. Defaults to ' => '
+     *
+     * @return string
+     */
+    public static function get_separator() {
+
+        $separator = krumo::_config('display', 'separator', " =&gt; ");
+
+        return $separator;
+    }
+
 
     private static function is_datetime($name,$value) {
         // If the name contains date or time, and the value looks like a unixtime
@@ -1331,10 +1338,10 @@ class krumo {
         $_ = $data;
 
         // Get the truncate length from the config, or default to 100
-        $truncate_length = krumo::_config('display', 'truncate_length', 100);
+        $truncate_length = krumo::_config('display', 'truncate_length', 80);
 
         if (strLen($data) > $truncate_length ) {
-            $_ = substr($data, 0, $truncate_length - 3) . '&hellip;';
+            $_ = substr($data, 0, $truncate_length - 1) . '…';
             $_extra = true;
         }
 
@@ -1349,12 +1356,12 @@ class krumo {
         print "onMouseOver=\"krumo.over(this);\" onMouseOut=\"krumo.out(this);\">\n";
 
         print "<a class=\"krumo-name\">$name</a> ";
-        print "<em class=\"krumo-type\">str(<strong class=\"krumo-string-length\">" . strlen($data) . ")</strong></em> ";
-        print "=&gt; <strong class=\"krumo-string\">" . htmlSpecialChars($_) . "</strong>";
+        print "<em class=\"krumo-type\">String(<strong class=\"krumo-string-length\">" . strlen($data) . ")</strong></em> ";
+        print krumo::get_separator() . " <strong class=\"krumo-string\">" . htmlSpecialChars($_) . "</strong>";
 
-        $ut   = krumo::is_datetime($name,$data);
+        $ut = krumo::is_datetime($name, $data);
         if ($ut) {
-            print " aka <strong style=\"color: darkred\">$ut</strong>";
+            print " ~ <strong class=\"krumo-datetime\">$ut</strong>";
         }
 
         // callback
