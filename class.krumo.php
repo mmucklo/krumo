@@ -805,7 +805,7 @@ class krumo {
     * @access private
     * @static
     */
-    private static function _dump(&$data, $name = '…') {
+    private static function _dump(&$data, $name = 'â€¦') {
         // Highlight elements that have a space in their name.
         // Spaces are hard to see in the HTML and are hard to troubleshoot
         $name = krumo::sanitize_name($name);
@@ -1341,7 +1341,7 @@ class krumo {
         $truncate_length = krumo::_config('display', 'truncate_length', 80);
 
         if (strLen($data) > $truncate_length ) {
-            $_ = substr($data, 0, $truncate_length - 1) . '…';
+            $_ = substr($data, 0, $truncate_length - 1) . 'â€¦';
             $_extra = true;
         }
 
