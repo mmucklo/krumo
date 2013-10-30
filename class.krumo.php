@@ -1121,7 +1121,7 @@ class krumo {
 
         print "onMouseOver=\"krumo.over(this);\" onMouseOut=\"krumo.out(this);\">";
         print "<a class=\"krumo-name\">$name</a> <em class=\"krumo-type\">Array(<strong class=\"krumo-array-length\">";
-        print count($data) . ")</strong></em>";
+        print count($data) . "</strong>)</em>";
 
         if ($sort) {
             $title = "Array has been sorted prior to display. This is configurable in krumo.ini.";
@@ -1352,7 +1352,7 @@ class krumo {
         print "onMouseOver=\"krumo.over(this);\" onMouseOut=\"krumo.out(this);\">\n";
 
         print "<a class=\"krumo-name\">$name</a> ";
-        print "<em class=\"krumo-type\">String(<strong class=\"krumo-string-length\">" . strlen($data) . ")</strong></em> ";
+        print "<em class=\"krumo-type\">String(<strong class=\"krumo-string-length\">" . strlen($data) . "</strong>)</em> ";
         print krumo::get_separator() . " <strong class=\"krumo-string\">" . htmlSpecialChars($_) . "</strong>";
 
         $ut = krumo::is_datetime($name, $data);
