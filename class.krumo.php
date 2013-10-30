@@ -1338,7 +1338,7 @@ class krumo {
         $_ = $data;
 
         // Get the truncate length from the config, or default to 100
-        $truncate_length = krumo::_config('display', 'truncate_length', 80);
+        $truncate_length = krumo::_config('display', 'truncate_length', 100);
 
         if (strLen($data) > $truncate_length ) {
             $_ = substr($data, 0, $truncate_length - 1) . '…';
