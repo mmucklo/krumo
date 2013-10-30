@@ -19,6 +19,7 @@ $a = array(
 	'func_str'        => 'preg_replace',
 	'address'         => array('street' => '123 Fake Street', 'city' => 'Portland', 'state' => 'Maine'),
 	'unixtime'        => 1231241234,
+	'microtime'       => microtime(1),
 );
 
 if (isset($_GET['short'])) {
