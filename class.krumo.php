@@ -996,12 +996,12 @@ class krumo {
 
                 if ($property->isPrivate()) {
                     $setAccessible = true;
-                    $prefix = 'private&nbsp;';
+                    $prefix = 'private';
                 } else if ($property->isProtected()) {
                     $setAccessible = true;
-                    $prefix = 'protected&nbsp;';
+                    $prefix = 'protected';
                 } else if ($property->isPublic()) {
-                    $prefix = 'public&nbsp;';
+                    $prefix = 'public';
                 }
 
                 $name = $property->getName();
