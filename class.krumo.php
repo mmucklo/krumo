@@ -1274,7 +1274,14 @@ class krumo {
         print "<li class=\"krumo-child\">";
         print "<div class=\"krumo-element\" onMouseOver=\"krumo.over(this);\" onMouseOut=\"krumo.out(this);\">";
         print "<a class=\"krumo-name\">$name</a> <em class=\"krumo-type\">Float</em> ";
-        print krumo::get_separator() . " <strong class=\"krumo-float\">$data</strong></div></li>";
+        print krumo::get_separator() . " <strong class=\"krumo-float\">$data</strong>";
+
+        $ut = krumo::is_datetime($name,$data);
+        if ($ut) {
+            print " ~ <strong class=\"krumo-datetime\">$ut</strong>";
+        }
+
+        print "</div></li>";
     }
 
     public static function get_icon($name,$title) {
