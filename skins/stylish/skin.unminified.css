@@ -157,10 +157,18 @@ strong.krumo-integer {
 
 }
 
-strong.krumo-boolean, em.krumo-null {
-    font: 13px/16px Menlo, Consolas, Inconsolata, "Andale Mono", "Courier New", monospace; 
-    color: #000;
+strong.krumo-boolean,
+strong.krumo-null {
+    font: 13px/16px Menlo, Consolas, Inconsolata, "Andale Mono", "Courier New", monospace;
     font-weight: bold;
+    color: #700;
+}
+
+strong.krumo-datetime,
+strong.krumo-sorted {
+    font-family: "Helvetica Neue", Helvetica, Verdana, Arial, sans-serif;
+    font-weight: bold;
+    color: #700;
 }
 
 strong.krumo-class {
