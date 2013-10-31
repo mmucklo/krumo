@@ -47,7 +47,7 @@ class krumo {
     * @static
     */
     public static function version() {
-        return '0.4.4';
+        return '0.5.0';
     }
 
     // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
