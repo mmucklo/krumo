@@ -805,7 +805,7 @@ class krumo {
     * @access private
     * @static
     */
-    private static function _dump(&$data, $name = '…') {
+    private static function _dump(&$data, $name = '&hellip;') {
         // Highlight elements that have a space in their name.
         // Spaces are hard to see in the HTML and are hard to troubleshoot
         $name = krumo::sanitize_name($name);
@@ -1344,7 +1344,7 @@ class krumo {
         $truncate_length = krumo::_config('display', 'truncate_length', 100);
 
         if (strLen($data) > $truncate_length ) {
-            $_ = substr($data, 0, $truncate_length - 1) . '…';
+            $_ = substr($data, 0, $truncate_length - 1);
             $_extra = true;
         }
 
@@ -1360,7 +1360,12 @@ class krumo {
 
         print "<a class=\"krumo-name\">$name</a> ";
         print "<em class=\"krumo-type\">String(<strong class=\"krumo-string-length\">" . strlen($data) . "</strong>)</em> ";
-        print krumo::get_separator() . " <strong class=\"krumo-string\">" . htmlSpecialChars($_) . "</strong>";
+        print krumo::get_separator() . " <strong class=\"krumo-string\">" . htmlspecialchars($_);
+        // This has to go AFTER the htmlspecialchars
+        if ($_extra) {
+            print "&hellip;";
+        }
+        print "</strong>";
 
         $ut = krumo::is_datetime($name, $data);
         if ($ut) {
