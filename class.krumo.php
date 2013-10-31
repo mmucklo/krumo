@@ -686,7 +686,7 @@ class krumo {
         }
 
         $css = '';
-        $skin = krumo::_config('skin', 'selected', 'default');
+        $skin = krumo::_config('skin', 'selected', 'stylish');
 
         // custom selected skin
         $rel_css_file = "skins/{$skin}/skin.css";
@@ -697,8 +697,8 @@ class krumo {
 
         // default skin
         if (!$css && ($skin != 'default')) {
-            $skin         = 'default';
-            $rel_css_file = "skins/default/skin.css";
+            $skin         = 'stylish';
+            $rel_css_file = "skins/$skin/skin.css";
             $css_file     = KRUMO_DIR . $rel_css_file;
             $css          = join(file($css_file));
         }
