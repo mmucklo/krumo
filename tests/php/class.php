@@ -2,7 +2,8 @@
 
 require('../../class.krumo.php');
 
-class A {
+class A
+{
     public $b;
     public $c;
 }
