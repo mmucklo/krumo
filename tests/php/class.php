@@ -15,3 +15,4 @@ $x->b->c = new A();
 $x->b->c->b = new A();
 
 krumo($x);
+

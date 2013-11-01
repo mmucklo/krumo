@@ -45,12 +45,12 @@ $k = new krumo;
 
 class bar
 {
-        public $b = 'bb';
-        public $a = 'aa';
+    public $b = 'bb';
+    public $a = 'aa';
 
-        function foo()
-        {
-            return 'bar';
-        }
+    function foo()
+    {
+        return 'bar';
+    }
 }
 
