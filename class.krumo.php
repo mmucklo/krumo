@@ -7,7 +7,7 @@
 * which are used by a lot of PHP developers.
 *
 * @original author Kaloyan K. Tsvetkov <kaloyan@kaloyan.info>
-* @license http://opensource.org/licenses/lgpl-license.php GNU Lesser General public License Version 2.1
+* @license http://opensource.org/licenses/lgpl-license.php GNU Lesser General Public License Version 2.1
 *
 * https://github.com/oodle/krumo
 */
