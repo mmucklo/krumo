@@ -119,11 +119,11 @@ li.krumo-footnote {
 	line-height: 13px;
 }
 
-div.krumo-version {
+.krumo-version {
 	float: right;
 }
 
-li.krumo-footnote h6 {
+.krumo-version-number {
 	font-family: "Helvetica Neue",Helvetica,Verdana,Arial,sans-serif;
 	font-weight: 700;
 	font-size: 11px;
@@ -131,9 +131,6 @@ li.krumo-footnote h6 {
 	padding: 0;
 	color: #366D6D;
 	display: inline;
-}
-
-* html li.krumo-footnote h6 {
 	margin-right: 3px;
 }
 
