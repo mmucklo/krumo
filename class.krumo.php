@@ -51,7 +51,6 @@ Class krumo {
         return '0.5.0';
     }
 
-    // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
     /**
      * Prints a debug backtrace
@@ -431,7 +430,6 @@ Class krumo {
         return krumo::dump($_);
     }
 
-    // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
     /**
      * Dump information about a variable
@@ -546,7 +544,6 @@ Class krumo {
     // End of dump()
     }
 
-    // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
     /**
       * Configuration array.
@@ -593,7 +590,6 @@ Class krumo {
 
     private static $lineNumberTestCallback = null;
 
-    // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
     /**
      * Cascade configuration array
@@ -655,7 +651,6 @@ Class krumo {
         }
     }
 
-    // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
     /**
      * Calculate the relative path of a given absolute URL
@@ -747,7 +742,6 @@ Class krumo {
         return $_css;
     }
 
-    // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
     /**
      * Enable Krumo
@@ -812,7 +806,6 @@ Class krumo {
         return $ret;
     }
 
-    // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
     /**
      * Dump information about a variable
@@ -869,7 +862,6 @@ Class krumo {
         }
     }
 
-    // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
     /**
      * Render a dump for a NULL value
@@ -893,7 +885,6 @@ Class krumo {
 
     }
 
-    // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
     /**
      * Return the marked used to stain arrays
@@ -913,7 +904,6 @@ Class krumo {
         return $_recursion_marker;
     }
 
-    // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
     /**
      * Adds a variable to the hive of arrays and objects which
@@ -957,7 +947,6 @@ Class krumo {
         return $_[0];
     }
 
-    // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
     /**
      * Level of recursion.
@@ -1064,7 +1053,6 @@ Class krumo {
         self::$_level--;
     }
 
-    // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
     /**
      * Render a block that detected recursion
@@ -1094,7 +1082,6 @@ Class krumo {
         return is_array($var) && array_diff_key($var,array_keys(array_keys($var)));
     }
 
-    // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
     /**
      * Render a dump for an array
@@ -1188,7 +1175,6 @@ Class krumo {
         print "</li>";
     }
 
-    // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
     /**
      * Render a dump for an object
@@ -1234,7 +1220,6 @@ Class krumo {
         print "</li>";
     }
 
-    // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
     /**
      * Render a dump for a resource
@@ -1259,7 +1244,6 @@ Class krumo {
 
     }
 
-    // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
     /**
      * Render a dump for a boolean value
@@ -1289,7 +1273,6 @@ Class krumo {
 
     }
 
-    // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
     /**
      * Render a dump for a integer value
@@ -1314,7 +1297,6 @@ Class krumo {
         print "</div></li>";
     }
 
-    // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
     /**
      * Render a dump for a float value
@@ -1373,7 +1355,6 @@ Class krumo {
         return false;
     }
 
-    // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
     /**
      * Render a dump for a string value
@@ -1447,12 +1428,8 @@ Class krumo {
         print "</li>";
     }
 
-    // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-
-//--end-of-class--
 }
 
-//////////////////////////////////////////////////////////////////////////////
 
 /**
 * Alias of {@link krumo::dump()}
