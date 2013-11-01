@@ -468,9 +468,6 @@ class krumo {
             return;
         }
 
-        // the css
-        krumo::_css();
-
         // find caller
         $_ = debug_backtrace();
         while($d = array_pop($_)) {
@@ -488,6 +485,7 @@ class krumo {
         //////////////////////
         // Start HTML header//
         //////////////////////
+
         print "<div class=\"krumo-root\">\n";
         print "\t<ul class=\"krumo-node krumo-first\">\n";
         
@@ -515,6 +513,10 @@ class krumo {
 
         print "</ul></div>\n";
         print "<!-- Krumo - HTML -->\n\n";
+
+        // Output the CSS and JavaScript AFTER the HTML
+        krumo::_css();
+
         ////////////////////
         // End HTML header//
         ////////////////////
