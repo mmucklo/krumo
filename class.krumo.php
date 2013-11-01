@@ -485,7 +485,6 @@ class krumo {
         //////////////////////
         // Start HTML header//
         //////////////////////
-
         print "<div class=\"krumo-root\">\n";
         print "\t<ul class=\"krumo-node krumo-first\">\n";
         
@@ -493,7 +492,7 @@ class krumo {
         print krumo::_dump($data);
 
         if ($showVersion || $showCallInfo) {
-            print "\t\t<li class=\"krumo-footnote\">\n";
+            print "\t\t<li class=\"krumo-footnote\" onDblClick=\"toggle_expand_all();\">\n";
 
             if ($showVersion) {
                 $version = krumo::version();
@@ -516,7 +515,6 @@ class krumo {
 
         // Output the CSS and JavaScript AFTER the HTML
         krumo::_css();
-
         ////////////////////
         // End HTML header//
         ////////////////////
