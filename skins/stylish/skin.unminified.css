@@ -79,7 +79,7 @@ div.krumo-preview {
     font: 12px/16px Menlo, Consolas, Inconsolata, "Andale Mono", "Courier New", monospace; 
     font-weight: normal;
     color: #333;
-    padding: 5px 5px 14px;
+    padding: 5px 5px;
     background: #F8F8F8;
     overflow: auto;
     word-break:break-all;
@@ -102,10 +102,10 @@ li.krumo-footnote {
 * html li.krumo-footnote {
     line-height: 13px;
 }
-div.krumo-version {
+.krumo-version {
     float: right;
 }
-li.krumo-footnote h6 {
+strong.krumo-version-number {
     font-family: "Helvetica Neue", Helvetica, Verdana, Arial, sans-serif;
     font-weight: 700;
     font-size: 11px;
@@ -113,8 +113,6 @@ li.krumo-footnote h6 {
     padding: 0;
     color: #366D6D;
     display: inline;
-}
-* html li.krumo-footnote h6 {
     margin-right: 3px;
 }
 li.krumo-footnote a {

@@ -494,17 +494,17 @@ class krumo {
         if ($showVersion || $showCallInfo) {
             print "\t\t<li class=\"krumo-footnote\" onDblClick=\"toggle_expand_all();\">\n";
 
-            if ($showVersion) {
-                $version = krumo::version();
-                print "<div class=\"krumo-version\" style=\"white-space:nowrap;\">\n";
-                print "<h6>Krumo version $version</h6> | <a href=\"$krumoUrl\"    target=\"_blank\">$krumoUrl</a>\n";
-                print "</div>\n";
-            }
-
             if ($showCallInfo && isset($d['file']) && $d['file']) {
                 print "<span class=\"krumo-call\" style=\"white-space:nowrap;\">";
-                print "Called from <code>" . $d['file'] . "</code>, ";
-                print "line <code>" . $d['line'] . "</code></span>";
+                print "Called from <strong><code>" . $d['file'] . "</code></strong>, ";
+                print "line <strong><code>" . $d['line'] . "</code></strong></span>";
+            }
+
+            if ($showVersion) {
+                $version = krumo::version();
+                print "<span class=\"krumo-version\" style=\"white-space:nowrap;\">\n";
+                print "<strong class=\"krumo-version-number\">Krumo version $version</strong> | <a href=\"$krumoUrl\" target=\"_blank\">$krumoUrl</a>\n";
+                print "</span>\n";
             }
 
             print "</li>";
