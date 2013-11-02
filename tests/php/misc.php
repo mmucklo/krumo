@@ -23,7 +23,7 @@ $a = array(
 );
 
 if (isset($_GET['short'])) {
-	krumo::$expand_all = 1;
+	Krumo::$expand_all = 1;
 	kd($a);
 }
 
@@ -43,13 +43,14 @@ print "If you see this something is broken";
 
 $k = new krumo;
 
-class bar {
-		public $b = 'bb';
-		public $a = 'aa';
+class bar
+{
+    public $b = 'bb';
+    public $a = 'aa';
 
-		function foo() {
-			return 'bar';
-		}
+    function foo()
+    {
+        return 'bar';
+    }
 }
 
-?>

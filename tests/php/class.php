@@ -2,7 +2,8 @@
 
 require('../../class.krumo.php');
 
-class A {
+class A
+{
     public $b;
     public $c;
 }
@@ -14,3 +15,4 @@ $x->b->c = new A();
 $x->b->c->b = new A();
 
 krumo($x);
+
