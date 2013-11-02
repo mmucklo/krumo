@@ -23,7 +23,7 @@ $a = array(
 );
 
 if (isset($_GET['short'])) {
-	krumo::$expand_all = 1;
+	Krumo::$expand_all = 1;
 	kd($a);
 }
 
