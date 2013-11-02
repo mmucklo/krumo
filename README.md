@@ -75,7 +75,7 @@ function k()
     if (function_exists('krumo'))
     {
         $args = func_get_args();
-        \krumo::setLineNumberTestCallback(function ($d) {
+        \Krumo::setLineNumberTestCallback(function ($d) {
             if (strtolower($d['function']) == 'k')
                 return true;
         });
