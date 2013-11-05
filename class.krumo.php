@@ -23,8 +23,8 @@ if (!defined('KRUMO_DIR')) {
     define('KRUMO_DIR', dirname(__FILE__) . DIRECTORY_SEPARATOR);
 }
 
-if (!defined('KRUMO_CAPTURE')) {
-    define('KRUMO_CAPTURE','158bafa5-b505-4661-9904-46504e00a5bb');
+if (!defined('KRUMO_RETURN')) {
+    define('KRUMO_RETURN','158bafa5-b505-4661-9904-46504e00a5bb');
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -441,7 +441,7 @@ class Krumo {
     public static function dump($data, $capture = '')
     {
         // If we're capturing call dump() with just data and capture the output
-        if ($capture === KRUMO_CAPTURE) {
+        if ($capture === KRUMO_RETURN) {
             ob_start();
 
             Krumo::dump($data);
