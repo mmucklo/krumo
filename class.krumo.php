@@ -27,6 +27,10 @@ if (!defined('KRUMO_RETURN')) {
     define('KRUMO_RETURN','158bafa5-b505-4661-9904-46504e00a5bb');
 }
 
+if (!defined('KRUMO_EXPAND_ALL')) {
+    define('KRUMO_EXPAND_ALL','381019f0-fe97-4012-bb58-19f0e479665a');
+}
+
 //////////////////////////////////////////////////////////////////////////////
 
 /**
@@ -438,10 +442,10 @@ class Krumo {
      * @access public
      * @static
      */
-    public static function dump($data, $capture = '')
+    public static function dump($data, $second = '') 
     {
         // If we're capturing call dump() with just data and capture the output
-        if ($capture === KRUMO_RETURN) {
+        if ($second === KRUMO_RETURN) {
             ob_start();
 
             Krumo::dump($data);
@@ -449,6 +453,12 @@ class Krumo {
             $str = ob_get_clean();
 
             return $str;
+        // If we were given expand all, set the global variable
+        } elseif ($second === KRUMO_EXPAND_ALL) {
+            self::$expand_all = true;
+            Krumo::dump($data);
+
+            return true;
         }
 
         $clearObjectRecursionProtection   = false;

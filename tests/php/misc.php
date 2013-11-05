@@ -23,8 +23,7 @@ $a = array(
 );
 
 if (isset($_GET['short'])) {
-	Krumo::$expand_all = 1;
-	kd($a);
+	kd($a, KRUMO_EXPAND_ALL);
 }
 
 print "<h2>krumo capture</h2>\n";
