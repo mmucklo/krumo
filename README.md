@@ -1,7 +1,7 @@
-krumo
+Krumo
 =====
 
-Krumo is a replacement for print_r() and var_dump(). This is an updated/forked version
+Krumo is a replacement for `print_r()` and `var_dump()`. This is an updated/forked version
 because the **SourceForge.net** version appears to have been abandonned.
 
 Installation:
@@ -25,7 +25,7 @@ Add this line to your composer.json "require" section:
 
 Usage:
 ------
-After Krumo is loaded you have access to the global Krumo functions: **krumo()**, **k()**, and **kd()**.
+After Krumo is loaded you have access to the global Krumo functions: `krumo()`, `k()`, and `kd()`.
 
 ```php
 $arr = array(
