@@ -39,16 +39,16 @@ $arr = array(
 k($arr); 
 krumo($arr);
 
-// Dump out the array and then exit();
+// Output the array and then exit();
 kd($arr); 
 
 // Return the HTML output instead of printing it out
 $my_html = krumo($arr, KRUMO_RETURN);
 
-// Output the data with all node expanded
+// Output the array with all nodes expanded
 krumo($arr, KRUMO_EXPAND_ALL);
 
-// The longer but also function object base call
+// The object based method
 $krumo = new Krumo;
 $krumo->dump($arr);
 ```
