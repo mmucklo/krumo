@@ -22,7 +22,7 @@ $a = array(
 	'microtime'       => microtime(1),
 );
 
-if (isset($_GET['short'])) {
+if (isset($_GET['short']) || php_sapi_name() === 'cli') {
 	kd($a, KRUMO_EXPAND_ALL);
 }
 

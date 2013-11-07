@@ -55,7 +55,6 @@ class Krumo {
         return '0.5.0';
     }
 
-
     /**
      * Prints a debug backtrace
      *
@@ -72,7 +71,6 @@ class Krumo {
         // render it
         return Krumo::dump(debug_backtrace());
     }
-
     /**
      * Prints a list of all currently declared classes.
      *
@@ -444,6 +442,11 @@ class Krumo {
      */
     public static function dump($data, $second = '') 
     {
+        if (Krumo::is_cli()) {
+            print_r($data);
+            exit;
+        }
+
         // If we're capturing call dump() with just data and capture the output
         if ($second === KRUMO_RETURN) {
             ob_start();
@@ -1443,6 +1446,18 @@ class Krumo {
         }
 
         print "</li>";
+    }
+
+    /**
+     * Detect if we're running in CLI mode`
+     */
+    private static function is_cli() 
+    {
+        if(php_sapi_name() === "cli") {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }
