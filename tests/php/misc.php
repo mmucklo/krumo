@@ -27,7 +27,7 @@ if (isset($_GET['short']) || php_sapi_name() === 'cli') {
 }
 
 print "<h2>krumo capture</h2>\n";
-$str = k(array('foo' => 'bar'),KRUMO_CAPTURE);
+$str = k(array('foo' => 'bar'),KRUMO_RETURN);
 print $str;
 
 print "<h2>krumo</h2>\n";
