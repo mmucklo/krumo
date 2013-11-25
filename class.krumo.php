@@ -1113,7 +1113,7 @@ class Krumo {
      */
     private static function _array($data, $name)
     {
-        $config_sort = Krumo::_config('display','sort_arrays',true);
+        $config_sort = Krumo::_config('sorting','sort_arrays',true);
 
         // If the sort is enabled in the config (default = yes) and the array is assoc (non-numeric)
         if (sizeof($data) > 1 && $config_sort && Krumo::is_assoc($data)) {
