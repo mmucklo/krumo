@@ -748,7 +748,7 @@ class Krumo {
             // the JS
             print "<script type=\"text/javascript\">\n";
 
-            $js_file = KRUMO_DIR . "krumo.min.js";
+            $js_file = KRUMO_DIR . "/js/krumo.min.js";
             if (is_readable($js_file)) {
                 $js_text = join(file($js_file));
             } else {
