@@ -440,7 +440,7 @@ class Krumo {
      * @access public
      * @static
      */
-    public static function dump($data, $second = '') 
+    public static function dump($data, $second = '')
     {
         if (Krumo::is_cli()) {
             print_r($data);
@@ -1457,7 +1457,7 @@ class Krumo {
     /**
      * Detect if we're running in CLI mode`
      */
-    private static function is_cli() 
+    private static function is_cli()
     {
         if(php_sapi_name() === "cli") {
             return true;
