@@ -1406,6 +1406,9 @@ class Krumo {
             $_extra = true;
         }
 
+        $_ = htmlentities($_);
+        $_ = preg_replace("/\\n/","<strong class=\"krumo-carrage-return\">\\n</strong>",$_);
+
         $expand_class = '';
         if ($_extra) { $expand_class = 'krumo-expand'; }
 
@@ -1418,7 +1421,7 @@ class Krumo {
 
         print "<a class=\"krumo-name\">$name</a> ";
         print "<em class=\"krumo-type\">String(<strong class=\"krumo-string-length\">" . strlen($data) . "</strong>)</em> ";
-        print Krumo::get_separator() . " <strong class=\"krumo-string\">" . htmlspecialchars($_);
+        print Krumo::get_separator() . " <strong class=\"krumo-string\">" . $_;
         // This has to go AFTER the htmlspecialchars
         if ($_extra) {
             print "&hellip;";
@@ -1439,9 +1442,12 @@ class Krumo {
         print "</div>";
 
         if ($_extra) {
+            $data = htmlentities($data);
+            $data = preg_replace("/\\n/","<strong class=\"krumo-carrage-return\">\\n</strong>",$data);
+
             print "<div class=\"krumo-nest\" $collapse_style>";
             print "<ul class=\"krumo-node\">";
-            print "<li class=\"krumo-child\"> <div class=\"krumo-preview\">" . htmlSpecialChars($data) . "</div></li>";
+            print "<li class=\"krumo-child\"> <div class=\"krumo-preview\">" . $data . "</div></li>";
             print "</ul></div>";
         }
 
