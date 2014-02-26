@@ -13,13 +13,13 @@
 function krumo() {
 	}
 
-// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
 /**
 * Add a CSS class to an HTML element
 *
-* @param HtmlElement el 
-* @param string className 
+* @param HtmlElement el
+* @param string className
 * @return void
 */
 krumo.reclass = function(el, className) {
@@ -28,13 +28,13 @@ krumo.reclass = function(el, className) {
 		}
 	}
 
-// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
 /**
 * Remove a CSS class to an HTML element
 *
-* @param HtmlElement el 
-* @param string className 
+* @param HtmlElement el
+* @param string className
 * @return void
 */
 krumo.unclass = function(el, className) {
@@ -43,12 +43,12 @@ krumo.unclass = function(el, className) {
 		}
 	}
 
-// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
 /**
 * Toggle the nodes connected to an HTML element
 *
-* @param HtmlElement el 
+* @param HtmlElement el
 * @return void
 */
 krumo.toggle = function(el) {
@@ -70,31 +70,31 @@ krumo.toggle = function(el) {
 		}
 	}
 
-// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
 /**
 * Hover over an HTML element
 *
-* @param HtmlElement el 
+* @param HtmlElement el
 * @return void
 */
 krumo.over = function(el) {
 	krumo.reclass(el, 'krumo-hover');
 	}
 
-// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
 /**
 * Hover out an HTML element
 *
-* @param HtmlElement el 
+* @param HtmlElement el
 * @return void
 */
 
 krumo.out = function(el) {
 	krumo.unclass(el, 'krumo-hover');
 	}
-	
+
 /////////////////////////////////////////////////////////////////////////////
 
 // Get element by ID
@@ -120,16 +120,16 @@ krumo.get_class = function(str) {
 	return ret;
 }
 
-// This is a poor mans querySelectorAll(). 
+// This is a poor mans querySelectorAll().
 // querySelectorAll() isn't supported 100% until
 // IE9, so we have to use this work around until
 // we can stop supporting IE8
 krumo.find = function(str) {
-	if (!str) { return false; } 
+	if (!str) { return false; }
 
 	var first  = str.substr(0,1);
 	var remain = str.substr(1);
-	
+
 	if (first === ".") {
 		return krumo.get_class(remain);
 	} else if (first === "#") {
@@ -153,7 +153,7 @@ function toggle_expand_all() {
 	// Expand each item
 	for (var i in elems) {
 		var item = elems[i];
-		
+
 		// The sibling is the hidden object
 		var sib = item.nextSibling;
 
