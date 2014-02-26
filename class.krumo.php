@@ -1400,6 +1400,7 @@ class Krumo {
 
         // Get the truncate length from the config, or default to 100
         $truncate_length = Krumo::_config('display', 'truncate_length', 100);
+        $display_cr      = Krumo::_config('display', 'carriage_returns', true);
 
         if (strLen($data) > $truncate_length ) {
             $_ = substr($data, 0, $truncate_length - 1);
@@ -1407,7 +1408,12 @@ class Krumo {
         }
 
         $_ = htmlentities($_);
-        $_ = preg_replace("/\\n/","<strong class=\"krumo-carrage-return\">\\n</strong>",$_);
+
+        if ($display_cr) {
+            $_ = preg_replace("/\\n/","<strong class=\"krumo-carrage-return\">\\n</strong>",$_);
+        } else {
+            $_ = nl2br($_);
+        }
 
         $expand_class = '';
         if ($_extra) { $expand_class = 'krumo-expand'; }
@@ -1443,7 +1449,12 @@ class Krumo {
 
         if ($_extra) {
             $data = htmlentities($data);
-            $data = preg_replace("/\\n/","<strong class=\"krumo-carrage-return\">\\n</strong>",$data);
+
+            if ($display_cr) {
+                $data = preg_replace("/\\n/","<strong class=\"krumo-carrage-return\">\\n</strong>",$data);
+            } else {
+                $data = nl2br($data);
+            }
 
             print "<div class=\"krumo-nest\" $collapse_style>";
             print "<ul class=\"krumo-node\">";
