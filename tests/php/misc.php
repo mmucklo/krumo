@@ -22,13 +22,12 @@ $a = array(
 	'microtime'       => microtime(1),
 );
 
-if (isset($_GET['short'])) {
-	krumo::$expand_all = 1;
-	kd($a);
+if (isset($_GET['short']) || php_sapi_name() === 'cli') {
+	kd($a, KRUMO_EXPAND_ALL);
 }
 
 print "<h2>krumo capture</h2>\n";
-$str = k(array('foo' => 'bar'),KRUMO_CAPTURE);
+$str = k(array('foo' => 'bar'),KRUMO_RETURN);
 print $str;
 
 print "<h2>krumo</h2>\n";
@@ -43,13 +42,14 @@ print "If you see this something is broken";
 
 $k = new krumo;
 
-class bar {
-		public $b = 'bb';
-		public $a = 'aa';
+class bar
+{
+    public $b = 'bb';
+    public $a = 'aa';
 
-		function foo() {
-			return 'bar';
-		}
+    function foo()
+    {
+        return 'bar';
+    }
 }
 
-?>
