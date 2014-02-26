@@ -1410,7 +1410,7 @@ class Krumo {
         $_ = htmlentities($_);
 
         if ($display_cr) {
-            $_ = preg_replace("/\\n/","<strong class=\"krumo-carrage-return\">\\n</strong>",$_);
+            $_ = preg_replace("/\\n/","<strong class=\"krumo-carrage-return\"> &para; </strong>",$_);
         } else {
             $_ = nl2br($_);
         }
@@ -1451,7 +1451,7 @@ class Krumo {
             $data = htmlentities($data);
 
             if ($display_cr) {
-                $data = preg_replace("/\\n/","<strong class=\"krumo-carrage-return\">\\n</strong>",$data);
+                $data = preg_replace("/\\n/","<strong class=\"krumo-carrage-return\"> &para; </strong>",$data);
             } else {
                 $data = nl2br($data);
             }
