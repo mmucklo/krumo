@@ -18,9 +18,11 @@ Add this line to your composer.json "require" section:
 
 ### composer.json
 ```json
-    "require": {
-       ...
-       "oodle/krumo": "*"
+{
+	"require": {
+		"oodle/krumo": "*"
+	}
+}
 ```
 
 Usage:
