@@ -490,7 +490,7 @@ class Krumo {
         while ($d = array_pop($_)) {
             $callback = self::$lineNumberTestCallback;
             $function = strToLower($d['function']);
-            if (in_array($function, array("krumo","k","kd")) || (strToLower(@$d['class']) == 'krumo') || (is_callable($callback) && $callback($d))) {
+            if (in_array($function, array("krumo","k","kd")) || (strToLower(@$d['class']) == 'krumo') || (is_callable($callback) && call_user_func($callback, $d))) {
                 break;
             }
         }
