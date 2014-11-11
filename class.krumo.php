@@ -1363,6 +1363,23 @@ class Krumo {
         return $separator;
     }
 
+    /**
+      * Properly add "S" depending on the number of items
+      * krumo::plural(1,"show") = "show"
+      * krumo::plural(4,"show") = "shows"
+      *
+      * @return string
+      */
+    private static function plural($number,$word) {
+        if ($number > 1 || $number === 0) {
+            return $word . "s";
+        } elseif ($number === 1) {
+            return $word;
+        } else {
+            return "???";
+        }
+    }
+
     private static function is_datetime($name,$value)
     {
         // If the name contains date or time, and the value looks like a unixtime
@@ -1410,7 +1427,22 @@ class Krumo {
 
         // Check to see if the line has any carriage returns
         if (preg_match("/\n|\r/",$data)) {
-            $icon = Krumo::get_icon("information","Note: String contains carriage returns");
+            $slash_n = substr_count($data,"\n");
+            $slash_r = substr_count($data,"\r");
+
+            $title .= "Note: String contains ";
+
+            if ($slash_n) {
+                $title .= "$slash_n " . krumo::plural($slash_n,"new line");
+            }
+            if ($slash_n && $slash_r) {
+                $title .= " and ";
+            }
+            if ($slash_r) {
+                $title .= "$slash_r " . krumo::plural($slash_r,"carriage return");
+            }
+
+            $icon = Krumo::get_icon("information",$title);
 
             // We flag this as extra so the dropdown can show the correctly formatted version
             $_extra = true;
