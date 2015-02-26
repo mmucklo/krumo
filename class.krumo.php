@@ -1425,6 +1425,7 @@ class Krumo {
             $_extra = false;
         }
 
+        $icon = '';
         // Check to see if the line has any carriage returns
         if (preg_match("/\n|\r/",$data)) {
             $slash_n = substr_count($data,"\n");
