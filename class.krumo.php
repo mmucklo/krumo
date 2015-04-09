@@ -52,7 +52,7 @@ class Krumo {
      */
     public static function version()
     {
-        return '0.5.0';
+        return '0.5.1';
     }
 
     /**
@@ -1363,6 +1363,23 @@ class Krumo {
         return $separator;
     }
 
+    /**
+      * Properly add "S" depending on the number of items
+      * krumo::plural(1,"show") = "show"
+      * krumo::plural(4,"show") = "shows"
+      *
+      * @return string
+      */
+    private static function plural($number,$word) {
+        if ($number > 1 || $number === 0) {
+            return $word . "s";
+        } elseif ($number === 1) {
+            return $word;
+        } else {
+            return "???";
+        }
+    }
+
     private static function is_datetime($name,$value)
     {
         // If the name contains date or time, and the value looks like a unixtime
@@ -1395,22 +1412,48 @@ class Krumo {
         }
 
         // extra
-        $_extra = false;
         $_ = $data;
 
         // Get the truncate length from the config, or default to 100
         $truncate_length = Krumo::_config('display', 'truncate_length', 100);
         $display_cr      = Krumo::_config('display', 'carriage_returns', true);
 
-        if (strLen($data) > $truncate_length ) {
+        if (strlen($data) > $truncate_length) {
             $_ = substr($data, 0, $truncate_length - 1);
+            $_extra = true;
+        } else {
+            $_extra = false;
+        }
+
+        $icon = '';
+        // Check to see if the line has any carriage returns
+        if (preg_match("/\n|\r/",$data)) {
+            $slash_n = substr_count($data,"\n");
+            $slash_r = substr_count($data,"\r");
+
+            $title .= "Note: String contains ";
+
+            if ($slash_n) {
+                $title .= "$slash_n " . krumo::plural($slash_n,"new line");
+            }
+            if ($slash_n && $slash_r) {
+                $title .= " and ";
+            }
+            if ($slash_r) {
+                $title .= "$slash_r " . krumo::plural($slash_r,"carriage return");
+            }
+
+            $icon = Krumo::get_icon("information",$title);
+
+            // We flag this as extra so the dropdown can show the correctly formatted version
             $_extra = true;
         }
 
         $_ = htmlentities($_);
 
+        // Convert all the \r or \n to visible paragraph markers
         if ($display_cr) {
-            $_ = preg_replace("/\\n/","<strong class=\"krumo-carrage-return\"> &para; </strong>",$_);
+            $_ = preg_replace("/(\\r\\n|\\n|\\r)/","<strong class=\"krumo-carrage-return\"> &para; </strong>",$_);
         } else {
             $_ = nl2br($_);
         }
@@ -1426,10 +1469,11 @@ class Krumo {
         print "onMouseOver=\"krumo.over(this);\" onMouseOut=\"krumo.out(this);\">\n";
 
         print "<a class=\"krumo-name\">$name</a> ";
-        print "<em class=\"krumo-type\">String(<strong class=\"krumo-string-length\">" . strlen($data) . "</strong>)</em> ";
+        print "<em class=\"krumo-type\">String(<strong class=\"krumo-string-length\">" . strlen($data) . "</strong>)</em> $icon";
+
         print Krumo::get_separator() . " <strong class=\"krumo-string\">" . $_;
         // This has to go AFTER the htmlspecialchars
-        if ($_extra) {
+        if (strlen($data) > $truncate_length) {
             print "&hellip;";
         }
         print "</strong>";
@@ -1449,12 +1493,7 @@ class Krumo {
 
         if ($_extra) {
             $data = htmlentities($data);
-
-            if ($display_cr) {
-                $data = preg_replace("/\\n/","<strong class=\"krumo-carrage-return\"> &para; </strong>",$data);
-            } else {
-                $data = nl2br($data);
-            }
+            $data = nl2br($data);
 
             print "<div class=\"krumo-nest\" $collapse_style>";
             print "<ul class=\"krumo-node\">";
