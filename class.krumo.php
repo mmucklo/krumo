@@ -748,11 +748,16 @@ class Krumo {
             // the JS
             print "<script type=\"text/javascript\">\n";
 
-            $js_file = KRUMO_DIR . "/js/krumo.min.js";
-            if (is_readable($js_file)) {
-                $js_text = join(file($js_file));
-            } else {
-                $js_text = "// Missing JS file krumo.min.js\n";
+            $js_files = ["/js/krumo.min.js", "/js/krumo_path.js"];
+            $js_text = '';
+            foreach ($js_files as $js_file) {
+
+                $path = KRUMO_DIR . $js_file;
+                if (is_readable($path)) {
+                    $js_text .= join(file($path));
+                } else {
+                    $js_text .= "// Missing JS file {$path}\n";
+                }
             }
 
             print "$js_text</script>\n";
