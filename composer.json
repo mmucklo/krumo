@@ -1,5 +1,5 @@
 {
-    "name": "oodle/krumo",
+    "name": "mmucklo/krumo",
     "type": "library",
     "description": "KRUMO - version 2.0 of print_r(); and var_dump(); (with new updates)",
     "license": "LGPL",
@@ -11,7 +11,7 @@
 	},
 	{
 	    "name": "Matthew J. Mucklo",
-	    "email": "mmucklo@corp.oodle.com"
+	    "email": "mmucklo@gmail.com"
 	},
 	{
 	    "name": "Stefan Thomas",
