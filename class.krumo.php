@@ -444,7 +444,7 @@ class Krumo {
     {
         if (Krumo::is_cli()) {
             print_r($data);
-            exit;
+            return true;
         }
 
         // If we're capturing call dump() with just data and capture the output
