@@ -1431,7 +1431,7 @@ class Krumo {
             $slash_n = substr_count($data,"\n");
             $slash_r = substr_count($data,"\r");
 
-            $title .= "Note: String contains ";
+            $title = "Note: String contains ";
 
             if ($slash_n) {
                 $title .= "$slash_n " . krumo::plural($slash_n,"new line");
