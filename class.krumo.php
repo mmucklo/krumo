@@ -1233,8 +1233,19 @@ class Krumo {
         print "<a class=\"krumo-name\">$name</a> <em class=\"krumo-type\">Object</em> ";
         print Krumo::get_separator() . " <strong class=\"krumo-class\">" . get_class($data) . "</strong>$empty_str</div>";
 
+        // If the object is an exception, we want to print out the trace
+        // so we add a bogus trace parameter that contains the trace array
+        if ($data instanceof Exception) {
+            $data->trace = $data->getTrace();
+        }
+
         if ($properties) {
             Krumo::_vars($data);
+        }
+
+        // Remove the trace we added
+        if ($data instanceof Exception) {
+            unset($data->trace);
         }
 
         print "</li>";
