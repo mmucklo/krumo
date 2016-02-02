@@ -16,7 +16,11 @@
 	{
 	    "name": "Stefan Thomas",
 	    "email": "moon@justmoon.de"
-        }
+    },
+    {
+        "name": "Scott Baker",
+        "email": "scott@perturb.org"
+    }
     ],
     "require": {
         "php": ">=5.2.17"
