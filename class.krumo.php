@@ -748,7 +748,7 @@ class Krumo {
         $rel_css_file = "skins/{$skin}/skin.css";
         $css_file = KRUMO_DIR . $rel_css_file;
         if (is_readable($css_file)) {
-            $css = file($css_file);
+            $css = file_get_contents($css_file);
         }
 
         // default skin
@@ -756,7 +756,7 @@ class Krumo {
             $skin         = 'stylish';
             $rel_css_file = "skins/$skin/skin.css";
             $css_file     = KRUMO_DIR . $rel_css_file;
-            $css          = file($css_file);
+            $css          = file_get_contents($css_file);
         }
 
         // print
@@ -785,7 +785,7 @@ class Krumo {
 
             $js_file = KRUMO_DIR . "/js/krumo.min.js";
             if (is_readable($js_file)) {
-                $js_text = file($js_file);
+                $js_text = file_get_contents($js_file);
             } else {
                 $js_text = "// Missing JS file krumo.min.js\n";
             }
