@@ -54,7 +54,7 @@ class Krumo {
      */
     public static function version()
     {
-        return '0.5.3';
+        return trim(file_get_contents(__DIR__ . "/VERSION"));
     }
 
     protected static function getCharset() {
