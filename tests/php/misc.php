@@ -2,39 +2,39 @@
 
 include("../../class.krumo.php");
 
-$fp = fopen(__FILE__,"r");
+$fp = fopen(__FILE__, "r");
 
 $a = array(
-	'first'           => $fp,
-	'last'            => new bar,
-	'null_var'        => NULL,
-	'float'           => pi(),
-	'bool'            => true,
-	' leading_space'  => 6*8,
-	'trailing_space ' => 'grapes',
-	'middle space'    => 'Mt. Rushmore',
-	'phones'          => array(5036541278,8714077831,'x253'),
-	'long_str'        => "This is a really long string full of a\n bunch of crap that should eventually wrap. There once was a man from New Mexico...",
-	'empty_arr'       => array(),
-	'func_str'        => 'preg_replace',
-	'address'         => array('street' => '123 Fake Street', 'city' => 'Portland', 'state' => 'Maine'),
-	'unixtime'        => 1231241234,
-	'microtime'       => microtime(1),
+    'first'           => $fp,
+    'last'            => new bar,
+    'null_var'        => null,
+    'float'           => pi(),
+    'bool'            => true,
+    ' leading_space'  => 6*8,
+    'trailing_space ' => 'grapes',
+    'middle space'    => 'Mt. Rushmore',
+    'phones'          => array(5036541278,8714077831,'x253'),
+    'long_str'        => "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum...",
+    'empty_arr'       => array(),
+    'func_str'        => 'preg_replace',
+    'address'         => array('street' => '123 Fake Street', 'city' => 'Portland', 'state' => 'Maine'),
+    'unixtime'        => 1231241234,
+    'microtime'       => microtime(1),
 );
 
 if (isset($_GET['short']) || php_sapi_name() === 'cli') {
-	kd($a, KRUMO_EXPAND_ALL);
+    kd($a, KRUMO_EXPAND_ALL);
 }
 
 print "<h2>krumo capture</h2>\n";
-$str = k(array('foo' => 'bar'),KRUMO_RETURN);
+$str = k(array('foo' => 'bar'), KRUMO_RETURN);
 print $str;
 
 print "<h2>krumo</h2>\n";
 k(array('likes','kittens','and','dogs'));
 
 print "<h2>krumo passing multiple args</h2>\n";
-k('likes','kittens','and','dogs');
+k('likes', 'kittens', 'and', 'dogs');
 
 print "<h2>krumo + die()</h2>\n";
 kd($a);
@@ -47,9 +47,8 @@ class bar
     public $b = 'bb';
     public $a = 'aa';
 
-    function foo()
+    public function foo()
     {
         return 'bar';
     }
 }
-

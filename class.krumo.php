@@ -27,11 +27,11 @@ if (!defined('KRUMO_DIR')) {
 }
 
 if (!defined('KRUMO_RETURN')) {
-    define('KRUMO_RETURN','158bafa5-b505-4661-9904-46504e00a5bb');
+    define('KRUMO_RETURN', '158bafa5-b505-4661-9904-46504e00a5bb');
 }
 
 if (!defined('KRUMO_EXPAND_ALL')) {
-    define('KRUMO_EXPAND_ALL','381019f0-fe97-4012-bb58-19f0e479665a');
+    define('KRUMO_EXPAND_ALL', '381019f0-fe97-4012-bb58-19f0e479665a');
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -44,7 +44,8 @@ if (!defined('KRUMO_EXPAND_ALL')) {
 *
 * @package Krumo
 */
-class Krumo {
+class Krumo
+{
     /**
      * Return Krumo version
      *
@@ -57,7 +58,8 @@ class Krumo {
         return trim(file_get_contents(__DIR__ . "/VERSION"));
     }
 
-    protected static function getCharset() {
+    protected static function getCharset()
+    {
         return self::_config('display', 'default_charset', 'UTF-8');
     }
 
@@ -227,7 +229,7 @@ class Krumo {
         }
 
         // render it
-        static::heading("This is a list of the configuration settings read from ",  get_cfg_var('cfg_file_path'), ".");
+        static::heading("This is a list of the configuration settings read from ", get_cfg_var('cfg_file_path'), ".");
 
         return static::dump(parse_ini_file(get_cfg_var('cfg_file_path'), true));
     }
@@ -433,27 +435,33 @@ class Krumo {
     }
 
 
-    protected static function heading($first, $code = '', $rest = '') {
-        if (!static::isCli())
+    protected static function heading($first, $code = '', $rest = '')
+    {
+        if (!static::isCli()) {
             print "<div class=\"krumo-title\">";
+        }
 
         print $first;
 
-        if ($code && !static::isCli())
+        if ($code && !static::isCli()) {
             print "<code><b>";
+        }
 
         print $code;
 
-        if ($code && !static::isCli())
+        if ($code && !static::isCli()) {
             print "</code></b>";
+        }
 
         print $rest;
 
-        if (!static::isCli())
+        if (!static::isCli()) {
             print "</div>";
+        }
     }
 
-    public static function htmlHeaders() {
+    public static function htmlHeaders()
+    {
         if (!headers_sent()) {
             header("Content-Type", "text/html");
 
@@ -495,7 +503,7 @@ class Krumo {
         }
 
         $clearObjectRecursionProtection   = false;
-        if (static::$objectRecursionProtection === NULL) {
+        if (static::$objectRecursionProtection === null) {
             static::$objectRecursionProtection = array();
             $clearObjectRecursionProtection  = true;
         }
@@ -526,8 +534,8 @@ class Krumo {
             }
         }
 
-        $showVersion  = static::_config('display', 'show_version', TRUE);
-        $showCallInfo = static::_config('display', 'show_call_info', TRUE);
+        $showVersion  = static::_config('display', 'show_version', true);
+        $showCallInfo = static::_config('display', 'show_call_info', true);
         $krumoUrl     = 'https://github.com/mmucklo/krumo';
 
         //////////////////////
@@ -582,7 +590,7 @@ class Krumo {
         }
 
         if ($clearObjectRecursionProtection) {
-            static::$objectRecursionProtection = NULL;
+            static::$objectRecursionProtection = null;
         }
         return true;
     } // End of dump()
@@ -683,7 +691,9 @@ class Krumo {
      */
     private static function _isCollapsed($level, $childCount)
     {
-        if (static::$expand_all) { return false; }
+        if (static::$expand_all) {
+            return false;
+        }
 
         $cascade = static::$_cascade;
 
@@ -714,13 +724,17 @@ class Krumo {
 
         // Remove the document root, from the FULL absolute path of the
         // file we're looking for
-        $ret = "/" . str_replace($doc_root,"",$file,$ok);
-        if (!$ok) { return false; }
+        $ret = "/" . str_replace($doc_root, "", $file, $ok);
+        if (!$ok) {
+            return false;
+        }
 
         // If they want the path to the dir, only return the dir part
-        if ($returnDir) { $ret = dirname($ret) . "/"; }
+        if ($returnDir) {
+            $ret = dirname($ret) . "/";
+        }
 
-        $ret = preg_replace("|//|","/",$ret);
+        $ret = preg_replace("|//|", "/", $ret);
 
         return $ret;
     }
@@ -762,7 +776,7 @@ class Krumo {
         // print
         if ($_css = $css != '') {
             // See if there is a CSS path in the config
-            $relative_krumo_path = static::calculate_relative_path(__FILE__,true);
+            $relative_krumo_path = static::calculate_relative_path(__FILE__, true);
             $css_url = static::_config('css', 'url', $relative_krumo_path);
 
             // Default to /krumo/ if nothing is found in the config
@@ -846,13 +860,13 @@ class Krumo {
     private static function sanitizeName($name)
     {
         // Check if the key has whitespace in it, if so show it and add an icon explanation
-        $has_white_space = preg_match("/\\s/",$name);
+        $has_white_space = preg_match("/\\s/", $name);
         if ($has_white_space) {
             // Convert the white space to unicode underbars to visualize it
 
-            $name  = preg_replace("/\\s/","&#9251;",$name);
+            $name  = preg_replace("/\\s/", "&#9251;", $name);
             $title = "Note: Key contains white space";
-            $icon  = static::get_icon("information",$title);
+            $icon  = static::get_icon("information", $title);
 
             $ret = $name . $icon;
         } else {
@@ -881,32 +895,37 @@ class Krumo {
         if (is_object($data)) {
             static::_object($data, $name);
         }
-        // array
-        else if (is_array($data)) {
+        // Closure
+// Not yet implemented
+
+//        else if (($data instanceof \Closure))
+//            static::_closure();
+
+        elseif (is_array($data)) {
             static::_array($data, $name);
         }
         // resource
-        else if (is_resource($data)) {
+        elseif (is_resource($data)) {
             static::_resource($data, $name);
         }
         // scalar
-        else if (is_string($data)) {
+        elseif (is_string($data)) {
             static::_string($data, $name);
         }
         // float
-        else if (is_float($data)) {
+        elseif (is_float($data)) {
             static::_float($data, $name);
         }
         // integer
-        else if (is_integer($data)) {
+        elseif (is_integer($data)) {
             static::_integer($data, $name);
         }
         // boolean
-        else if (is_bool($data)) {
+        elseif (is_bool($data)) {
             static::_boolean($data, $name);
         }
         // null
-        else if (is_null($data)) {
+        elseif (is_null($data)) {
             static::_null($name);
         }
     }
@@ -922,16 +941,14 @@ class Krumo {
      */
     private static function _null($name)
     {
-
         $html = '<li class="krumo-child">
             <div class="krumo-element" onMouseOver="krumo.over(this);" onMouseOut="krumo.out(this);">
             <a class="krumo-name">%s</a> %s <em class="krumo-type krumo-null">NULL</em>
             </div></li>';
 
-        $html = sprintf($html, $name, static::get_separator() );
+        $html = sprintf($html, $name, static::get_separator());
 
         echo $html;
-
     }
 
 
@@ -964,9 +981,9 @@ class Krumo {
      * @access private
      * @static
      */
-    private static $objectRecursionProtection = NULL;
-    private static function &_hive(&$bee) {
-
+    private static $objectRecursionProtection = null;
+    private static function &_hive(&$bee)
+    {
         static $_ = array();
 
         // new bee
@@ -1021,7 +1038,7 @@ class Krumo {
             if (($hash = spl_object_hash($data)) && isset(static::$objectRecursionProtection[$hash])) {
                 $_r = static::$objectRecursionProtection[$hash];
             } else {
-                $_r = NULL;
+                $_r = null;
             }
         } else {
             $_r = isset($data[$_recursion_marker]) ? $data[$_recursion_marker] : null;
@@ -1094,7 +1111,7 @@ class Krumo {
                 // get real value
                 $v =& $data[$k];
 
-                static::_dump($v,$k);
+                static::_dump($v, $k);
             }
         }
 
@@ -1111,7 +1128,6 @@ class Krumo {
      */
     private static function _recursion()
     {
-
         $html = '<div class="krumo-nest" style="display:none;">
             <ul class="krumo-node">
                 <li class="krumo-child">
@@ -1128,7 +1144,7 @@ class Krumo {
 
     private static function is_assoc($var)
     {
-        return is_array($var) && array_diff_key($var,array_keys(array_keys($var)));
+        return is_array($var) && array_diff_key($var, array_keys(array_keys($var)));
     }
 
 
@@ -1142,7 +1158,7 @@ class Krumo {
      */
     private static function _array($data, $name)
     {
-        $config_sort = static::_config('sorting','sort_arrays',true);
+        $config_sort = static::_config('sorting', 'sort_arrays', true);
 
         // If the sort is enabled in the config (default = yes) and the array is assoc (non-numeric)
         if (sizeof($data) > 1 && $config_sort && static::is_assoc($data)) {
@@ -1201,9 +1217,9 @@ class Krumo {
             print " (<em class=\"krumo-type\">Callback</em>) <strong class=\"krumo-string\">";
 
             if (!is_object($_[0])) {
-                    echo htmlSpecialChars($_[0]);
+                echo htmlSpecialChars($_[0]);
             } else {
-                    echo htmlSpecialChars(get_class($_[0])) . "::";
+                echo htmlSpecialChars(get_class($_[0])) . "::";
             }
 
             echo htmlSpecialChars($_[1]) . "()</strong></span>";
@@ -1211,7 +1227,7 @@ class Krumo {
 
         print "</div>";
 
-        if (count($data)) {
+        if (!($data instanceof \Closure) && count($data)) {
             static::_vars($data);
         }
 
@@ -1251,7 +1267,9 @@ class Krumo {
         print 'onMouseOver="krumo.over(this);" onMouseOut="krumo.out(this);">';
 
         $empty_str = '';
-        if ($childCount == 0) { $empty_str = ' (empty)'; }
+        if ($childCount == 0) {
+            $empty_str = ' (empty)';
+        }
 
         $class_name = get_class($data);
         print "<a class=\"krumo-name\">$name</a> <em class=\"krumo-type\">Object</em> ";
@@ -1287,7 +1305,6 @@ class Krumo {
      */
     private static function _resource($data, $name)
     {
-
         $html = '<li class="krumo-child">
             <div class="krumo-element" onMouseOver="krumo.over(this);" onMouseOut="krumo.out(this);">
             <a class="krumo-name">%s</a> <em class="krumo-type">Resource</em>
@@ -1297,7 +1314,6 @@ class Krumo {
         $html = sprintf($html, $name, static::get_separator(), get_resource_type($data));
 
         echo $html;
-
     }
 
 
@@ -1327,7 +1343,6 @@ class Krumo {
         $html = sprintf($html, $name, static::get_separator(), $value);
 
         echo $html;
-
     }
 
 
@@ -1370,7 +1385,7 @@ class Krumo {
         print "<a class=\"krumo-name\">$name</a> <em class=\"krumo-type\">Float</em> ";
         print static::get_separator() . " <strong class=\"krumo-float\">$data</strong>";
 
-        $ut = static::is_datetime($name,$data);
+        $ut = static::is_datetime($name, $data);
         if ($ut) {
             print " ~ <strong class=\"krumo-datetime\">$ut</strong>";
         }
@@ -1378,7 +1393,7 @@ class Krumo {
         print "</div></li>";
     }
 
-    public static function get_icon($name,$title)
+    public static function get_icon($name, $title)
     {
         $path = dirname(__FILE__) . "/icons/$name.png";
         $rel  = static::calculate_relative_path($path);
@@ -1408,7 +1423,8 @@ class Krumo {
       * @param $word string Word to possibly (simply) pluralize
       * @return string
       */
-    private static function plural($number,$word) {
+    private static function plural($number, $word)
+    {
         if ($number > 1 || $number === 0) {
             return $word . "s";
         } elseif ($number === 1) {
@@ -1418,11 +1434,11 @@ class Krumo {
         }
     }
 
-    private static function is_datetime($name,$value)
+    private static function is_datetime($name, $value)
     {
         // If the name contains date or time, and the value looks like a unixtime
-        if (preg_match("/date|time/i",$name) && ($value > 10000000 && $value < 4000000000)) {
-            $ret = date("r",$value);
+        if (preg_match("/date|time/i", $name) && ($value > 10000000 && $value < 4000000000)) {
+            $ret = date("r", $value);
 
             return $ret;
         }
@@ -1456,8 +1472,17 @@ class Krumo {
         $truncate_length = static::_config('display', 'truncate_length', 100);
         $display_cr      = static::_config('display', 'carriage_returns', true);
 
-        if (strlen($data) > $truncate_length) {
-            $_ = substr($data, 0, $truncate_length - 1);
+        $strlen = strlen($data);
+        if (function_exists('mb_strlen')) {
+            $strlen = mb_strlen($data, static::getCharset());
+        }
+
+        if ($strlen > $truncate_length) {
+            if (function_exists('mb_substr')) {
+                $_ = mb_substr($data, 0, $truncate_length - 1, static::getCharset());
+            } else {
+                $_ = substr($data, 0, $truncate_length - 1);
+            }
             $_extra = true;
         } else {
             $_extra = false;
@@ -1465,23 +1490,23 @@ class Krumo {
 
         $icon = '';
         // Check to see if the line has any carriage returns
-        if (preg_match("/\n|\r/",$data)) {
-            $slash_n = substr_count($data,"\n");
-            $slash_r = substr_count($data,"\r");
+        if (preg_match("/\n|\r/", $data)) {
+            $slash_n = substr_count($data, "\n");
+            $slash_r = substr_count($data, "\r");
 
             $title = "Note: String contains ";
 
             if ($slash_n) {
-                $title .= "$slash_n " . static::plural($slash_n,"new line");
+                $title .= "$slash_n " . static::plural($slash_n, "new line");
             }
             if ($slash_n && $slash_r) {
                 $title .= " and ";
             }
             if ($slash_r) {
-                $title .= "$slash_r " . static::plural($slash_r,"carriage return");
+                $title .= "$slash_r " . static::plural($slash_r, "carriage return");
             }
 
-            $icon = static::get_icon("information",$title);
+            $icon = static::get_icon("information", $title);
 
             // We flag this as extra so the dropdown can show the correctly formatted version
             $_extra = true;
@@ -1491,13 +1516,15 @@ class Krumo {
 
         // Convert all the \r or \n to visible paragraph markers
         if ($display_cr) {
-            $_ = preg_replace("/(\\r\\n|\\n|\\r)/","<strong class=\"krumo-carrage-return\"> &para; </strong>",$_);
+            $_ = preg_replace("/(\\r\\n|\\n|\\r)/", "<strong class=\"krumo-carrage-return\"> &para; </strong>", $_);
         } else {
             $_ = nl2br($_);
         }
 
         $expand_class = '';
-        if ($_extra) { $expand_class = 'krumo-expand'; }
+        if ($_extra) {
+            $expand_class = 'krumo-expand';
+        }
 
         print "<li class=\"krumo-child\">";
         print "<div class=\"krumo-element $expand_class\" ";
@@ -1548,8 +1575,9 @@ class Krumo {
     private static function isCli()
     {
         static $cli = null;
-        if ($cli === null)
+        if ($cli === null) {
             $cli = (php_sapi_name() === "cli");
+        }
 
         return $cli;
     }
@@ -1584,7 +1612,8 @@ if (!function_exists('k')) {
 if (!function_exists('kd')) {
     function kd()
     {
-        Krumo::htmlHeaders();
+        if (php_sapi_name() !== 'cli')
+            Krumo::htmlHeaders();
         $_ = func_get_args();
         call_user_func_array(array('krumo', 'dump'), $_);
 
