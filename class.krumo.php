@@ -489,7 +489,9 @@ class Krumo
     public static function dump($data, $second = '')
     {
         if (static::isCli()) {
-            print_r($data);
+            $args = func_get_args();
+            krumo::cli_dump($args);
+
             return true;
         }
 
@@ -1606,6 +1608,30 @@ class Krumo
         }
 
         return $cli;
+    }
+
+    private static function cli_dump() {
+        $caller = debug_backtrace();  // Get all of them
+        $caller = array_pop($caller); // Get the last one
+        $file   = $caller['file'];
+        $line   = $caller['line'];
+        $bar    = str_repeat("-",80) . "\n";
+
+        $args = func_get_args();
+        $args = array_shift($args);
+        if (sizeof($args) > 1) {
+            print $bar;
+        }
+
+        foreach ($args as $i) {
+            $out = var_export($i);
+            print trim($out);
+
+            if (sizeof($args) > 1) {
+                $version = static::version();
+                print "\n\nCalled from $file, line $line  (Krumo version $version)\n$bar";
+            }
+        }
     }
 }
 
