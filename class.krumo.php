@@ -34,6 +34,14 @@ if (!defined('KRUMO_EXPAND_ALL')) {
     define('KRUMO_EXPAND_ALL', '381019f0-fe97-4012-bb58-19f0e479665a');
 }
 
+if (!defined('KRUMO_SORT')) {
+    define('KRUMO_SORT','fefe1734-aa1b-4b1d-80e3-b8fddd45731a');
+}
+
+if (!defined('KRUMO_NO_SORT')) {
+    define('KRUMO_NO_SORT','a095a471-7734-44a4-90f1-0e8bac46dd0e');
+}
+
 //////////////////////////////////////////////////////////////////////////////
 
 /**
@@ -500,6 +508,16 @@ class Krumo
             static::dump($data);
 
             return true;
+        } elseif ($second === KRUMO_NO_SORT) {
+            self::$sort = false;
+            Krumo::dump($data);
+
+            return true;
+        } elseif ($second === KRUMO_SORT) {
+            self::$sort = true;
+            Krumo::dump($data);
+
+            return true;
         }
 
         $clearObjectRecursionProtection   = false;
@@ -682,6 +700,7 @@ class Krumo
      * krumo($my_array);
      */
     public static $expand_all = 0;
+    public static $sort       = null;
 
     /**
      * Determines if a given node will be collapsed or not.
@@ -1158,7 +1177,14 @@ class Krumo
      */
     private static function _array($data, $name)
     {
-        $config_sort = static::_config('sorting', 'sort_arrays', true);
+        if (self::$sort === false) {
+            $config_sort = false;
+        } elseif (self::$sort === true) {
+            $config_sort = true;
+        // If neither of the above are set get it from the config
+        } else {
+            $config_sort = static::_config('sorting', 'sort_arrays', true);
+        }
 
         // If the sort is enabled in the config (default = yes) and the array is assoc (non-numeric)
         if (sizeof($data) > 1 && $config_sort && static::is_assoc($data)) {
