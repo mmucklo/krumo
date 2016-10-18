@@ -34,6 +34,14 @@ if (!defined('KRUMO_EXPAND_ALL')) {
     define('KRUMO_EXPAND_ALL', '381019f0-fe97-4012-bb58-19f0e479665a');
 }
 
+if (!defined('KRUMO_SORT')) {
+    define('KRUMO_SORT','fefe1734-aa1b-4b1d-80e3-b8fddd45731a');
+}
+
+if (!defined('KRUMO_NO_SORT')) {
+    define('KRUMO_NO_SORT','a095a471-7734-44a4-90f1-0e8bac46dd0e');
+}
+
 //////////////////////////////////////////////////////////////////////////////
 
 /**
@@ -481,7 +489,9 @@ class Krumo
     public static function dump($data, $second = '')
     {
         if (static::isCli()) {
-            print_r($data);
+            $args = func_get_args();
+            krumo::cli_dump($args);
+
             return true;
         }
 
@@ -498,6 +508,16 @@ class Krumo
         } elseif ($second === KRUMO_EXPAND_ALL) {
             static::$expand_all = true;
             static::dump($data);
+
+            return true;
+        } elseif ($second === KRUMO_NO_SORT) {
+            self::$sort = false;
+            Krumo::dump($data);
+
+            return true;
+        } elseif ($second === KRUMO_SORT) {
+            self::$sort = true;
+            Krumo::dump($data);
 
             return true;
         }
@@ -682,6 +702,7 @@ class Krumo
      * krumo($my_array);
      */
     public static $expand_all = 0;
+    public static $sort       = null;
 
     /**
      * Determines if a given node will be collapsed or not.
@@ -1159,7 +1180,14 @@ class Krumo
      */
     private static function _array($data, $name)
     {
-        $config_sort = static::_config('sorting', 'sort_arrays', true);
+        if (self::$sort === false) {
+            $config_sort = false;
+        } elseif (self::$sort === true) {
+            $config_sort = true;
+        // If neither of the above are set get it from the config
+        } else {
+            $config_sort = static::_config('sorting', 'sort_arrays', true);
+        }
 
         // If the sort is enabled in the config (default = yes) and the array is assoc (non-numeric)
         if (sizeof($data) > 1 && $config_sort && static::is_assoc($data)) {
@@ -1581,6 +1609,30 @@ class Krumo
         }
 
         return $cli;
+    }
+
+    private static function cli_dump() {
+        $caller = debug_backtrace();  // Get all of them
+        $caller = array_pop($caller); // Get the last one
+        $file   = $caller['file'];
+        $line   = $caller['line'];
+        $bar    = str_repeat("-",80) . "\n";
+
+        $args = func_get_args();
+        $args = array_shift($args);
+        if (sizeof($args) > 1) {
+            print $bar;
+        }
+
+        foreach ($args as $i) {
+            $out = var_export($i);
+            print trim($out);
+
+            if (sizeof($args) > 1) {
+                $version = static::version();
+                print "\n\nCalled from $file, line $line  (Krumo version $version)\n$bar";
+            }
+        }
     }
 }
 
