@@ -1047,6 +1047,7 @@ class Krumo
         // recursion detected
         if ($_r > 0) {
             static::_recursion();
+            return;
         }
 
         // stain it
