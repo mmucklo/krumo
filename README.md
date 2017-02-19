@@ -32,17 +32,17 @@ After Krumo is loaded you have access to the global Krumo functions: `krumo()`, 
 ```php
 $arr = array(
 	'first' => 'Jason',
-	'last'  => 'Doolis,'
+	'last'  => 'Doolis',
 	'phone' => array(5032612314,4512392014),
 	'likes' => array('animal' => 'kitten', 'color' => 'purple'),
 );
 
 // Dump out the array, short and long versions
-k($arr); 
+k($arr);
 krumo($arr);
 
 // Output the array and then exit();
-kd($arr); 
+kd($arr);
 
 // Return the HTML output instead of printing it out
 $my_html = krumo($arr, KRUMO_RETURN);
