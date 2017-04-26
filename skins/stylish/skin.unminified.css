@@ -149,6 +149,7 @@ em.krumo-type {
     font-style: italic;
 }
 
+strong.krumo-float,
 strong.krumo-string,
 strong.krumo-integer {
     color: #000;
