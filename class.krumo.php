@@ -1620,7 +1620,7 @@ class Krumo
 
         $args = func_get_args();
         $args = array_shift($args);
-        if (sizeof($args) > 1) {
+        if (sizeof($args) >= 1) {
             print $bar;
         }
 
@@ -1628,9 +1628,9 @@ class Krumo
             $out = var_export($i);
             print trim($out);
 
-            if (sizeof($args) > 1) {
+            if (sizeof($args) >= 1) {
                 $version = static::version();
-                print "\n\nCalled from $file, line $line  (Krumo version $version)\n$bar";
+                print "\n\nCalled from $file, line $line  (Krumo version $version)\n$bar\n";
             }
         }
     }
