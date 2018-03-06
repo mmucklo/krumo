@@ -471,7 +471,7 @@ class Krumo
     public static function htmlHeaders()
     {
         if (!headers_sent()) {
-            header("Content-Type", "text/html");
+            header("Content-Type: text/html");
 
             // Print out a minimal page header
             print "<!DOCTYPE html><html><head><meta charset=\"" . static::getCharset() . "\"></head><body>";
@@ -1665,8 +1665,10 @@ if (!function_exists('k')) {
 if (!function_exists('kd')) {
     function kd()
     {
-        if (php_sapi_name() !== 'cli')
+
+        if (php_sapi_name() !== 'cli') {
             Krumo::htmlHeaders();
+        }
         $_ = func_get_args();
         call_user_func_array(array('krumo', 'dump'), $_);
 
