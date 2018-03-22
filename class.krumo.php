@@ -1068,14 +1068,19 @@ class Krumo
         // recursion detected
         if ($_r > 0) {
             static::_recursion();
-            return;
         }
 
         // stain it
         static::_hive($data);
 
         // render it
-        $collapsed = static::_isCollapsed(static::$_level, count($data)-1);
+        
+        $count = 0;
+        if ($data instanceof Countable){
+            $count = count($data);
+        }
+        
+        $collapsed = static::_isCollapsed(static::$_level, $count);
         if ($collapsed) {
             $collapse_style = 'style="display: none;"';
         } else {
@@ -1290,9 +1295,11 @@ class Krumo
         }
 
         print "<li class=\"krumo-child\"> <div class=\"krumo-element $elementClasses\"";
-        if (count($data) > 0) {
+
+        if ($childCount > 0) {
             print 'onClick="krumo.toggle(this);"';
         }
+
         print 'onMouseOver="krumo.over(this);" onMouseOut="krumo.out(this);">';
 
         $empty_str = '';
