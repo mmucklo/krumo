@@ -1290,7 +1290,7 @@ class Krumo
         }
 
         print "<li class=\"krumo-child\"> <div class=\"krumo-element $elementClasses\"";
-        if (count($data) > 0) {
+        if ($data && count($data) > 0) {
             print 'onClick="krumo.toggle(this);"';
         }
         print 'onMouseOver="krumo.over(this);" onMouseOut="krumo.out(this);">';
