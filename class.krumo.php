@@ -1074,8 +1074,13 @@ class Krumo
         // stain it
         static::_hive($data);
 
+        $count = 0;
+        if (is_countable($data)) {
+            $count = count($data);
+        }
+
         // render it
-        $collapsed = static::_isCollapsed(static::$_level, count($data)-1);
+        $collapsed = static::_isCollapsed(static::$_level, $count - 1);
         if ($collapsed) {
             $collapse_style = 'style="display: none;"';
         } else {
@@ -1290,7 +1295,7 @@ class Krumo
         }
 
         print "<li class=\"krumo-child\"> <div class=\"krumo-element $elementClasses\"";
-        if ($data && count($data) > 0) {
+        if (is_countable($data) && count($data) > 0) {
             print 'onClick="krumo.toggle(this);"';
         }
         print 'onMouseOver="krumo.over(this);" onMouseOut="krumo.out(this);">';
@@ -1675,4 +1680,12 @@ if (!function_exists('kd')) {
         exit();
     }
 }
+
+// Polyfill for is_countable() from https://secure.php.net/manual/en/function.is-countable.php
+if (!function_exists('is_countable')) {
+    function is_countable($var) {
+        return (is_array($var) || $var instanceof Countable);
+    }
+}
+
 // vim: tabstop=4 shiftwidth=4 expandtab autoindent
