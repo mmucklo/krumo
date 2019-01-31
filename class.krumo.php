@@ -818,8 +818,12 @@ class Krumo
             // the JS
             print "<script type=\"text/javascript\">\n";
 
-            $js_file = KRUMO_DIR . "/js/krumo.min.js";
-            if (is_readable($js_file)) {
+            $js_min_file = KRUMO_DIR . "/js/krumo.min.js";
+            $js_file     = KRUMO_DIR . "/js/krumo.js";
+
+            if (is_readable($js_min_file)) {
+                $js_text = file_get_contents($js_min_file);
+            } elseif (is_readable($js_file)) {
                 $js_text = file_get_contents($js_file);
             } else {
                 $js_text = "// Missing JS file krumo.min.js\n";
@@ -1226,11 +1230,6 @@ class Krumo
         print "<li class=\"krumo-child\">";
         print "<div class=\"krumo-element $elementClasses\"";
 
-        // If there is more than one, make a dropdown
-        if (count($data) > 0) {
-            print "onClick=\"krumo.toggle(this);\"";
-        }
-
         print "onMouseOver=\"krumo.over(this);\" onMouseOut=\"krumo.out(this);\">";
         print "<a class=\"krumo-name\">$name</a> <em class=\"krumo-type\">Array(<strong class=\"krumo-array-length\">";
         print count($data) . "</strong>)</em>";
@@ -1295,9 +1294,6 @@ class Krumo
         }
 
         print "<li class=\"krumo-child\"> <div class=\"krumo-element $elementClasses\"";
-        if (is_countable($data) && count($data) > 0) {
-            print 'onClick="krumo.toggle(this);"';
-        }
         print 'onMouseOver="krumo.over(this);" onMouseOut="krumo.out(this);">';
 
         $empty_str = '';
@@ -1562,9 +1558,6 @@ class Krumo
 
         print "<li class=\"krumo-child\">";
         print "<div class=\"krumo-element $expand_class\" ";
-        if ($_extra) {
-            print " onClick=\"krumo.toggle(this);\" ";
-        }
         print "onMouseOver=\"krumo.over(this);\" onMouseOut=\"krumo.out(this);\">\n";
 
         print "<a class=\"krumo-name\">$name</a> ";

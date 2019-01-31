@@ -1,8 +1,10 @@
+// Command to generate minified JS:
+// curl -X POST -s --data-urlencode 'input@krumo.js' https://javascript-minifier.com/raw
+
 /**
 * JavaScript routines for Krumo
 *
 * @version $Id: krumo.js 22 2007-12-02 07:38:18Z Mrasnika $
-* @link http://sourceforge.net/projects/krumo
 */
 
 /////////////////////////////////////////////////////////////////////////////
@@ -51,24 +53,76 @@ krumo.unclass = function(el, className) {
 * @param HtmlElement el
 * @return void
 */
-krumo.toggle = function(el) {
-	var ul = el.parentNode.getElementsByTagName('ul');
-	for (var i=0; i<ul.length; i++) {
-		if (ul[i].parentNode.parentNode == el.parentNode) {
-			ul[i].parentNode.style.display = (ul[i].parentNode.style.display == 'none')
-				? 'block'
-				: 'none';
+krumo.toggle = function(event) {
+	console.log(event);
+
+	var el   = event.target.parentNode;
+	var ctrl = event.ctrlKey;
+
+	// Adding a control to you click does an expand/collapse all
+	if (ctrl) {
+		var is_expand = !el.classList.contains("krumo-opened");
+
+		if (is_expand) {
+			krumo.expand_all(el);
+		} else {
+			krumo.collapse_all(el);
+		}
+	} else {
+		var ul = el.parentNode.getElementsByTagName('ul');
+		for (var i=0; i<ul.length; i++) {
+			if (ul[i].parentNode.parentNode == el.parentNode) {
+				ul[i].parentNode.style.display = (ul[i].parentNode.style.display == 'none')
+					? 'block'
+					: 'none';
 			}
 		}
 
-	// toggle class
-	//
-	if (ul[0].parentNode.style.display == 'block') {
-		krumo.reclass(el, 'krumo-opened');
+		// toggle class
+		if (ul[0].parentNode.style.display == 'block') {
+			krumo.reclass(el, 'krumo-opened');
 		} else {
-		krumo.unclass(el, 'krumo-opened');
+			krumo.unclass(el, 'krumo-opened');
 		}
 	}
+}
+
+krumo.expand = function(el) {
+	paren = el.parentNode;
+	nest  = paren.querySelector(".krumo-nest");
+	exp   = paren.querySelector(".krumo-expand");
+
+	nest.style.display = 'block';
+	krumo.reclass(exp,"krumo-opened");
+}
+
+krumo.expand_all = function(el) {
+	paren = el.parentNode;
+	nest  = paren.querySelectorAll(".krumo-nest");
+	exp   = paren.querySelectorAll(".krumo-expand");
+
+	nest.forEach(function(item, i) {
+		item.style.display = 'block';
+	});
+
+	exp.forEach(function(item, i) {
+		krumo.reclass(item,"krumo-opened");
+	});
+}
+
+krumo.collapse_all = function(el) {
+	paren = el.parentNode;
+	nest  = paren.querySelectorAll(".krumo-nest");
+	exp   = paren.querySelectorAll(".krumo-expand");
+
+	nest.forEach(function(item, i) {
+		item.style.display = 'none';
+	});
+
+	exp.forEach(function(item, i) {
+		krumo.unclass(item,"krumo-opened");
+	});
+}
 
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
@@ -168,3 +222,14 @@ function toggle_expand_all() {
 		}
 	}
 }
+
+function init_click() {
+	var elems = krumo.find('.krumo-expand');
+
+	// Add a click item to everything that's expandable
+	elems.forEach(function(el) {
+		el.addEventListener("click", krumo.toggle);
+	});
+}
+
+init_click();
