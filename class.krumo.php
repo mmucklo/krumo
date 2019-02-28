@@ -1544,6 +1544,24 @@ class Krumo
 
         $_ = htmlentities($_);
 
+        // Check for and highlight any leading or trailing spaces/tabs
+        if (preg_match("/^([ \t]+)|([ \t]+)$/", $data)) {
+            $has_leading  = preg_match("/^([ \t]s+)/", $data);
+            $has_trailing = preg_match("/([ \t]+)$/", $data);
+
+            if ($has_leading && $has_trailing) {
+                $title  = "Note: String contains trailing and leading whitespace";
+            } elseif ($has_leading) {
+                $title  = "Note: String contains leading whitespace";
+            } elseif ($has_trailing) {
+                $title  = "Note: String contains trailing whitespace";
+            }
+
+            $icon = static::get_icon("information", $title);
+            $_    = preg_replace_callback( "/^([ \t]+)/", "static::convert_whitespace", $_);
+            $_    = preg_replace_callback( "/([ \t]+)$/", "static::convert_whitespace", $_);
+        }
+
         // Convert all the \r or \n to visible paragraph markers
         if ($display_cr) {
             $_ = preg_replace("/(\\r\\n|\\n|\\r)/", "<strong class=\"krumo-carrage-return\"> &para; </strong>", $_);
@@ -1594,6 +1612,15 @@ class Krumo
         }
 
         print "</li>";
+    }
+
+    public static function convert_whitespace($m) {
+        $str = $m[0];
+
+        $len = strlen($str);
+        $ret = str_repeat("&#9251;", $len);
+
+        return $ret;
     }
 
     /**
