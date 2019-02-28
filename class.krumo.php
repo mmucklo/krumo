@@ -568,7 +568,7 @@ class Krumo
         static::_dump($data);
 
         if ($showVersion || $showCallInfo) {
-            print "\t\t<li class=\"krumo-footnote\" onDblClick=\"toggle_expand_all();\">\n";
+            print "\t\t<li class=\"krumo-footnote\">\n";
 
             if ($showCallInfo && isset($d['file']) && $d['file']) {
                 print "<span class=\"krumo-call\" style=\"white-space:nowrap;\">";
