@@ -1235,7 +1235,7 @@ class Krumo
         }
 
         print "<li class=\"krumo-child\">";
-        print "<div class=\"krumo-element $elementClasses\"";
+        print "<div class=\"krumo-element $elementClasses\" ";
 
         print "onMouseOver=\"krumo.over(this);\" onMouseOut=\"krumo.out(this);\">";
         print "<a class=\"krumo-name\">$name</a> <em class=\"krumo-type\">Array(<strong class=\"krumo-array-length\">";
