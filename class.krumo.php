@@ -561,6 +561,13 @@ class Krumo
         //////////////////////
         // Start HTML header//
         //////////////////////
+
+        // This is not 100% legit because you may have more than one DOCTYPE line with this in place
+        //
+        // Without this, if krumo() is your FIRST line of HTML the browser enters quirks modea due
+        // to the lack of a DOCTYPE line. That may cause the rest of your HTML rendering to be "off"
+        print "<!DOCTYPE html>\n";
+
         print "<div class=\"krumo-root\">\n";
         print "\t<ul class=\"krumo-node krumo-first\">\n";
 
