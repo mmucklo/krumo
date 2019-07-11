@@ -2,7 +2,7 @@ Krumo
 =====
 
 Krumo is a replacement for `print_r()` and `var_dump()`. This is an updated version
-because the **SourceForge.net** version appears to have been abandonned.
+because the **SourceForge.net** version appears to have been abandoned.
 
 Installation:
 -------------
