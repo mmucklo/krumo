@@ -1557,11 +1557,13 @@ class Krumo
             $has_trailing = preg_match("/([ \t]+)$/", $data);
 
             if ($has_leading && $has_trailing) {
-                $title  = "Note: String contains trailing and leading whitespace";
+                $title = "Note: String contains trailing and leading whitespace";
             } elseif ($has_leading) {
-                $title  = "Note: String contains leading whitespace";
+                $title = "Note: String contains leading whitespace";
             } elseif ($has_trailing) {
-                $title  = "Note: String contains trailing whitespace";
+                $title = "Note: String contains trailing whitespace";
+            } else {
+                $title = "";
             }
 
             $icon = static::get_icon("information", $title);
