@@ -615,7 +615,28 @@ class Krumo
         return true;
     } // End of dump()
 
+    /**
+    * Return the dump information about a variable
+    * @param mixed $data,...
+    * @return string
+    */
+    static function fetch($data)
+    {
+        // disabled ?
+        //
+        if (!self::_debug())
+        {
+            return false;
+        }
 
+        ob_start();
+        call_user_func_array(
+            array(self, 'dump'),
+            func_get_args()
+            );
+
+        return ob_get_clean();
+    }
 
     /**
       * Configuration array.
