@@ -45,6 +45,8 @@ if (!defined('KRUMO_NO_SORT')) {
 */
 class Krumo
 {
+    const VERSION = '0.6.1';
+
     /**
      * Return Krumo version
      *
@@ -52,7 +54,7 @@ class Krumo
      */
     public static function version()
     {
-        return trim(file_get_contents(__DIR__ . "/VERSION"));
+        return Krumo::VERSION;
     }
 
     protected static function getCharset()
@@ -533,7 +535,7 @@ class Krumo
             }
 
             if ($showVersion) {
-                $version = static::version();
+                $version = Krumo::VERSION;
                 print "<span class=\"krumo-version\" style=\"white-space:nowrap;\">\n";
                 print "<strong class=\"krumo-version-number\">Krumo version $version</strong> | <a href=\"$krumoUrl\" target=\"_blank\">$krumoUrl</a>\n";
                 print "</span>\n";
@@ -1572,7 +1574,7 @@ class Krumo
             print trim($out);
 
             if (sizeof($args) >= 1) {
-                $version = static::version();
+                $version = Krumo::VERSION;
                 print "\n\nCalled from $file, line $line  (Krumo version $version)\n$bar\n";
             }
         }
