@@ -17,15 +17,6 @@
 
 //////////////////////////////////////////////////////////////////////////////
 
-/**
-* Set the KRUMO_DIR constant up with the absolute path to Krumo files. If it is
-* not defined, include_path will be used. Set KRUMO_DIR only if any other module
-* or application has not already set it up.
-*/
-if (!defined('KRUMO_DIR')) {
-    define('KRUMO_DIR', dirname(__FILE__) . DIRECTORY_SEPARATOR);
-}
-
 if (!defined('KRUMO_RETURN')) {
     define('KRUMO_RETURN', '158bafa5-b505-4661-9904-46504e00a5bb');
 }
@@ -635,7 +626,7 @@ class Krumo
      */
     private static function _config($group, $name, $fallback=null)
     {
-        $krumo_ini = KRUMO_DIR . 'krumo.ini';
+        $krumo_ini = __DIR__ . '/krumo.ini';
 
         // The config isn't loaded yet
         if (empty(static::$_config) && is_readable($krumo_ini)) {
@@ -780,8 +771,8 @@ class Krumo
         $skin = static::_config('skin', 'selected', 'stylish');
 
         // custom selected skin
-        $rel_css_file = "skins/{$skin}/skin.css";
-        $css_file = KRUMO_DIR . $rel_css_file;
+        $rel_css_file = "/skins/{$skin}/skin.css";
+        $css_file = __DIR__ . $rel_css_file;
         if (is_readable($css_file)) {
             $css = file_get_contents($css_file);
         }
@@ -789,8 +780,8 @@ class Krumo
         // default skin
         if (!$css && ($skin != 'default')) {
             $skin         = 'stylish';
-            $rel_css_file = "skins/$skin/skin.css";
-            $css_file     = KRUMO_DIR . $rel_css_file;
+            $rel_css_file = "/skins/$skin/skin.css";
+            $css_file     = __DIR__ . $rel_css_file;
             $css          = file_get_contents($css_file);
         }
 
@@ -818,8 +809,8 @@ class Krumo
             // the JS
             print "<script type=\"text/javascript\">\n";
 
-            $js_min_file = KRUMO_DIR . "/js/krumo.min.js";
-            $js_file     = KRUMO_DIR . "/js/krumo.js";
+            $js_min_file = __DIR__ . "/js/krumo.min.js";
+            $js_file     = __DIR__ . "/js/krumo.js";
 
             if (is_readable($js_min_file)) {
                 $js_text = file_get_contents($js_min_file);
