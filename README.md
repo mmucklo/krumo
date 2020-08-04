@@ -1,12 +1,12 @@
 Krumo
 =====
 
-Krumo is a replacement for `print_r()` and `var_dump()`. This is an updated/forked version
-because the **SourceForge.net** version appears to have been abandonned.
+Krumo is a replacement for `print_r()` and `var_dump()`. This is an updated version
+because the **SourceForge.net** version appears to have been abandoned.
 
 Installation:
 -------------
-Put this line in your header.php or global project include:
+Include the Krumo class in your `header.php` or global project include:
 
 ~~~PHP
 include("/path/to/krumo/class.krumo.php");
@@ -16,7 +16,8 @@ include("/path/to/krumo/class.krumo.php");
 
 Add this line to your composer.json "require" section:
 
-### composer.json
+composer.json
+-------------
 ```json
 {
 	"require": {
@@ -54,3 +55,8 @@ krumo($arr, KRUMO_EXPAND_ALL);
 $krumo = new Krumo;
 $krumo->dump($arr);
 ```
+
+Configuration:
+--------------
+
+Krumo *will* work without a configuration file. If you'd like to change the default settings you can copy the `krumo.sample.ini` to `krumo.ini` and change the file appropriately.
