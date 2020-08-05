@@ -575,7 +575,7 @@ class Krumo
 
     /**
     * Return the dump information about a variable
-    * @param mixed $data,...
+    * @param mixed ...$data
     * @return string
     */
     static function fetch($data)
@@ -594,6 +594,29 @@ class Krumo
             );
 
         return ob_get_clean();
+    }
+
+    /**
+    * Prints the dump information about variable\variables at end of a script
+    * @param mixed ...$data pass as many arguments as you want
+    * @return string
+    */
+    static function queue($data)
+    {
+        // disabled ?
+        //
+        if (!self::_debug())
+        {
+            return false;
+        }
+
+        $output = call_user_func_array(
+          array(get_called_class(), 'fetch'),
+          func_get_args()
+          );
+
+        register_shutdown_function('print', $output);
+        return $output;
     }
 
     /**
