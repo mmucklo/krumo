@@ -615,7 +615,7 @@ class Krumo
           func_get_args()
           );
 
-        register_shutdown_function('print', $output);
+        register_shutdown_function('printf', '%s', $output);
         return $output;
     }
 
