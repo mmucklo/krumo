@@ -1098,10 +1098,9 @@ class Krumo
                     continue;
                 }
 
-                // get real value
-                $v =& $data[$k];
-
                 if ( 0 <= $limit ) {
+                    // get real value
+                    $v =& $data[$k];
                     static::_dump($v, $k);
                     $limit--;
                 }
