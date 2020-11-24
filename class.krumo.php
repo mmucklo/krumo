@@ -1087,23 +1087,24 @@ class Krumo
             // keys
             $keys = array_keys($data);
 
-            $limit = (int) static::_config('display', 'truncate_count', -1);
-            $truncated = count($data) - $limit;
+            $limit = (int) static::_config('display', 'truncate_count', 0);
+            $truncated = 0;
 
             // iterate
-            foreach ($keys as $k) {
+            foreach ($keys as $i => $k) {
                 // skip marker
                 if ($k === $_recursion_marker) {
-                    $truncated--;
                     continue;
                 }
-
-                if ( 0 <= $limit ) {
-                    // get real value
-                    $v =& $data[$k];
-                    static::_dump($v, $k);
-                    $limit--;
+                
+                if ( $i >= $limit && $limit > 0 ) {
+	                $truncated++;
+	                continue;
                 }
+	
+	            // get real value
+	            $v =& $data[$k];
+	            static::_dump($v, $k);
             }
 
             if ( $truncated > 0 ) {
