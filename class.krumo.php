@@ -1094,29 +1094,29 @@ class Krumo
             foreach ($keys as $k) {
                 // skip marker
                 if ($k === $_recursion_marker) {
+                    $truncated--;
                     continue;
                 }
 
                 // get real value
                 $v =& $data[$k];
 
-                static::_dump($v, $k);
-
-                $limit--;
-                if ( 0 === $limit ) {
-                    if ( $truncated > 0 ) {
-                        print "<li class=\"krumo-child\">";
-                        print "<div class=\"krumo-element \" ";
-                        print "onMouseOver=\"krumo.over(this);\" onMouseOut=\"krumo.out(this);\">\n";
-                        print "<a class=\"krumo-name\">truncated</a> ";
-                        print "<div class=\"krumo-nest\">";
-                        print "<ul class=\"krumo-node\">";
-                        print "<li class=\"krumo-child\"> <div class=\"krumo-preview\">" . $truncated . " items not shown</div></li>";
-                        print "</ul></div>";
-                        print "</div></li>";
-                    }
-                    break;
+                if ( 0 <= $limit ) {
+                    static::_dump($v, $k);
+                    $limit--;
                 }
+            }
+
+            if ( $truncated > 0 ) {
+                print "<li class=\"krumo-child\">";
+                print "<div class=\"krumo-element \" ";
+                print "onMouseOver=\"krumo.over(this);\" onMouseOut=\"krumo.out(this);\">\n";
+                print "<a class=\"krumo-name\">truncated</a> ";
+                print "<div class=\"krumo-nest\">";
+                print "<ul class=\"krumo-node\">";
+                print "<li class=\"krumo-child\"> <div class=\"krumo-preview\">" . $truncated . " items not shown</div></li>";
+                print "</ul></div>";
+                print "</div></li>";
             }
         }
 
