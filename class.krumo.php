@@ -1096,7 +1096,7 @@ class Krumo
                 if ($k === $_recursion_marker) {
                     continue;
                 }
-                
+
                 // skip items beyond the limit, if any
                 if ( $i >= $limit && $limit > 0 ) {
                     $truncated++;
@@ -1109,15 +1109,11 @@ class Krumo
             }
 
             if ( $truncated > 0 ) {
-                print "<li class=\"krumo-child\">";
+                print "\n<li class=\"krumo-child\">";
                 print "<div class=\"krumo-element \" ";
-                print "onMouseOver=\"krumo.over(this);\" onMouseOut=\"krumo.out(this);\">\n";
-                print "<a class=\"krumo-name\">truncated</a> ";
-                print "<div class=\"krumo-nest\">";
-                print "<ul class=\"krumo-node\">";
-                print "<li class=\"krumo-child\"> <div class=\"krumo-preview\">" . $truncated . " items not shown</div></li>";
-                print "</ul></div>";
-                print "</div></li>";
+                print "onMouseOver=\"krumo.over(this);\" onMouseOut=\"krumo.out(this);\">";
+                print "<a class=\"krumo-name\">Array output truncated ($truncated items not shown)</a>";
+                print "</div></li>\n";
             }
         }
 
