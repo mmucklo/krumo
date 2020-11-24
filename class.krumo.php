@@ -1087,6 +1087,8 @@ class Krumo
             // keys
             $keys = array_keys($data);
 
+	        $limit = (int) static::_config('display', 'truncate_count', -1);
+
             // iterate
             foreach ($keys as $k) {
                 // skip marker
@@ -1098,6 +1100,26 @@ class Krumo
                 $v =& $data[$k];
 
                 static::_dump($v, $k);
+	
+	            $limit--;
+	            if ( 0 === $limit ) {
+		            $count = count($data);
+	            	$remaining = $count - $limit . ' items not shown';
+					
+	            	if ( $remaining > 0 ) {
+			            print "<li class=\"krumo-child\">";
+			            print "<div class=\"krumo-element \" ";
+			            print "onMouseOver=\"krumo.over(this);\" onMouseOut=\"krumo.out(this);\">\n";
+			            print "<a class=\"krumo-name\">truncated</a> ";
+			            print "<div class=\"krumo-nest\">";
+			            print "<ul class=\"krumo-node\">";
+			            print "<li class=\"krumo-child\"> <div class=\"krumo-preview\">" . $remaining . "</div></li>";
+			            print "</ul></div>";
+			            print "</div></li>";
+			            
+			            break;
+		            }
+	            }
             }
         }
 
