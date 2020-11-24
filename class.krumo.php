@@ -1097,14 +1097,15 @@ class Krumo
                     continue;
                 }
                 
+                // skip items beyond the limit, if any
                 if ( $i >= $limit && $limit > 0 ) {
-	                $truncated++;
-	                continue;
+                    $truncated++;
+                    continue;
                 }
-	
-	            // get real value
-	            $v =& $data[$k];
-	            static::_dump($v, $k);
+
+                // get real value and dump
+                $v =& $data[$k];
+                static::_dump($v, $k);
             }
 
             if ( $truncated > 0 ) {
