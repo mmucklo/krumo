@@ -1088,8 +1088,7 @@ class Krumo
             $keys = array_keys($data);
 
             $limit = (int) static::_config('display', 'truncate_count', -1);
-            $count = count($data);
-            $truncated = $count - $limit;
+            $truncated = count($data) - $limit;
 
             // iterate
             foreach ($keys as $k) {
@@ -1115,9 +1114,8 @@ class Krumo
                         print "<li class=\"krumo-child\"> <div class=\"krumo-preview\">" . $truncated . " items not shown</div></li>";
                         print "</ul></div>";
                         print "</div></li>";
-                        
-                        break;
                     }
+                    break;
                 }
             }
         }
