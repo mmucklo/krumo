@@ -1087,17 +1087,33 @@ class Krumo
             // keys
             $keys = array_keys($data);
 
+            $limit = (int) static::_config('display', 'truncate_count', 0);
+            $truncated = 0;
+
             // iterate
-            foreach ($keys as $k) {
+            foreach ($keys as $i => $k) {
                 // skip marker
                 if ($k === $_recursion_marker) {
                     continue;
                 }
 
-                // get real value
-                $v =& $data[$k];
+                // skip items beyond the limit, if any
+                if ( $i >= $limit && $limit > 0 ) {
+                    $truncated++;
+                    continue;
+                }
 
+                // get real value and dump
+                $v =& $data[$k];
                 static::_dump($v, $k);
+            }
+
+            if ( $truncated > 0 ) {
+                print "\n<li class=\"krumo-child\">";
+                print "<div class=\"krumo-element \" ";
+                print "onMouseOver=\"krumo.over(this);\" onMouseOut=\"krumo.out(this);\">";
+                print "<a class=\"krumo-name\">Array output truncated ($truncated items not shown)</a>";
+                print "</div></li>\n";
             }
         }
 
