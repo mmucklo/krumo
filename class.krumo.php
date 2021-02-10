@@ -1087,7 +1087,7 @@ class Krumo
             // keys
             $keys = array_keys($data);
 
-            $limit = (int) static::_config('display', 'truncate_count', 0);
+            $limit = (int) static::_config('display', 'truncate_array_length', 0);
             $truncated = 0;
 
             // iterate
@@ -1454,8 +1454,8 @@ class Krumo
         $_ = $data;
 
         // Get the truncate length from the config, or default to 100
-        $truncate_length = static::_config('display', 'truncate_length', 100);
-        $display_cr      = static::_config('display', 'carriage_returns', true);
+        $truncate_length = static::_config('display', 'truncate_string_length', 100);
+        $display_cr      = static::_config('display', 'show_carriage_returns', true);
 
         $strlen = strlen($data);
         if (function_exists('mb_strlen')) {
