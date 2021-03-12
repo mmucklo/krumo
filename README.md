@@ -56,6 +56,15 @@ $krumo = new Krumo;
 $krumo->dump($arr);
 ```
 
+Options:
+--------
+These options can be passed as the *second* argument to Krumo to alter behavior:
+
+* `KRUMO_RETURN` - return the Krumo output instead of printing it
+* `KRUMO_EXPAND_ALL` - start Krumo with all nodes expanded
+* `KRUMO_SORT` - sort arrays before displaying (note: overrides config)
+* `KRUMO_NO_SORT` - do **not** sort arrays before displaying (note: overrides config)
+
 Configuration:
 --------------
 
