@@ -1,5 +1,5 @@
 // Command to generate minified JS:
-// curl -X POST -s --data-urlencode 'input@krumo.js' https://javascript-minifier.com/raw
+// curl -X POST -s --data-urlencode 'input@js/krumo.js' https://www.toptal.com/developers/javascript-minifier/raw > js/krumo.min.js 
 
 /**
 * JavaScript routines for Krumo
@@ -55,6 +55,11 @@ krumo.unclass = function(el, className) {
 krumo.toggle = function(event) {
 	var elem        = event.target.closest(".krumo-expand");
 	var ctrl        = event.ctrlKey;
+
+	if (elem === null) {
+		event.stopPropagation();
+		return;
+	}
 	var is_expanded = !elem.classList.contains("krumo-opened");
 
 	// Adding a control to you click does an expand/collapse all
