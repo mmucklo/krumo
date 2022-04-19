@@ -1501,7 +1501,7 @@ class Krumo
 
         // Check for and highlight any leading or trailing spaces/tabs
         if (preg_match("/^([ \t]+)|([ \t]+)$/", $data)) {
-            $has_leading  = preg_match("/^([ \t]s+)/", $data);
+            $has_leading  = preg_match("/^([ \t]+)/", $data);
             $has_trailing = preg_match("/([ \t]+)$/", $data);
 
             if ($has_leading && $has_trailing) {
