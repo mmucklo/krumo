@@ -55,13 +55,12 @@ krumo.unclass = function(el, className) {
 krumo.toggle = function(event) {
 	var elem        = event.target.closest(".krumo-expand");
 	var ctrl        = event.ctrlKey;
-	var is_expanded;
 
 	if (elem === null) {
 		event.stopPropagation();
 		return;
 	}
-	is_expanded = !elem.classList.contains("krumo-opened");
+	var is_expanded = !elem.classList.contains("krumo-opened");
 
 	// Adding a control to you click does an expand/collapse all
 	if (ctrl) {
