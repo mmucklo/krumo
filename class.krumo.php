@@ -1424,7 +1424,7 @@ class Krumo
     private static function is_datetime($name, $value)
     {
         // If the name contains date or time, and the value looks like a unixtime
-        if (preg_match("/date|time/i", $name) && ($value > 10000000 && $value < 4000000000)) {
+        if (preg_match("/date|time/i", $name) && (is_numeric($value) && $value > 10000000 && $value < 4000000000)) {
             $ret = date("r", $value);
 
             return $ret;
