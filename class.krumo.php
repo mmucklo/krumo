@@ -1608,7 +1608,7 @@ class Krumo
 
         foreach ($args as $i) {
             $out = var_export($i);
-            print trim($out);
+            print trim((string) $out);
 
             if (sizeof($args) >= 1) {
                 $version = Krumo::VERSION;
