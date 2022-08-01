@@ -1607,7 +1607,7 @@ class Krumo
         }
 
         foreach ($args as $i) {
-            $out = var_export($i);
+            $out = var_export($i) ?? '';
             print trim($out);
 
             if (sizeof($args) >= 1) {
