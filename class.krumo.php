@@ -499,8 +499,9 @@ class Krumo
         $_ = debug_backtrace();
         while ($d = array_pop($_)) {
             $callback = static::$lineNumberTestCallback;
-            $function = strToLower($d['function']);
-            if (in_array($function, array("krumo","k","kd")) || (strToLower(@$d['class']) == 'krumo') || (is_callable($callback) && call_user_func($callback, $d))) {
+            $class    = strtolower($d['class'] ?? '');
+            $function = strtolower($d['function'] ?? '');
+            if (in_array($function, array('krumo','k','kd')) || $class == 'krumo' || (is_callable($callback) && call_user_func($callback, $d))) {
                 break;
             }
         }
