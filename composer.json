@@ -23,7 +23,7 @@
     }
     ],
     "require": {
-        "php": ">=5.2.17"
+        "php": ">=7.0"
     },
     "require-dev": {
         "fabpot/php-cs-fixer": "dev-master",
