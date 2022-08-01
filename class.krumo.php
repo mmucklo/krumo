@@ -45,7 +45,7 @@ if (!defined('KRUMO_NO_SORT')) {
 */
 class Krumo
 {
-    const VERSION = '0.6.1';
+    const VERSION = '0.7.0';
 
     /**
      * Return Krumo version
