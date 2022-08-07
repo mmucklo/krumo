@@ -1,5 +1,5 @@
 // Command to generate minified JS:
-// curl -X POST -s --data-urlencode 'input@js/krumo.js' https://www.toptal.com/developers/javascript-minifier/raw > js/krumo.min.js 
+// curl -X POST -s --data-urlencode 'input@js/krumo.js' https://www.toptal.com/developers/javascript-minifier/api/raw > js/krumo.min.js
 
 /**
 * JavaScript routines for Krumo
