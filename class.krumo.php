@@ -1519,8 +1519,8 @@ class Krumo
             }
 
             $icon = static::get_icon("information", $title);
-            $_    = preg_replace_callback( "/^([ \t]+)/", "static::convert_whitespace", $_);
-            $_    = preg_replace_callback( "/([ \t]+)$/", "static::convert_whitespace", $_);
+            $_    = preg_replace_callback( "/^([ \t]+)/", "Krumo::convert_whitespace", $_);
+            $_    = preg_replace_callback( "/([ \t]+)$/", "Krumo::convert_whitespace", $_);
         }
 
         // Convert all the \r or \n to visible paragraph markers
