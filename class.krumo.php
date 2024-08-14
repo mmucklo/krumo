@@ -1642,9 +1642,9 @@ class Krumo
 if (!function_exists("krumo")) {
     function krumo()
     {
-        $_ = func_get_args();
+        $vars = func_get_args();
 
-        return call_user_func_array(array('krumo', 'dump'), $_);
+        return call_user_func_array(array('krumo', 'dump'), $vars);
     }
 }
 
@@ -1669,8 +1669,9 @@ if (!function_exists('kd')) {
         if (php_sapi_name() !== 'cli') {
             Krumo::htmlHeaders();
         }
-        $_ = func_get_args();
-        call_user_func_array(array('krumo', 'dump'), $_);
+
+        $vars = func_get_args();
+        call_user_func_array(array('krumo', 'dump'), $vars);
 
         exit();
     }
