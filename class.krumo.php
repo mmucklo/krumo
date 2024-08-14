@@ -895,12 +895,6 @@ class Krumo
         if (is_object($data)) {
             static::_object($data, $name);
         }
-        // Closure
-// Not yet implemented
-
-//        else if (($data instanceof \Closure))
-//            static::_closure();
-
         elseif (is_array($data)) {
             static::_array($data, $name);
         }
