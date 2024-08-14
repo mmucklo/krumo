@@ -1654,7 +1654,7 @@ if (!function_exists('k')) {
         $vars = func_get_args();
 
         // If we've been called via k(9)
-        if ($vars == [9]) {
+        if ($vars === [9]) {
             $GLOBALS['__KRUMO_DOG'] = true;
         }
 
