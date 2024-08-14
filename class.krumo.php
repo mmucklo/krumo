@@ -43,6 +43,7 @@ if (!defined('KRUMO_NO_SORT')) {
 *
 * @package Krumo
 */
+
 class Krumo
 {
     const VERSION = '0.7.2';
@@ -539,9 +540,16 @@ class Krumo
             }
 
             if ($showVersion) {
+
+                if (!empty($GLOBALS['__KRUMO_DOG'])) {
+                    $dog_str = "<span style=\"margin-left: 4px;\">&#128021</span>";
+                } else {
+                    $dog_str = "";
+                }
+
                 $version = Krumo::VERSION;
                 print "<span class=\"krumo-version\" style=\"white-space:nowrap;\">\n";
-                print "<strong class=\"krumo-version-number\">Krumo version $version</strong> | <a href=\"$krumoUrl\" target=\"_blank\">$krumoUrl</a>\n";
+                print "<strong class=\"krumo-version-number\">Krumo version $version</strong> | <a href=\"$krumoUrl\" target=\"_blank\">$krumoUrl</a>$dog_str\n";
                 print "</span>\n";
             }
 
@@ -1643,9 +1651,14 @@ if (!function_exists("krumo")) {
 if (!function_exists('k')) {
     function k()
     {
-        $_ = func_get_args();
+        $vars = func_get_args();
 
-        return call_user_func_array(array('krumo', 'dump'), $_);
+        // If we've been called via k(9)
+        if ($vars == [9]) {
+            $GLOBALS['__KRUMO_DOG'] = true;
+        }
+
+        return call_user_func_array(array('krumo', 'dump'), $vars);
     }
 }
 
