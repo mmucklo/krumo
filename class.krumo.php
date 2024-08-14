@@ -1088,9 +1088,14 @@ class Krumo
                     $property->setAccessible(true);
                 }
 
-                $value = $property->getValue($data);
+                if ($property->isInitialized($data)) {
+                    $value = $property->getValue($data);
+                } else {
+                    $value = null;
+                }
 
                 static::_dump($value, "<span>$prefix</span>&nbsp;$name");
+
                 if ($setAccessible) {
                     $property->setAccessible(false);
                 }
