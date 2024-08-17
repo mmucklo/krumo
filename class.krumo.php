@@ -1274,8 +1274,8 @@ class Krumo
             $elementClasses = '';
         }
 
-        print "<li class=\"krumo-child\"> <div class=\"krumo-element $elementClasses\"";
-        print 'onMouseOver="krumo.over(this);" onMouseOut="krumo.out(this);">';
+        print "<li class=\"krumo-child\"> <div class=\"krumo-element $elementClasses\" ";
+        print "onMouseOver=\"krumo.over(this);\" onMouseOut=\"krumo.out(this);\">";
 
         $empty_str = '';
         if ($childCount == 0) {
