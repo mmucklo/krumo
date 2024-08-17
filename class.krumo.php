@@ -943,6 +943,7 @@ class Krumo
             </div></li>';
 
         $html = sprintf($html, $name, static::get_separator());
+        $html .= "\n";
 
         echo $html;
     }
@@ -1247,7 +1248,7 @@ class Krumo
             static::_vars($data);
         }
 
-        print "</li>";
+        print "</li>\n";
     }
 
 
@@ -1302,7 +1303,7 @@ class Krumo
             unset($data->trace);
         }
 
-        print "</li>";
+        print "</li>\n";
     }
 
 
@@ -1321,6 +1322,7 @@ class Krumo
             </div></li>';
 
         $html = sprintf($html, $name, static::get_separator(), get_resource_type($data));
+        $html .= "\n";
 
         echo $html;
     }
@@ -1346,6 +1348,7 @@ class Krumo
             <a class="krumo-name">%s</a> <em class="krumo-type">Boolean</em>
             %s<strong class="krumo-boolean">%s</strong>
             </div></li>';
+        $html .= "\n";
 
         $html = sprintf($html, $name, static::get_separator(), $value);
 
@@ -1366,7 +1369,7 @@ class Krumo
         print "<a class=\"krumo-name\">$key</a> <em class=\"krumo-type\">$type</em> ";
         print static::get_separator() . " <strong class=\"krumo-not-init\">[Not initialized]</strong>";
 
-        print "</div></li>";
+        print "</div></li>\n";
     }
 
 
@@ -1388,7 +1391,7 @@ class Krumo
             print " ~ <strong class=\"krumo-datetime\">$ut</strong>";
         }
 
-        print "</div></li>";
+        print "</div></li>\n";
     }
 
 
@@ -1410,7 +1413,7 @@ class Krumo
             print " ~ <strong class=\"krumo-datetime\">$ut</strong>";
         }
 
-        print "</div></li>";
+        print "</div></li>\n";
     }
 
     public static function get_icon($name, $title)
@@ -1602,7 +1605,7 @@ class Krumo
             print "</ul></div>";
         }
 
-        print "</li>";
+        print "</li>\n";
     }
 
     public static function convert_whitespace($m) {
