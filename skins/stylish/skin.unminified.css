@@ -163,6 +163,7 @@ strong.krumo-null {
     color: #700;
 }
 
+strong.krumo-not-init,
 strong.krumo-datetime,
 strong.krumo-sorted {
     font-family: "Helvetica Neue", Helvetica, Verdana, Arial, sans-serif;

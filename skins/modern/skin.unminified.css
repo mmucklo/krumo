@@ -173,6 +173,7 @@ strong.krumo-array-length,strong.krumo-string-length {
 .krumo-boolean,
 .krumo-null,
 .krumo-sorted,
+.krumo-not-init,
 .krumo-datetime {
     font-weight: bold;
     color: #700;
