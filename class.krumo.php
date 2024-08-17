@@ -891,18 +891,11 @@ class Krumo
         // Spaces are hard to see in the HTML and are hard to troubleshoot
         $name = static::sanitizeName($name);
 
-        // Check if we're the special "not initialized" class
-        $not_initialized = is_object($data) && $data instanceof KrumoNotInitialized;
-
         /////////////////////////////////////////////////////////////
         /////////////////////////////////////////////////////////////
 
-        // This has to go above is_object() because not init is a special object
-        if ($not_initialized) {
-            static::_not_initialized($data, $name);
-        }
         // object
-        elseif (is_object($data)) {
+        if (is_object($data)) {
             static::_object($data, $name);
         }
         // array
@@ -1095,15 +1088,12 @@ class Krumo
 
                 if ($property->isInitialized($data)) {
                     $value = $property->getValue($data);
+                    static::_dump($value, "<span>$prefix</span>&nbsp;$name");
                 } else {
-                    // Variable is not initialized so we create a special
-                    // object to indicate that and then store the TYPE of
-                    // variable it is in the object
-                    $value       = new KrumoNotInitialized();
-                    $value->type = $property->getType();
-                }
+                    $type = $property->getType();
 
-                static::_dump($value, "<span>$prefix</span>&nbsp;$name");
+                    static::_not_initialized("<span>$prefix</span>&nbsp;$name", $type);
+                }
 
                 if ($setAccessible) {
                     $property->setAccessible(false);
@@ -1369,13 +1359,11 @@ class Krumo
      * @param mixed $data
      * @param string $name
      */
-    private static function _not_initialized($data, $name)
+    private static function _not_initialized($key, $type)
     {
-        $type = $data->type;
-
         print "<li class=\"krumo-child\">";
         print "<div class=\"krumo-element\" onMouseOver=\"krumo.over(this);\" onMouseOut=\"krumo.out(this);\">";
-        print "<a class=\"krumo-name\">$name</a> <em class=\"krumo-type\">$type</em> ";
+        print "<a class=\"krumo-name\">$key</a> <em class=\"krumo-type\">$type</em> ";
         print static::get_separator() . " <strong class=\"krumo-not-init\">[Not initialized]</strong>";
 
         print "</div></li>";
@@ -1663,14 +1651,6 @@ class Krumo
         }
     }
 }
-
-// We need a way to flag a variable as not-initialized so we make a custom
-// class to indicate this special status.
-class KrumoNotInitialized {
-    public $value = true;
-    public $type = "";
-}
-
 
 /**
 * Alias of {@link static::dump()}
