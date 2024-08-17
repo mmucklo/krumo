@@ -1376,7 +1376,7 @@ class Krumo
         print "<li class=\"krumo-child\">";
         print "<div class=\"krumo-element\" onMouseOver=\"krumo.over(this);\" onMouseOut=\"krumo.out(this);\">";
         print "<a class=\"krumo-name\">$name</a> <em class=\"krumo-type\">$type</em> ";
-        print static::get_separator() . " <strong class=\"krumo-not-init\">[Not initalized]</strong>";
+        print static::get_separator() . " <strong class=\"krumo-not-init\">[Not initialized]</strong>";
 
         print "</div></li>";
     }
