@@ -1,0 +1,3 @@
+# Quicky command to minify the CSS using Curl
+
+curl -X POST -s --data-urlencode "input=$(cat skin.unminified.css)" https://www.toptal.com/developers/cssminifier/api/raw > skin.css
