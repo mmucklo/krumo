@@ -677,7 +677,7 @@ class Krumo
      *
      * @param array $cascade Cascading information
      */
-    public static function cascade(array $cascade = null)
+    public static function cascade(?array $cascade = null)
     {
         static::$_cascade = $cascade;
     }
