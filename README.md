@@ -14,7 +14,7 @@ include("/path/to/krumo/class.krumo.php");
 **or**
 
 ```bash
-composer require mustache/mustache
+composer require mmucklo/krumo
 ```
 
 ✨ Usage:
