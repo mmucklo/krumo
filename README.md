@@ -1,48 +1,40 @@
-Krumo
-=====
+📰 Krumo
+========
 
-Krumo is a replacement for `print_r()` and `var_dump()`. This is an updated version
-because the **SourceForge.net** version appears to have been abandoned.
+Krumo is a PHP debug printer and replacement for `print_r()` and `var_dump()`.
 
-Installation:
--------------
-Include the Krumo class in your `header.php` or global project include:
+📦 Installation:
+----------------
+Include the Krumo class file in your PHP project:
 
-~~~PHP
+```PHP
 include("/path/to/krumo/class.krumo.php");
-~~~
+```
 
 **or**
 
-Add this line to your composer.json "require" section:
-
-composer.json
--------------
-```json
-{
-	"require": {
-		"mmucklo/krumo": "*"
-	}
-}
+```bash
+composer require mmucklo/krumo
 ```
 
-Usage:
-------
-After Krumo is loaded you have access to the global Krumo functions: `krumo()`, `k()`, and `kd()`.
+✨ Usage:
+---------
+After Krumo is loaded you have access to the global Krumo functions: `krumo()`,
+`k()`, and `kd()`.
 
 ```php
 $arr = array(
 	'first' => 'Jason',
 	'last'  => 'Doolis',
-	'phone' => array(5032612314,4512392014),
+	'phone' => array(5032612314, 4512392014),
 	'likes' => array('animal' => 'kitten', 'color' => 'purple'),
 );
 
-// Dump out the array, short and long versions
+// Debug print the array, short and long versions
 k($arr);
 krumo($arr);
 
-// Output the array and then exit();
+// Output the array and then die();
 kd($arr);
 
 // Return the HTML output instead of printing it out
@@ -56,8 +48,8 @@ $krumo = new Krumo;
 $krumo->dump($arr);
 ```
 
-Options:
---------
+🧰 Options:
+-----------
 These options can be passed as the *second* argument to Krumo to alter behavior:
 
 * `KRUMO_RETURN` - return the Krumo output instead of printing it
@@ -65,7 +57,9 @@ These options can be passed as the *second* argument to Krumo to alter behavior:
 * `KRUMO_SORT` - sort arrays before displaying (note: overrides config)
 * `KRUMO_NO_SORT` - do **not** sort arrays before displaying (note: overrides config)
 
-Configuration:
---------------
+🥽 Configuration:
+-----------------
 
-Krumo *will* work without a configuration file. If you'd like to change the default settings you can copy the `krumo.sample.ini` to `krumo.ini` and change the file appropriately.
+Krumo *will* work without a configuration file. If you'd like to change the
+default settings you can copy the `krumo.sample.ini` to `krumo.ini` and change
+the file appropriately.
