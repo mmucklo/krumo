@@ -852,7 +852,7 @@ class Krumo
 
         // set
         if (isset($state)) {
-            $_ = (boolean) $state;
+            $_ = boolval($state);
         }
 
         // get
