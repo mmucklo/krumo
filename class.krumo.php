@@ -1070,22 +1070,16 @@ class Krumo
 
             foreach ($properties as $property) {
                 $prefix = null;
-                $setAccessible = false;
 
                 if ($property->isPrivate()) {
-                    $setAccessible = true;
                     $prefix = 'private';
                 } elseif ($property->isProtected()) {
-                    $setAccessible = true;
                     $prefix = 'protected';
                 } elseif ($property->isPublic()) {
                     $prefix = 'public';
                 }
 
                 $name = $property->getName();
-                if ($setAccessible) {
-                    $property->setAccessible(true);
-                }
 
                 if ($property->isInitialized($data)) {
                     $value = $property->getValue($data);
@@ -1094,10 +1088,6 @@ class Krumo
                     $type = $property->getType();
 
                     static::_not_initialized("<span>$prefix</span>&nbsp;$name", $type);
-                }
-
-                if ($setAccessible) {
-                    $property->setAccessible(false);
                 }
             }
         } else {
