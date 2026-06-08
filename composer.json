@@ -1,35 +1,34 @@
 {
-    "name": "mmucklo/krumo",
-    "type": "library",
-    "description": "KRUMO - version 2.0 of print_r(); and var_dump(); (with new updates)",
-    "license": "LGPL",
-    "keywords": ["debug", "debugging", "pretty", "print", "print_r", "var_dump", "krumo"],
-    "authors": [
-        {
-	    "name": "Kaloyan K. Tsvetkov",
-	    "email": "kaloyan@kaloyan.info"
+	"name": "mmucklo/krumo",
+	"type": "library",
+	"description": "KRUMO - version 2.0 of print_r(); and var_dump(); (with new updates)",
+	"license": "LGPL",
+	"keywords": ["debug", "debugging", "pretty", "print", "print_r", "var_dump", "krumo"],
+	"authors": [
+		{
+			"name": "Kaloyan K. Tsvetkov",
+			"email": "kaloyan@kaloyan.info"
+		},
+		{
+			"name": "Matthew J. Mucklo",
+			"email": "mmucklo@gmail.com"
+		},
+		{
+			"name": "Stefan Thomas",
+			"email": "moon@justmoon.de"
+		},
+		{
+			"name": "Scott Baker",
+			"email": "scott@perturb.org"
+		}
+	],
+	"require": {
+		"php": ">=8.2"
 	},
-	{
-	    "name": "Matthew J. Mucklo",
-	    "email": "mmucklo@gmail.com"
+	"require-dev": {
+		"friendsofphp/php-cs-fixer": "^3.95"
 	},
-	{
-	    "name": "Stefan Thomas",
-	    "email": "moon@justmoon.de"
-    },
-    {
-        "name": "Scott Baker",
-        "email": "scott@perturb.org"
-    }
-    ],
-    "require": {
-        "php": ">=8.2"
-    },
-    "require-dev": {
-        "fabpot/php-cs-fixer": "dev-master"
-    },
-    "autoload": {
-        "files": ["class.krumo.php"]
-    }
+	"autoload": {
+		"files": ["class.krumo.php"]
+	}
 }
-
