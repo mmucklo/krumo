@@ -26,8 +26,7 @@
         "php": ">=8.2"
     },
     "require-dev": {
-        "fabpot/php-cs-fixer": "dev-master",
-        "phpmd/phpmd": "dev-master"
+        "fabpot/php-cs-fixer": "dev-master"
     },
     "autoload": {
         "files": ["class.krumo.php"]
