@@ -27,5 +27,5 @@
 ## Gotchas
 - `dump()` uses `func_get_args()` + `call_user_func_array()` — don't add variadic without updating all callers
 - Heavy use of `&$data` by-reference params for recursion detection ("staining" arrays)
-- `htmlSpecialChars()` uses nonstandard casing (line ~1227) — correct is `htmlspecialchars`
+
 - CLI mode falls back to `var_export()`, not the HTML renderer

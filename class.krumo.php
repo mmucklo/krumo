@@ -1224,12 +1224,12 @@ class Krumo
             print " (<em class=\"krumo-type\">Callback</em>) <strong class=\"krumo-string\">";
 
             if (!is_object($_[0])) {
-                echo htmlSpecialChars($_[0]);
+                echo htmlspecialchars($_[0]);
             } else {
-                echo htmlSpecialChars(get_class($_[0])) . "::";
+                echo htmlspecialchars(get_class($_[0])) . "::";
             }
 
-            echo htmlSpecialChars($_[1]) . "()</strong></span>";
+            echo htmlspecialchars($_[1]) . "()</strong></span>";
         }
 
         print "</div>";
@@ -1580,7 +1580,7 @@ class Krumo
         // callback
         if (is_callable($data)) {
             print "<span class=\"krumo-callback\"> | ";
-            print "(<em class=\"krumo-type\">Callback</em>) <strong class=\"krumo-string\">" . htmlSpecialChars($_) . "()</strong></span>";
+            print "(<em class=\"krumo-type\">Callback</em>) <strong class=\"krumo-string\">" . htmlspecialchars($_) . "()</strong></span>";
         }
 
         print "</div>";
