@@ -5,3 +5,4 @@ krumo.ini
 vendor
 .php_cs.cache
 composer.lock
+.php-cs-fixer*
