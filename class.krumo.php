@@ -1689,12 +1689,4 @@ if (!function_exists('kd')) {
         exit();
     }
 }
-
-// Polyfill for is_countable() from https://secure.php.net/manual/en/function.is-countable.php
-if (!function_exists('is_countable')) {
-    function is_countable($var) {
-        return (is_array($var) || $var instanceof Countable);
-    }
-}
-
 // vim: tabstop=4 shiftwidth=4 expandtab autoindent
