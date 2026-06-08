@@ -26,6 +26,6 @@
 
 ## Gotchas
 - `dump()` uses `func_get_args()` + `call_user_func_array()` — don't add variadic without updating all callers
-- Heavy use of `&$data` by-reference params for recursion detection ("staining" arrays)
+- Array recursion detection stains the array by injecting a marker key (`&$data` by-reference). This is intentional and harmless (marker is filtered from display). Don't remove `&` signatures without updating the staining logic.
 
 - CLI mode falls back to `var_export()`, not the HTML renderer
