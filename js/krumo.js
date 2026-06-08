@@ -24,9 +24,7 @@ function krumo() { }
 * @return void
 */
 krumo.reclass = function(el, className) {
-	if (el.className.indexOf(className) < 0) {
-		el.className += (' ' + className);
-	}
+	el.classList.add(className);
 }
 
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
@@ -39,9 +37,7 @@ krumo.reclass = function(el, className) {
 * @return void
 */
 krumo.unclass = function(el, className) {
-	if (el.className.indexOf(className) > -1) {
-		el.className = el.className.replace(className, '');
-	}
+	el.classList.remove(className);
 }
 
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
@@ -53,8 +49,8 @@ krumo.unclass = function(el, className) {
 * @return void
 */
 krumo.toggle = function(event) {
-	var elem        = event.target.closest(".krumo-expand");
-	var ctrl        = event.ctrlKey;
+	var elem = event.target.closest(".krumo-expand");
+	var ctrl = event.ctrlKey;
 
 	if (elem === null) {
 		event.stopPropagation();
@@ -62,7 +58,7 @@ krumo.toggle = function(event) {
 	}
 	var is_expanded = !elem.classList.contains("krumo-opened");
 
-	// Adding a control to you click does an expand/collapse all
+	// If you doing ctrl + click we do an expand/collapse all
 	if (ctrl) {
 		if (is_expanded) {
 			krumo.expand_all(elem);
