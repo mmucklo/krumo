@@ -1,4 +1,5 @@
 <?php
+
 /**
 * Krumo: Structured information display solution
 *
@@ -46,7 +47,7 @@ if (!defined('KRUMO_NO_SORT')) {
 
 class Krumo
 {
-    const VERSION = '0.7.6';
+    public const VERSION = '0.7.6';
 
     /**
      * Return Krumo version
@@ -476,7 +477,7 @@ class Krumo
 
         $clearObjectRecursionProtection   = false;
         if (static::$objectRecursionProtection === null) {
-            static::$objectRecursionProtection = array();
+            static::$objectRecursionProtection = [];
             $clearObjectRecursionProtection  = true;
         }
 
@@ -503,7 +504,7 @@ class Krumo
 
             $class         = strtolower($d['class']    ?? '');
             $function      = strtolower($d['function'] ?? '');
-            $is_krumo_func = in_array($function, array('krumo','k','kd'));
+            $is_krumo_func = in_array($function, ['krumo','k','kd']);
 
             if ($is_krumo_func || $class == 'krumo' || (is_callable($callback) && call_user_func($callback, $d))) {
                 break;
@@ -590,20 +591,19 @@ class Krumo
     * @param mixed $data,...
     * @return string
     */
-    static function fetch($data)
+    public static function fetch($data)
     {
         // disabled ?
         //
-        if (!self::_debug())
-        {
+        if (!self::_debug()) {
             return false;
         }
 
         ob_start();
         call_user_func_array(
-            array(get_called_class(), 'dump'),
+            [get_called_class(), 'dump'],
             func_get_args()
-            );
+        );
 
         return ob_get_clean();
     }
@@ -611,7 +611,7 @@ class Krumo
     /**
       * Configuration array.
       */
-    private static $_config = array();
+    private static $_config = [];
 
     /**
      * Returns values from Krumo's configuration
@@ -622,7 +622,7 @@ class Krumo
      * @return mixed
      *
      */
-    private static function _config($group, $name, $fallback=null)
+    private static function _config($group, $name, $fallback = null)
     {
         $krumo_ini = __DIR__ . '/krumo.ini';
 
@@ -706,7 +706,7 @@ class Krumo
         $cascade = static::$_cascade;
 
         if ($cascade == null) {
-            $cascade = static::_config('display', 'cascade', array());
+            $cascade = static::_config('display', 'cascade', []);
         }
 
         if (isset($cascade[$level])) {
@@ -977,7 +977,7 @@ class Krumo
     private static $objectRecursionProtection = null;
     private static function &_hive(&$bee)
     {
-        static $_ = array();
+        static $_ = [];
 
         // new bee
         if (!is_null($bee)) {
@@ -1032,7 +1032,7 @@ class Krumo
                 $_r = null;
             }
         } else {
-            $_r = isset($data[$_recursion_marker]) ? $data[$_recursion_marker] : null;
+            $_r = $data[$_recursion_marker] ?? null;
         }
 
         // recursion detected
@@ -1105,7 +1105,7 @@ class Krumo
                 }
 
                 // skip items beyond the limit, if any
-                if ( $i >= $limit && $limit > 0 ) {
+                if ($i >= $limit && $limit > 0) {
                     $truncated++;
                     continue;
                 }
@@ -1115,7 +1115,7 @@ class Krumo
                 static::_dump($v, $k);
             }
 
-            if ( $truncated > 0 ) {
+            if ($truncated > 0) {
                 print "\n<li class=\"krumo-child\">";
                 print "<div class=\"krumo-element \" ";
                 print "onMouseOver=\"krumo.over(this);\" onMouseOut=\"krumo.out(this);\">";
@@ -1208,7 +1208,7 @@ class Krumo
         print "<a class=\"krumo-name\">$name</a> <em class=\"krumo-type\">Array(<strong class=\"krumo-array-length\">";
         print count($data) . "</strong>)</em>";
 
-        if (count($data)>0) {
+        if (count($data) > 0) {
             print " &hellip;";
         }
 
@@ -1542,8 +1542,8 @@ class Krumo
             }
 
             $icon = static::get_icon("information", $title);
-            $_    = preg_replace_callback( "/^([ \t]+)/", "Krumo::convert_whitespace", $_);
-            $_    = preg_replace_callback( "/([ \t]+)$/", "Krumo::convert_whitespace", $_);
+            $_    = preg_replace_callback("/^([ \t]+)/", "Krumo::convert_whitespace", $_);
+            $_    = preg_replace_callback("/([ \t]+)$/", "Krumo::convert_whitespace", $_);
         }
 
         // Convert all the \r or \n to visible paragraph markers
@@ -1625,7 +1625,7 @@ class Krumo
         $caller = array_pop($caller); // Get the last one
         $file   = $caller['file'];
         $line   = $caller['line'];
-        $bar    = str_repeat("-",80) . "\n";
+        $bar    = str_repeat("-", 80) . "\n";
 
         $args = func_get_args();
         $args = array_shift($args);
@@ -1657,7 +1657,7 @@ if (!function_exists("krumo")) {
     {
         $vars = func_get_args();
 
-        return call_user_func_array(array('krumo', 'dump'), $vars);
+        return call_user_func_array(['krumo', 'dump'], $vars);
     }
 }
 
@@ -1671,7 +1671,7 @@ if (!function_exists('k')) {
             $GLOBALS['__KRUMO_DOG'] = true;
         }
 
-        return call_user_func_array(array('krumo', 'dump'), $vars);
+        return call_user_func_array(['krumo', 'dump'], $vars);
     }
 }
 
@@ -1684,7 +1684,7 @@ if (!function_exists('kd')) {
         }
 
         $vars = func_get_args();
-        call_user_func_array(array('krumo', 'dump'), $vars);
+        call_user_func_array(['krumo', 'dump'], $vars);
 
         exit();
     }
