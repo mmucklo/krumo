@@ -1278,20 +1278,8 @@ class Krumo
         print "<a class=\"krumo-name\">" . htmlspecialchars($name, ENT_QUOTES | ENT_SUBSTITUTE, static::getCharset()) . "</a> <em class=\"krumo-type\">Object</em> ";
         print static::get_separator() . " <strong class=\"krumo-class\">" . htmlspecialchars($class_name, ENT_QUOTES | ENT_SUBSTITUTE, static::getCharset()) . "</strong>$empty_str</div>";
 
-        // If the object is an inherited exception, we want to print out the trace
-        // so we add a bogus trace parameter that contains the trace array
-        // Note: this is not required (will throw an error) for raw Exceptions
-        if ($data instanceof Exception && $class_name !== "Exception") {
-            $data->trace = $data->getTrace();
-        }
-
         if ($properties) {
             static::_vars($data);
-        }
-
-        // Remove the trace we added
-        if ($data instanceof Exception && $class_name !== "Exception") {
-            unset($data->trace);
         }
 
         print "</li>\n";
