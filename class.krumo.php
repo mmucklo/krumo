@@ -27,11 +27,11 @@ if (!defined('KRUMO_EXPAND_ALL')) {
 }
 
 if (!defined('KRUMO_SORT')) {
-    define('KRUMO_SORT','fefe1734-aa1b-4b1d-80e3-b8fddd45731a');
+    define('KRUMO_SORT', 'fefe1734-aa1b-4b1d-80e3-b8fddd45731a');
 }
 
 if (!defined('KRUMO_NO_SORT')) {
-    define('KRUMO_NO_SORT','a095a471-7734-44a4-90f1-0e8bac46dd0e');
+    define('KRUMO_NO_SORT', 'a095a471-7734-44a4-90f1-0e8bac46dd0e');
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -457,7 +457,7 @@ class Krumo
             $str = ob_get_clean();
 
             return $str;
-        // If we were given expand all, set the global variable
+            // If we were given expand all, set the global variable
         } elseif ($second === KRUMO_EXPAND_ALL) {
             static::$expand_all = true;
             static::dump($data);
@@ -1165,7 +1165,7 @@ class Krumo
             $config_sort = false;
         } elseif (static::$sort === true) {
             $config_sort = true;
-        // If neither of the above are set get it from the config
+            // If neither of the above are set get it from the config
         } else {
             $config_sort = static::_config('sorting', 'sort_arrays', true);
         }
@@ -1433,7 +1433,8 @@ class Krumo
         }
     }
 
-    private static function is_datetime($name, $value) {
+    private static function is_datetime($name, $value)
+    {
         $value = intval($value);
 
         // If the name contains date or time, and the value looks like a unixtime
@@ -1578,7 +1579,8 @@ class Krumo
         print "</li>\n";
     }
 
-    public static function convert_whitespace($m) {
+    public static function convert_whitespace($m)
+    {
         $str = $m[0];
 
         $len = strlen($str);
@@ -1600,7 +1602,8 @@ class Krumo
         return $cli;
     }
 
-    private static function cli_dump() {
+    private static function cli_dump()
+    {
         $caller = debug_backtrace();  // Get all of them
         $caller = array_pop($caller); // Get the last one
         $file   = $caller['file'];
