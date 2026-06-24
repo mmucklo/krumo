@@ -3,7 +3,7 @@
 /**
 * Krumo: Structured information display solution
 *
-* Krumo is a debugging tool (PHP5 only), which displays structured information
+* Krumo is a debugging tool (PHP 8.2+), which displays structured information
 * about any PHP variable. It is a nice replacement for print_r() or var_dump()
 * which are used by a lot of PHP developers.
 *
@@ -95,7 +95,7 @@ class Krumo
     }
 
     /**
-     * Prints a list of all currently declared interfaces (PHP5 only).
+     * Prints a list of all currently declared interfaces.
      *
      */
     public static function interfaces()
