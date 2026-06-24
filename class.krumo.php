@@ -1484,17 +1484,10 @@ class Krumo
         $truncate_length = static::_config('display', 'truncate_string_length', 100);
         $display_cr      = static::_config('display', 'show_carriage_returns', true);
 
-        $strlen = strlen($data);
-        if (function_exists('mb_strlen')) {
-            $strlen = mb_strlen($data, static::getCharset());
-        }
+        $strlen = mb_strlen($data, static::getCharset());
 
         if ($strlen > $truncate_length) {
-            if (function_exists('mb_substr')) {
-                $_ = mb_substr($data, 0, $truncate_length - 1, static::getCharset());
-            } else {
-                $_ = substr($data, 0, $truncate_length - 1);
-            }
+            $_ = mb_substr($data, 0, $truncate_length - 1, static::getCharset());
             $_extra = true;
         } else {
             $_extra = false;
