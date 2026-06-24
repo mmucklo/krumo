@@ -1173,7 +1173,7 @@ class Krumo
         }
 
         // If the sort is enabled in the config (default = yes) and the array is assoc (non-numeric)
-        if (sizeof($data) > 1 && $config_sort && static::is_assoc($data)) {
+        if (count($data) > 1 && $config_sort && static::is_assoc($data)) {
             // Copy the array to a temp variable and sort it
             $new = $data;
             ksort($new);
@@ -1629,7 +1629,7 @@ class Krumo
 
         $args = func_get_args();
         $args = array_shift($args);
-        if (sizeof($args) >= 1) {
+        if (count($args) >= 1) {
             print $bar;
         }
 
@@ -1637,7 +1637,7 @@ class Krumo
             $out = var_export($i) ?? '';
             print trim($out);
 
-            if (sizeof($args) >= 1) {
+            if (count($args) >= 1) {
                 $version = Krumo::VERSION;
                 print "\n\nCalled from $file, line $line  (Krumo version $version)\n$bar\n";
             }
