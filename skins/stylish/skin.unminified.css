@@ -101,9 +101,6 @@ li.krumo-footnote {
     margin-top: 2px;
     cursor: default;
 }
-* html li.krumo-footnote {
-    line-height: 13px;
-}
 .krumo-version {
     float: right;
 }

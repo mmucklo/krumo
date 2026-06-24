@@ -9,9 +9,6 @@ ul.krumo-node ul {
 	margin-left: 18px;
 }
 
-* html ul.krumo-node ul {
-	margin-left: 24px;
-}
 
 div.krumo-root {
 	border: solid 1px #000;
@@ -48,9 +45,6 @@ div.krumo-element {
 	padding-left: 18px;
 }
 
-* html div.krumo-element {
-	padding-bottom: 3px;
-}
 
 a.krumo-name {
 	color: #2C5858;
@@ -67,15 +61,6 @@ a.krumo-name big {
 	left: -2px;
 }
 
-* html a.krumo-name big {
-	font: 700 19pt Georgia;
-	top: 5px;
-	left: 0;
-	line-height: 9px;
-	height: 12px;
-	padding: 0;
-	margin: 0;
-}
 
 div.krumo-expand {
 	background-color: #CCC;
@@ -104,9 +89,6 @@ div.krumo-preview {
 	overflow: auto;
 }
 
-* html div.krumo-preview {
-	padding-top: 2px;
-}
 
 li.krumo-footnote {
 	background: #fff;
@@ -117,9 +99,6 @@ li.krumo-footnote {
 	cursor: default;
 }
 
-* html li.krumo-footnote {
-	line-height: 13px;
-}
 
 .krumo-version {
 	float: right;
