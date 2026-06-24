@@ -1,171 +1,118 @@
 // Command to generate minified JS:
 // php bin/minify js/krumo.js js/krumo.min.js
 
+'use strict';
+
 /**
-* JavaScript routines for Krumo
-*
-* @version $Id: krumo.js 22 2007-12-02 07:38:18Z Mrasnika $
-*/
+ * JavaScript routines for Krumo
+ */
 
 /////////////////////////////////////////////////////////////////////////////
 
-/**
-* Krumo JS Class
-*/
-function krumo() { }
+const krumo = {};
 
-// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+krumo.reclass = (el, className) => {
+    el.classList.add(className);
+};
 
-/**
-* Add a CSS class to an HTML element
-*
-* @param HtmlElement el
-* @param string className
-* @return void
-*/
-krumo.reclass = function(el, className) {
-	el.classList.add(className);
-}
+krumo.unclass = (el, className) => {
+    el.classList.remove(className);
+};
 
-// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+krumo.toggle = (event) => {
+    const elem = event.target.closest('.krumo-expand');
+    const ctrl = event.ctrlKey;
 
-/**
-* Remove a CSS class to an HTML element
-*
-* @param HtmlElement el
-* @param string className
-* @return void
-*/
-krumo.unclass = function(el, className) {
-	el.classList.remove(className);
-}
+    if (elem === null) {
+        event.stopPropagation();
+        return;
+    }
 
-// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+    const isExpanded = !elem.classList.contains('krumo-opened');
 
-/**
-* Toggle the nodes connected to an HTML element
-*
-* @param HtmlElement el
-* @return void
-*/
-krumo.toggle = function(event) {
-	var elem = event.target.closest(".krumo-expand");
-	var ctrl = event.ctrlKey;
+    if (ctrl) {
+        if (isExpanded) {
+            krumo.expand_all(elem);
+        } else {
+            krumo.collapse_all(elem);
+        }
+    } else {
+        if (isExpanded) {
+            krumo.expand(elem);
+        } else {
+            krumo.collapse(elem);
+        }
+    }
 
-	if (elem === null) {
-		event.stopPropagation();
-		return;
-	}
-	var is_expanded = !elem.classList.contains("krumo-opened");
+    event.stopPropagation();
+};
 
-	// If you doing ctrl + click we do an expand/collapse all
-	if (ctrl) {
-		if (is_expanded) {
-			krumo.expand_all(elem);
-		} else {
-			krumo.collapse_all(elem);
-		}
-	} else {
-		if (is_expanded) {
-			krumo.expand(elem);
-		} else {
-			krumo.collapse(elem);
-		}
-	}
+krumo.expand = (el) => {
+    const paren = el.parentNode;
+    const nest = paren.querySelector('.krumo-nest');
+    const exp = paren.querySelector('.krumo-expand');
 
-	event.stopPropagation();
-}
+    nest.style.display = 'block';
+    krumo.reclass(exp, 'krumo-opened');
+};
 
-krumo.expand = function(el) {
-	paren = el.parentNode;
-	nest  = paren.querySelector(".krumo-nest");
-	exp   = paren.querySelector(".krumo-expand");
+krumo.collapse = (el) => {
+    const paren = el.parentNode;
+    const nest = paren.querySelector('.krumo-nest');
+    const exp = paren.querySelector('.krumo-expand');
 
-	nest.style.display = 'block';
-	krumo.reclass(exp,"krumo-opened");
-}
+    nest.style.display = 'none';
+    krumo.unclass(exp, 'krumo-opened');
+};
 
-krumo.collapse = function(el) {
-	paren = el.parentNode;
-	nest  = paren.querySelector(".krumo-nest");
-	exp   = paren.querySelector(".krumo-expand");
+krumo.expand_all = (el) => {
+    const paren = el.parentNode;
+    const nests = paren.querySelectorAll('.krumo-nest');
+    const exps = paren.querySelectorAll('.krumo-expand');
 
-	nest.style.display = 'none';
-	krumo.unclass(exp,"krumo-opened");
-}
+    nests.forEach((item) => {
+        item.style.display = 'block';
+    });
 
-krumo.expand_all = function(el) {
-	paren = el.parentNode;
-	nest  = paren.querySelectorAll(".krumo-nest");
-	exp   = paren.querySelectorAll(".krumo-expand");
+    exps.forEach((item) => {
+        krumo.reclass(item, 'krumo-opened');
+    });
+};
 
-	nest.forEach(function(item, i) {
-		item.style.display = 'block';
-	});
+krumo.collapse_all = (el) => {
+    const paren = el.parentNode;
+    const nests = paren.querySelectorAll('.krumo-nest');
+    const exps = paren.querySelectorAll('.krumo-expand');
 
-	exp.forEach(function(item, i) {
-		krumo.reclass(item,"krumo-opened");
-	});
-}
+    nests.forEach((item) => {
+        item.style.display = 'none';
+    });
 
-krumo.collapse_all = function(el) {
-	paren = el.parentNode;
-	nest  = paren.querySelectorAll(".krumo-nest");
-	exp   = paren.querySelectorAll(".krumo-expand");
+    exps.forEach((item) => {
+        krumo.unclass(item, 'krumo-opened');
+    });
+};
 
-	nest.forEach(function(item, i) {
-		item.style.display = 'none';
-	});
+krumo.over = (el) => {
+    krumo.reclass(el, 'krumo-hover');
+};
 
-	exp.forEach(function(item, i) {
-		krumo.unclass(item,"krumo-opened");
-	});
-}
-
-// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-
-/**
-* Hover over an HTML element
-*
-* @param HtmlElement el
-* @return void
-*/
-krumo.over = function(el) {
-	krumo.reclass(el, 'krumo-hover');
-}
-
-// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-
-/**
-* Hover out an HTML element
-*
-* @param HtmlElement el
-* @return void
-*/
-
-krumo.out = function(el) {
-	krumo.unclass(el, 'krumo-hover');
-}
+krumo.out = (el) => {
+    krumo.unclass(el, 'krumo-hover');
+};
 
 /////////////////////////////////////////////////////////////////////////////
 
-function qsa(search) {
-	var elems = document.querySelectorAll(search);
+const qsa = (search) => document.querySelectorAll(search);
 
-	return elems;
-}
+const init_click = () => {
+    const elems = qsa('.krumo-expand');
 
-function init_click() {
-	var elems = qsa('.krumo-expand');
+    elems.forEach((el) => {
+        el.parentNode.addEventListener('click', krumo.toggle);
+    });
+};
 
-	// Add a click item to everything that's expandable
-	elems.forEach(function(el) {
-		el.parentNode.addEventListener("click", krumo.toggle);
-	});
-}
-
-// Equivalent to $(document).ready() in JQUery
-// https://stackoverflow.com/questions/2304941/what-is-the-non-jquery-equivalent-of-document-ready
-document.addEventListener("DOMContentLoaded", function() {
-	init_click();
+document.addEventListener('DOMContentLoaded', () => {
+    init_click();
 });
