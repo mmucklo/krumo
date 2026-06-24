@@ -24,7 +24,6 @@ abstract class BaseTestCase extends TestCase
     protected function renderHtml(mixed $value): string
     {
         $ref = new ReflectionMethod(\Krumo::class, '_dump');
-        $ref->setAccessible(true);
 
         ob_start();
         $ref->invokeArgs(null, [&$value]);
