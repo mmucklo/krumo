@@ -793,13 +793,13 @@ class Krumo
 
             // the CSS
             print "<!-- Using Krumo Skin: \"$skin\" $rel_css_file -->\n";
-            print "<style type=\"text/css\">\n";
+            print "<style>\n";
             print trim($css) . "\n";
             print "</style>\n";
             print "<!-- Krumo - CSS -->\n";
 
             // the JS
-            print "<script type=\"text/javascript\">\n";
+            print "<script>\n";
 
             $js_min_file = __DIR__ . "/js/krumo.min.js";
             $js_file     = __DIR__ . "/js/krumo.js";
