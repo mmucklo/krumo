@@ -86,7 +86,9 @@ div.krumo-preview {
 }
 
 ul.krumo-node ul div.krumo-expand.krumo-hover,
-ul.krumo-node ul div.krumo-hover ~ div {
+ul.krumo-node ul div.krumo-hover ~ div,
+ul.krumo-node ul div.krumo-expand:hover,
+ul.krumo-node ul div:hover ~ div {
     border-left: 2px solid #888;
     background-color: rgba(88, 139, 255, 0.05) !important;
 }

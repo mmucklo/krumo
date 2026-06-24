@@ -938,7 +938,7 @@ class Krumo
     private static function _null($name)
     {
         $html = '<li class="krumo-child">
-            <div class="krumo-element" onMouseOver="krumo.over(this);" onMouseOut="krumo.out(this);">
+            <div class="krumo-element">
             <a class="krumo-name">%s</a> %s <em class="krumo-type krumo-null">NULL</em>
             </div></li>';
 
@@ -1139,7 +1139,7 @@ class Krumo
         $html = '<div class="krumo-nest" style="display:none;">
             <ul class="krumo-node">
                 <li class="krumo-child">
-                    <div class="krumo-element" onMouseOver="krumo.over(this);" onMouseOut="krumo.out(this);">
+                    <div class="krumo-element">
                         <a class="krumo-name">&#8734;</a>
                         (<em class="krumo-type">Recursion</em>)
                     </div>
@@ -1295,7 +1295,7 @@ class Krumo
     private static function _resource($data, $name)
     {
         $html = '<li class="krumo-child">
-            <div class="krumo-element" onMouseOver="krumo.over(this);" onMouseOut="krumo.out(this);">
+            <div class="krumo-element">
             <a class="krumo-name">%s</a> <em class="krumo-type">Resource</em>
             %s<strong class="krumo-resource">%s</strong>
             </div></li>';
@@ -1323,7 +1323,7 @@ class Krumo
         }
 
         $html = '<li class="krumo-child">
-            <div class="krumo-element" onMouseOver="krumo.over(this);" onMouseOut="krumo.out(this);">
+            <div class="krumo-element">
             <a class="krumo-name">%s</a> <em class="krumo-type">Boolean</em>
             %s<strong class="krumo-boolean">%s</strong>
             </div></li>';

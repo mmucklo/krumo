@@ -78,7 +78,8 @@ div.krumo-expand {
 	background: #FADB61;
 	cursor:pointer;
 	}
-div.krumo-hover {
+div.krumo-hover,
+div:hover {
 	background: #FF8A4B;
 	}
 

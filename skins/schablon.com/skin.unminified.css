@@ -57,7 +57,8 @@ div.krumo-expand {
 	background-image: url(%url%collapsed.gif);
 	cursor:pointer;
 	}
-div.krumo-hover {
+div.krumo-hover,
+div:hover {
 	background-color: #BFDFFF;
 	}
 div.krumo-opened {

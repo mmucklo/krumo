@@ -82,7 +82,8 @@ div.krumo-expand {
 	cursor: pointer;
 }
 
-div.krumo-hover {
+div.krumo-hover,
+div:hover {
 	background-color: #B7DBDB;
 }
 
