@@ -1,0 +1,35 @@
+#!/usr/bin/env php
+<?php
+
+require __DIR__ . '/../vendor/autoload.php';
+
+use MatthiasMullie\Minify;
+
+if ($argc !== 3) {
+    fprintf(STDERR, "Usage: %s <input> <output>\n", $argv[0]);
+    exit(1);
+}
+
+$input = $argv[1];
+$output = $argv[2];
+
+if (!is_readable($input)) {
+    fprintf(STDERR, "Error: Cannot read %s\n", $input);
+    exit(1);
+}
+
+$ext = pathinfo($input, PATHINFO_EXTENSION);
+
+switch ($ext) {
+    case 'css':
+        $minifier = new Minify\CSS($input);
+        break;
+    case 'js':
+        $minifier = new Minify\JS($input);
+        break;
+    default:
+        fprintf(STDERR, "Error: Unknown file type .%s (expected .css or .js)\n", $ext);
+        exit(1);
+}
+
+$minifier->minify($output);
