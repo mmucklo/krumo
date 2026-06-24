@@ -942,7 +942,7 @@ class Krumo
             <a class="krumo-name">%s</a> %s <em class="krumo-type krumo-null">NULL</em>
             </div></li>';
 
-        $html = sprintf($html, htmlspecialchars($name, ENT_QUOTES | ENT_SUBSTITUTE, static::getCharset()), static::get_separator());
+        $html = sprintf($html, $name, static::get_separator());
         $html .= "\n";
 
         echo $html;
@@ -1113,7 +1113,7 @@ class Krumo
 
                 // get real value and dump
                 $v =& $data[$k];
-                static::_dump($v, $k);
+                static::_dump($v, htmlspecialchars((string) $k, ENT_QUOTES | ENT_SUBSTITUTE, static::getCharset()));
             }
 
             if ($truncated > 0) {
@@ -1206,7 +1206,7 @@ class Krumo
         print "<div class=\"krumo-element $elementClasses\" ";
 
         print "onMouseOver=\"krumo.over(this);\" onMouseOut=\"krumo.out(this);\">";
-        print "<a class=\"krumo-name\">" . htmlspecialchars($name, ENT_QUOTES | ENT_SUBSTITUTE, static::getCharset()) . "</a> <em class=\"krumo-type\">Array(<strong class=\"krumo-array-length\">";
+        print "<a class=\"krumo-name\">$name</a> <em class=\"krumo-type\">Array(<strong class=\"krumo-array-length\">";
         print count($data) . "</strong>)</em>";
 
         if (count($data) > 0) {
@@ -1275,7 +1275,7 @@ class Krumo
         }
 
         $class_name = get_class($data);
-        print "<a class=\"krumo-name\">" . htmlspecialchars($name, ENT_QUOTES | ENT_SUBSTITUTE, static::getCharset()) . "</a> <em class=\"krumo-type\">Object</em> ";
+        print "<a class=\"krumo-name\">$name</a> <em class=\"krumo-type\">Object</em> ";
         print static::get_separator() . " <strong class=\"krumo-class\">" . htmlspecialchars($class_name, ENT_QUOTES | ENT_SUBSTITUTE, static::getCharset()) . "</strong>$empty_str</div>";
 
         if ($properties) {
@@ -1300,7 +1300,7 @@ class Krumo
             %s<strong class="krumo-resource">%s</strong>
             </div></li>';
 
-        $html = sprintf($html, htmlspecialchars($name, ENT_QUOTES | ENT_SUBSTITUTE, static::getCharset()), static::get_separator(), get_resource_type($data));
+        $html = sprintf($html, $name, static::get_separator(), get_resource_type($data));
         $html .= "\n";
 
         echo $html;
@@ -1329,7 +1329,7 @@ class Krumo
             </div></li>';
         $html .= "\n";
 
-        $html = sprintf($html, htmlspecialchars($name, ENT_QUOTES | ENT_SUBSTITUTE, static::getCharset()), static::get_separator(), $value);
+        $html = sprintf($html, $name, static::get_separator(), $value);
 
         echo $html;
     }
@@ -1362,7 +1362,7 @@ class Krumo
     {
         print "<li class=\"krumo-child\">";
         print "<div class=\"krumo-element\" onMouseOver=\"krumo.over(this);\" onMouseOut=\"krumo.out(this);\">";
-        print "<a class=\"krumo-name\">" . htmlspecialchars($name, ENT_QUOTES | ENT_SUBSTITUTE, static::getCharset()) . "</a> <em class=\"krumo-type\">Integer</em> ";
+        print "<a class=\"krumo-name\">$name</a> <em class=\"krumo-type\">Integer</em> ";
         print static::get_separator() . " <strong class=\"krumo-integer\">$data</strong>";
 
         $ut = static::is_datetime($name, $data);
@@ -1384,7 +1384,7 @@ class Krumo
     {
         print "<li class=\"krumo-child\">";
         print "<div class=\"krumo-element\" onMouseOver=\"krumo.over(this);\" onMouseOut=\"krumo.out(this);\">";
-        print "<a class=\"krumo-name\">" . htmlspecialchars($name, ENT_QUOTES | ENT_SUBSTITUTE, static::getCharset()) . "</a> <em class=\"krumo-type\">Float</em> ";
+        print "<a class=\"krumo-name\">$name</a> <em class=\"krumo-type\">Float</em> ";
         print static::get_separator() . " <strong class=\"krumo-float\">$data</strong>";
 
         $ut = static::is_datetime($name, $data);
@@ -1544,7 +1544,7 @@ class Krumo
         print "<div class=\"krumo-element $expand_class\" ";
         print "onMouseOver=\"krumo.over(this);\" onMouseOut=\"krumo.out(this);\">\n";
 
-        print "<a class=\"krumo-name\">" . htmlspecialchars($name, ENT_QUOTES | ENT_SUBSTITUTE, static::getCharset()) . "</a> ";
+        print "<a class=\"krumo-name\">$name</a> ";
         print "<em class=\"krumo-type\">String(<strong class=\"krumo-string-length\">" . strlen($data) . "</strong>)</em> $icon";
 
         print static::get_separator() . " <strong class=\"krumo-string\">" . $_;

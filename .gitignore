@@ -6,3 +6,4 @@ vendor
 .php_cs.cache
 composer.lock
 .php-cs-fixer*
+.phpunit.cache
