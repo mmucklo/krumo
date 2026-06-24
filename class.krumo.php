@@ -915,7 +915,7 @@ class Krumo
             static::_float($data, $name);
         }
         // integer
-        elseif (is_integer($data)) {
+        elseif (is_int($data)) {
             static::_integer($data, $name);
         }
         // boolean
