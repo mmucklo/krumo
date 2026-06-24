@@ -384,7 +384,7 @@ class Krumo
         }
 
         // read it
-        if (!$_ = @parse_ini_file($ini_file, 1)) {
+        if (!is_readable($ini_file) || !$_ = parse_ini_file($ini_file, true)) {
             return false;
         }
 
@@ -600,10 +600,7 @@ class Krumo
         }
 
         ob_start();
-        call_user_func_array(
-            [static::class, 'dump'],
-            func_get_args()
-        );
+        Krumo::dump(...func_get_args());
 
         return ob_get_clean();
     }
@@ -1484,7 +1481,7 @@ class Krumo
 
         $icon = '';
         // Check to see if the line has any carriage returns
-        if (preg_match("/\n|\r/", $data)) {
+        if (str_contains($data, "\n") || str_contains($data, "\r")) {
             $slash_n = substr_count($data, "\n");
             $slash_r = substr_count($data, "\r");
 
@@ -1509,9 +1506,10 @@ class Krumo
         $_ = htmlentities($_);
 
         // Check for and highlight any leading or trailing spaces/tabs
-        if (preg_match("/^([ \t]+)|([ \t]+)$/", $data)) {
-            $has_leading  = preg_match("/^([ \t]+)/", $data);
-            $has_trailing = preg_match("/([ \t]+)$/", $data);
+        $has_leading  = ltrim((string) $data, " \t") !== (string) $data;
+        $has_trailing = rtrim((string) $data, " \t") !== (string) $data;
+
+        if ($has_leading || $has_trailing) {
 
             if ($has_leading && $has_trailing) {
                 $title = "Note: String contains trailing and leading whitespace";
@@ -1639,7 +1637,7 @@ if (!function_exists("krumo")) {
     {
         $vars = func_get_args();
 
-        return call_user_func_array(['krumo', 'dump'], $vars);
+        return Krumo::dump(...$vars);
     }
 }
 
@@ -1653,7 +1651,7 @@ if (!function_exists('k')) {
             $GLOBALS['__KRUMO_DOG'] = true;
         }
 
-        return call_user_func_array(['krumo', 'dump'], $vars);
+        return Krumo::dump(...$vars);
     }
 }
 
@@ -1666,7 +1664,7 @@ if (!function_exists('kd')) {
         }
 
         $vars = func_get_args();
-        call_user_func_array(['krumo', 'dump'], $vars);
+        Krumo::dump(...$vars);
 
         exit();
     }
