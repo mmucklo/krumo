@@ -61,7 +61,7 @@ class Krumo
 
     protected static function getCharset()
     {
-        return self::_config('display', 'default_charset', 'UTF-8');
+        return static::_config('display', 'default_charset', 'UTF-8');
     }
 
     /**
@@ -464,12 +464,12 @@ class Krumo
 
             return true;
         } elseif ($second === KRUMO_NO_SORT) {
-            self::$sort = false;
+            static::$sort = false;
             Krumo::dump($data);
 
             return true;
         } elseif ($second === KRUMO_SORT) {
-            self::$sort = true;
+            static::$sort = true;
             Krumo::dump($data);
 
             return true;
@@ -595,7 +595,7 @@ class Krumo
     {
         // disabled ?
         //
-        if (!self::_debug()) {
+        if (!static::_debug()) {
             return false;
         }
 
@@ -1163,9 +1163,9 @@ class Krumo
      */
     private static function _array($data, $name)
     {
-        if (self::$sort === false) {
+        if (static::$sort === false) {
             $config_sort = false;
-        } elseif (self::$sort === true) {
+        } elseif (static::$sort === true) {
             $config_sort = true;
         // If neither of the above are set get it from the config
         } else {
