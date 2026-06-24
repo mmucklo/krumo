@@ -601,7 +601,7 @@ class Krumo
 
         ob_start();
         call_user_func_array(
-            [get_called_class(), 'dump'],
+            [static::class, 'dump'],
             func_get_args()
         );
 
