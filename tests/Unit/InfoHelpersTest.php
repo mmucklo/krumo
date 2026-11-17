@@ -168,21 +168,12 @@ final class InfoHelpersTest extends BaseTestCase
 
     public function testSession(): void
     {
-        if (!function_exists('session_start')) {
-            $this->markTestSkipped('session extension is not available');
-        }
-
-        if (session_status() !== PHP_SESSION_ACTIVE) {
-            @session_start();
-        }
-        if (!isset($_SESSION)) {
-            $this->markTestSkipped('a session could not be started');
-        }
-
+        unset($_SESSION);
         $output = $this->captureHelperOutput(\Krumo::session(...));
 
         $this->assertStringContainsString('$_SESSION', $output);
-        $this->assertNotEmpty($output);
+        $this->assertStringContainsString('array (', $output);
+        $this->assertStringNotContainsString('Warning', $output);
     }
 
     public function testIniDumpsValuesFromGivenFile(): void

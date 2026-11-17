@@ -373,7 +373,13 @@ class Krumo
         // render it
         static::heading("This is a list of all the values from the ", "\$_SESSION", " array.");
 
-        return static::dump($_SESSION);
+        if (isset($_SESSION)) {
+            $ret = static::dump($_SESSION);
+        } else {
+            $ret = static::dump([]);
+        }
+
+        return $ret;
     }
 
     /**
