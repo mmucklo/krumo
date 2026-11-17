@@ -622,6 +622,7 @@ class Krumo
       * Configuration array.
       */
     private static $_config = [];
+    private static bool $_configLoaded = false;
 
     /**
      * Returns values from Krumo's configuration
@@ -636,9 +637,11 @@ class Krumo
     {
         $krumo_ini = __DIR__ . '/krumo.ini';
 
-        // The config isn't loaded yet
-        if (empty(static::$_config) && is_readable($krumo_ini)) {
-            static::$_config = (array) parse_ini_file($krumo_ini, true);
+        if (!static::$_configLoaded) {
+            if (is_readable($krumo_ini)) {
+                static::$_config = (array) parse_ini_file($krumo_ini, true);
+            }
+            static::$_configLoaded = true;
         }
 
         // exists
@@ -652,6 +655,7 @@ class Krumo
     public static function setConfig($config)
     {
         static::$_config = $config;
+        static::$_configLoaded = true;
     }
 
     public static function setLineNumberTestCallback($callback)

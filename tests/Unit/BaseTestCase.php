@@ -10,10 +10,8 @@ use ReflectionMethod;
 abstract class BaseTestCase extends TestCase
 {
     /**
-     * Non-empty "sentinel" config: Krumo re-reads krumo.ini whenever its
-     * config is empty, so tests must never hold an empty config. No section
-     * key matches what Krumo looks up, so every _config() call falls back
-     * to its default and no test depends on a local krumo.ini.
+     * Non-matching config sections ensure every lookup uses its fallback and
+     * no test depends on a local krumo.ini.
      */
     private const HERMETIC_CONFIG = [
         'skin' => [],

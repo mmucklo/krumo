@@ -22,6 +22,18 @@ final class ConfigTest extends BaseTestCase
         $this->assertStringContainsString(' :: ', $html);
     }
 
+    public function testEmptyConfigDoesNotLoadLocalIni(): void
+    {
+        [$output, $exitCode] = $this->runPhpScript(
+            'Krumo::setConfig([]);'
+            . '$method = new ReflectionMethod(Krumo::class, "_config");'
+            . 'echo $method->invoke(null, "display", "show_version", "fallback");'
+        );
+
+        $this->assertSame(0, $exitCode);
+        $this->assertSame('fallback', $output);
+    }
+
     public function testTruncateStringDefault(): void
     {
         $longString = str_repeat('a', 200);
