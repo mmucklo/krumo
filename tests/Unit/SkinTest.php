@@ -14,22 +14,44 @@ final class SkinTest extends BaseTestCase
         $this->assertStringContainsString('value', $output);
     }
 
-    public function testModernSkinCanBeSelected(): void
+    public function testModernSkinCssIsUsed(): void
     {
-        \Krumo::setConfig(['skin' => ['selected' => 'modern']]);
+        [$output, $exitCode] = $this->runPhpScript(
+            'Krumo::setConfig(["skin" => ["selected" => "modern"]]);'
+            . ' (new ReflectionMethod("Krumo", "_css"))->invoke(null);'
+        );
 
-        $output = $this->getCliOutput('test');
-
-        $this->assertNotEmpty($output);
+        $this->assertSame(0, $exitCode);
+        $this->assertStringContainsString('Using Krumo Skin: "modern"', $output);
+        $this->assertStringContainsString('<style>', $output);
+        $this->assertStringContainsString('<script>', $output);
     }
 
-    public function testFallbackToStylishForUnknownSkin(): void
+    public function testUnknownSkinFallsBackToStylish(): void
     {
-        \Krumo::setConfig(['skin' => ['selected' => 'nonexistent']]);
+        [$output, $exitCode] = $this->runPhpScript(
+            'Krumo::setConfig(["skin" => ["selected" => "nonexistent"]]);'
+            . ' (new ReflectionMethod("Krumo", "_css"))->invoke(null);'
+        );
 
-        $output = $this->getCliOutput('test');
+        $this->assertSame(0, $exitCode);
+        $this->assertStringContainsString('Using Krumo Skin: "stylish"', $output);
+        $this->assertStringContainsString('<style>', $output);
+    }
 
-        $this->assertNotEmpty($output);
+    public function testSkinUrlPlaceholderIsReplaced(): void
+    {
+        [$output, $exitCode] = $this->runPhpScript(
+            'Krumo::setConfig(["skin" => ["selected" => "blue"]]);'
+            . ' (new ReflectionMethod("Krumo", "_css"))->invoke(null);'
+        );
+
+        $this->assertSame(0, $exitCode);
+        $this->assertStringContainsString('Using Krumo Skin: "blue"', $output);
+        // DOCUMENT_ROOT is the project root, so the relative CSS URL is "/"
+        // and the %url% placeholder resolves to "/skins/blue/"
+        $this->assertStringContainsString('/skins/blue/', $output);
+        $this->assertStringNotContainsString('%url%', $output);
     }
 
     public function testKrumoVersionInCliOutput(): void

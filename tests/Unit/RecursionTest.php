@@ -40,7 +40,8 @@ final class RecursionTest extends BaseTestCase
 
         $output = $this->getCliOutput($a);
 
-        $this->assertNotEmpty($output);
+        // var_export() cannot handle circular references and renders them as NULL
+        $this->assertStringContainsString('NULL', $output);
     }
 
     public function testCircularObjectReferenceViaCli(): void
@@ -50,6 +51,7 @@ final class RecursionTest extends BaseTestCase
 
         $output = $this->getCliOutput($obj);
 
-        $this->assertNotEmpty($output);
+        // var_export() cannot handle circular references and renders them as NULL
+        $this->assertStringContainsString('NULL', $output);
     }
 }

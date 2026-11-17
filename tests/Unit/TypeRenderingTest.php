@@ -71,6 +71,15 @@ final class TypeRenderingTest extends BaseTestCase
         $this->assertStringContainsString('stdClass', $html);
     }
 
+    public function testObjectWithNoPropertiesIsEmpty(): void
+    {
+        $html = $this->renderHtml(new \stdClass());
+
+        $this->assertStringContainsString('krumo-class">stdClass', $html);
+        $this->assertStringContainsString('(empty)', $html);
+        $this->assertStringNotContainsString('krumo-expand', $html);
+    }
+
     public function testResourceType(): void
     {
         $fp = fopen('php://memory', 'r');

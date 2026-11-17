@@ -76,8 +76,9 @@ final class DumpTest extends BaseTestCase
     {
         $html = $this->renderHtml([]);
 
-        $this->assertStringContainsString('Array', $html);
-        $this->assertStringContainsString('0', $html);
+        $this->assertStringContainsString('krumo-type">Array', $html);
+        $this->assertStringContainsString('krumo-array-length', $html);
+        $this->assertStringContainsString('>0</strong>', $html);
     }
 
     public function testDumpWithAssociativeArray(): void
@@ -141,5 +142,16 @@ final class DumpTest extends BaseTestCase
         $output = $this->getCliOutput('hello');
 
         $this->assertStringContainsString('hello', $output);
+    }
+
+    public function testCliDumpWithMultipleArguments(): void
+    {
+        ob_start();
+        \Krumo::dump('first_cli_arg', 'second_cli_arg');
+        $output = ob_get_clean();
+
+        $this->assertStringContainsString('first_cli_arg', $output);
+        $this->assertStringContainsString('second_cli_arg', $output);
+        $this->assertSame(2, substr_count($output, 'Called from'));
     }
 }
