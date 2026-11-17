@@ -23,6 +23,7 @@
 
 ## PHP requirements
 - `"php": ">=8.2"`
+- Odd-numbered patch versions are development releases; even-numbered patch versions are stable releases (for example, 0.8.1 is devel and 0.8.2 is release).
 
 ## Gotchas
 - `dump()` uses `func_get_args()` + `call_user_func_array()` — don't add variadic without updating all callers
