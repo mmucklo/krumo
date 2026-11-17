@@ -89,9 +89,7 @@ class Krumo
             return false;
         }
 
-        static::heading("This is a list of all currently declared classes.");
-
-        return static::dump(get_declared_classes());
+        return static::dumpWithHeading(get_declared_classes(), "This is a list of all currently declared classes.");
     }
 
     /**
@@ -106,9 +104,7 @@ class Krumo
         }
 
         // render it
-        static::heading("This is a list of all currently declared interfaces.");
-
-        return static::dump(get_declared_interfaces());
+        return static::dumpWithHeading(get_declared_interfaces(), "This is a list of all currently declared interfaces.");
     }
 
     /**
@@ -123,9 +119,7 @@ class Krumo
         }
 
         // render it
-        static::heading("This is a list of all currently included (or required) files.");
-
-        return static::dump(get_included_files());
+        return static::dumpWithHeading(get_included_files(), "This is a list of all currently included (or required) files.");
     }
 
     /**
@@ -140,9 +134,7 @@ class Krumo
         }
 
         // render it
-        static::heading("This is a list of all currently declared functions.");
-
-        return static::dump(get_defined_functions());
+        return static::dumpWithHeading(get_defined_functions(), "This is a list of all currently declared functions.");
     }
 
     /**
@@ -157,9 +149,7 @@ class Krumo
         }
 
         // render it
-        static::heading("This is a list of all currently declared constants (defines).");
-
-        return static::dump(get_defined_constants());
+        return static::dumpWithHeading(get_defined_constants(), "This is a list of all currently declared constants (defines).");
     }
 
     /**
@@ -174,9 +164,7 @@ class Krumo
         }
 
         // render it
-        static::heading("This is a list of all currently loaded PHP extensions.");
-
-        return static::dump(get_loaded_extensions());
+        return static::dumpWithHeading(get_loaded_extensions(), "This is a list of all currently loaded PHP extensions.");
     }
 
     /**
@@ -191,15 +179,13 @@ class Krumo
         }
 
         // render it
-        static::heading("This is a list of all HTTP request headers.");
-
         // getAllHeaders() does not exist in every SAPI (eg: plain CLI) --
         // dump an empty list instead of crashing the debugged script
         if (!function_exists('getAllHeaders')) {
-            return static::dump([]);
+            return static::dumpWithHeading([], "This is a list of all HTTP request headers.");
         }
 
-        return static::dump(getAllHeaders());
+        return static::dumpWithHeading(getAllHeaders(), "This is a list of all HTTP request headers.");
     }
 
     /**
@@ -218,9 +204,12 @@ class Krumo
         }
 
         // render it
-        static::heading("This is a list of the configuration settings read from ", get_cfg_var('cfg_file_path'), ".");
-
-        return static::dump(parse_ini_file(get_cfg_var('cfg_file_path'), true));
+        return static::dumpWithHeading(
+            parse_ini_file(get_cfg_var('cfg_file_path'), true),
+            "This is a list of the configuration settings read from ",
+            get_cfg_var('cfg_file_path'),
+            "."
+        );
     }
 
     /**
@@ -235,9 +224,7 @@ class Krumo
         }
 
         // render it
-        static::heading("This is a list of all your configuration settings.");
-
-        return static::dump(ini_get_all());
+        return static::dumpWithHeading(ini_get_all(), "This is a list of all your configuration settings.");
     }
 
     /**
@@ -252,9 +239,12 @@ class Krumo
         }
 
         // render it
-        static::heading("This is a list of the specified directories under your ", "include_path", " option.");
-
-        return static::dump(explode(PATH_SEPARATOR, ini_get('include_path')));
+        return static::dumpWithHeading(
+            explode(PATH_SEPARATOR, ini_get('include_path')),
+            "This is a list of the specified directories under your ",
+            "include_path",
+            " option."
+        );
     }
 
     /**
@@ -269,9 +259,7 @@ class Krumo
         }
 
         // render it
-        static::heading("This is a list of all the values from the ", "\$_REQUEST", " array.");
-
-        return static::dump($_REQUEST);
+        return static::dumpWithHeading($_REQUEST, "This is a list of all the values from the ", "\$_REQUEST", " array.");
     }
 
     /**
@@ -286,9 +274,7 @@ class Krumo
         }
 
         // render it
-        static::heading("This is a list of all the values from the ", "\$_GET", " array.");
-
-        return static::dump($_GET);
+        return static::dumpWithHeading($_GET, "This is a list of all the values from the ", "\$_GET", " array.");
     }
 
     /**
@@ -303,9 +289,7 @@ class Krumo
         }
 
         // render it
-        static::heading("This is a list of all the values from the ", "\$_POST", " array.");
-
-        return static::dump($_POST);
+        return static::dumpWithHeading($_POST, "This is a list of all the values from the ", "\$_POST", " array.");
     }
 
     /**
@@ -320,9 +304,7 @@ class Krumo
         }
 
         // render it
-        static::heading("This is a list of all the values from the ", "\$_SERVER", " array.");
-
-        return static::dump($_SERVER);
+        return static::dumpWithHeading($_SERVER, "This is a list of all the values from the ", "\$_SERVER", " array.");
     }
 
     /**
@@ -337,9 +319,7 @@ class Krumo
         }
 
         // render it
-        static::heading("This is a list of all the values from the ", "\$_COOKIE", " array.");
-
-        return static::dump($_COOKIE);
+        return static::dumpWithHeading($_COOKIE, "This is a list of all the values from the ", "\$_COOKIE", " array.");
     }
 
     /**
@@ -354,9 +334,7 @@ class Krumo
         }
 
         // render it
-        static::heading("This is a list of all the values from the ", "\$_ENV", " array.");
-
-        return static::dump($_ENV);
+        return static::dumpWithHeading($_ENV, "This is a list of all the values from the ", "\$_ENV", " array.");
     }
 
     /**
@@ -371,15 +349,13 @@ class Krumo
         }
 
         // render it
-        static::heading("This is a list of all the values from the ", "\$_SESSION", " array.");
-
         if (isset($_SESSION)) {
-            $ret = static::dump($_SESSION);
+            $data = $_SESSION;
         } else {
-            $ret = static::dump([]);
+            $data = [];
         }
 
-        return $ret;
+        return static::dumpWithHeading($data, "This is a list of all the values from the ", "\$_SESSION", " array.");
     }
 
     /**
@@ -405,13 +381,18 @@ class Krumo
             $ini_file = realpath($ini_file);
         }
 
-        static::heading("This is a list of all the values from the ", $ini_file, "INI file");
-        return static::dump($_);
+        return static::dumpWithHeading($_, "This is a list of all the values from the ", $ini_file, "INI file");
     }
 
 
-    protected static function heading($first, $code = '', $rest = '')
+    protected static function heading($first, $code = '', $rest = '', $html = true)
     {
+        if (!$html) {
+            print $first . $code . $rest;
+
+            return;
+        }
+
         if (!static::isCli()) {
             print "<div class=\"krumo-title\">";
         }
@@ -425,7 +406,7 @@ class Krumo
         print $code;
 
         if ($code && !static::isCli()) {
-            print "</code></b>";
+            print "</b></code>";
         }
 
         print $rest;
@@ -433,6 +414,25 @@ class Krumo
         if (!static::isCli()) {
             print "</div>";
         }
+    }
+
+    protected static function dumpWithHeading($data, $first, $code = '', $rest = '')
+    {
+        if (static::isCli()) {
+            $result = static::dump($data);
+            static::heading($first, $code, $rest, false);
+
+            return $result;
+        }
+
+        ob_start();
+        static::heading($first, $code, $rest);
+        static::dump($data);
+        $output = ob_get_clean();
+
+        print $output;
+
+        return true;
     }
 
     public static function htmlHeaders()
@@ -459,6 +459,8 @@ class Krumo
 
             return true;
         }
+
+        $args = func_get_args();
 
         // If we're capturing call dump() with just data and capture the output
         if ($second === KRUMO_RETURN) {
@@ -499,10 +501,9 @@ class Krumo
         }
 
         // more arguments
-        if (func_num_args() > 1) {
-            $_ = func_get_args();
+        if (count($args) > 1) {
             $result = true;
-            foreach ($_ as $d) {
+            foreach ($args as $d) {
                 $result = $result && static::dump($d);
             }
 

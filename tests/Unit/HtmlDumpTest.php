@@ -138,10 +138,12 @@ final class HtmlDumpTest extends BaseTestCase
         [$output, $exitCode] = $this->runCgiScript('Krumo::request();');
 
         $this->assertSame(0, $exitCode);
+        $this->assertLessThan(
+            strpos($output, '<!DOCTYPE html>'),
+            strpos($output, '<div class="krumo-title">')
+        );
         $this->assertStringContainsString('<div class="krumo-title">', $output);
-        // heading() closes the tags in inverted order (</code></b>); pin
-        // actual behavior rather than what well-formed markup would look like
-        $this->assertStringContainsString('<code><b>$_REQUEST</code></b>', $output);
+        $this->assertStringContainsString('<code><b>$_REQUEST</b></code>', $output);
         $this->assertStringContainsString('Array', $output);
     }
 
