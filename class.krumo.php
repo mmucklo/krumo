@@ -1136,7 +1136,7 @@ class Krumo
             if ($truncated > 0) {
                 print "\n<li class=\"krumo-child\">";
                 print "<div class=\"krumo-element \" ";
-                print "onMouseOver=\"krumo.over(this);\" onMouseOut=\"krumo.out(this);\">";
+                print ">";
                 print "<a class=\"krumo-name\">Array output truncated ($truncated items not shown)</a>";
                 print "</div></li>\n";
             }
@@ -1222,7 +1222,7 @@ class Krumo
         print "<li class=\"krumo-child\">";
         print "<div class=\"krumo-element $elementClasses\" ";
 
-        print "onMouseOver=\"krumo.over(this);\" onMouseOut=\"krumo.out(this);\">";
+        print ">";
         print "<a class=\"krumo-name\">$name</a> <em class=\"krumo-type\">Array(<strong class=\"krumo-array-length\">";
         print count($data) . "</strong>)</em>";
 
@@ -1284,7 +1284,7 @@ class Krumo
         }
 
         print "<li class=\"krumo-child\"> <div class=\"krumo-element $elementClasses\" ";
-        print "onMouseOver=\"krumo.over(this);\" onMouseOut=\"krumo.out(this);\">";
+        print ">";
 
         $empty_str = '';
         if ($childCount == 0) {
@@ -1361,7 +1361,7 @@ class Krumo
     private static function _not_initialized($key, $type)
     {
         print "<li class=\"krumo-child\">";
-        print "<div class=\"krumo-element\" onMouseOver=\"krumo.over(this);\" onMouseOut=\"krumo.out(this);\">";
+        print "<div class=\"krumo-element\">";
         print "<a class=\"krumo-name\">$key</a> <em class=\"krumo-type\">$type</em> ";
         print static::get_separator() . " <strong class=\"krumo-not-init\">[Not initialized]</strong>";
 
@@ -1378,7 +1378,7 @@ class Krumo
     private static function _integer($data, $name)
     {
         print "<li class=\"krumo-child\">";
-        print "<div class=\"krumo-element\" onMouseOver=\"krumo.over(this);\" onMouseOut=\"krumo.out(this);\">";
+        print "<div class=\"krumo-element\">";
         print "<a class=\"krumo-name\">$name</a> <em class=\"krumo-type\">Integer</em> ";
         print static::get_separator() . " <strong class=\"krumo-integer\">$data</strong>";
 
@@ -1400,7 +1400,7 @@ class Krumo
     private static function _float($data, $name)
     {
         print "<li class=\"krumo-child\">";
-        print "<div class=\"krumo-element\" onMouseOver=\"krumo.over(this);\" onMouseOut=\"krumo.out(this);\">";
+        print "<div class=\"krumo-element\">";
         print "<a class=\"krumo-name\">$name</a> <em class=\"krumo-type\">Float</em> ";
         print static::get_separator() . " <strong class=\"krumo-float\">$data</strong>";
 
@@ -1560,8 +1560,7 @@ class Krumo
         }
 
         print "<li class=\"krumo-child\">";
-        print "<div class=\"krumo-element $expand_class\" ";
-        print "onMouseOver=\"krumo.over(this);\" onMouseOut=\"krumo.out(this);\">\n";
+        print "<div class=\"krumo-element $expand_class\">\n";
 
         print "<a class=\"krumo-name\">$name</a> ";
         print "<em class=\"krumo-type\">String(<strong class=\"krumo-string-length\">" . strlen($data) . "</strong>)</em> $icon";

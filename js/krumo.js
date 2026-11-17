@@ -93,14 +93,6 @@ krumo.collapse_all = (el) => {
     });
 };
 
-krumo.over = (el) => {
-    krumo.reclass(el, 'krumo-hover');
-};
-
-krumo.out = (el) => {
-    krumo.unclass(el, 'krumo-hover');
-};
-
 /////////////////////////////////////////////////////////////////////////////
 
 const qsa = (search) => document.querySelectorAll(search);
