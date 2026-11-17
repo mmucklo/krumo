@@ -735,7 +735,10 @@ class Krumo
     public static function calculate_relative_path($file, $returnDir = false)
     {
         // We find the document root of the webserver
-        $doc_root = $_SERVER['DOCUMENT_ROOT'];
+        $doc_root = $_SERVER['DOCUMENT_ROOT'] ?? '';
+        if ($doc_root === '') {
+            return false;
+        }
 
         // Remove the document root, from the FULL absolute path of the
         // file we're looking for

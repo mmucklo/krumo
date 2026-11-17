@@ -67,4 +67,19 @@ final class RelativePathTest extends BaseTestCase
     {
         $this->assertFalse(\Krumo::calculate_relative_path('/somewhere/else/x.php'));
     }
+
+    public function testMissingDocumentRootReturnsFalseWithoutWarnings(): void
+    {
+        unset($_SERVER['DOCUMENT_ROOT']);
+
+        set_error_handler(static function (int $severity): never {
+            throw new \ErrorException('Unexpected PHP warning', 0, $severity);
+        });
+
+        try {
+            $this->assertFalse(\Krumo::calculate_relative_path('/var/www/site/app/index.php'));
+        } finally {
+            restore_error_handler();
+        }
+    }
 }
