@@ -757,7 +757,7 @@ class Krumo
             $ret = dirname($ret) . "/";
         }
 
-        $ret = preg_replace("|//|", "/", $ret);
+        $ret = preg_replace("|/+|", "/", $ret);
 
         return $ret;
     }

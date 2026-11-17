@@ -53,12 +53,10 @@ final class RelativePathTest extends BaseTestCase
         );
     }
 
-    public function testDuplicateSlashesCollapseSinglePass(): void
+    public function testDuplicateSlashesCollapse(): void
     {
-        // the "/" prefix plus preg_replace collapse runs a single pass,
-        // so a doubled slash in the input survives as "//"
         $this->assertSame(
-            '//lib/x.php',
+            '/lib/x.php',
             \Krumo::calculate_relative_path(self::DOCUMENT_ROOT . '//lib/x.php')
         );
     }
