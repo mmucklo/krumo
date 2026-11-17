@@ -193,6 +193,12 @@ class Krumo
         // render it
         static::heading("This is a list of all HTTP request headers.");
 
+        // getAllHeaders() does not exist in every SAPI (eg: plain CLI) --
+        // dump an empty list instead of crashing the debugged script
+        if (!function_exists('getAllHeaders')) {
+            return static::dump([]);
+        }
+
         return static::dump(getAllHeaders());
     }
 

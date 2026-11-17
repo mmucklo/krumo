@@ -73,6 +73,17 @@ final class InfoHelpersTest extends BaseTestCase
         $this->assertStringContainsString('Core', $output);
     }
 
+    public function testHeaders(): void
+    {
+        // The suite runs in the CLI SAPI, where getallheaders() does not
+        // exist: headers() must dump an empty list instead of fataling
+        // with "Call to undefined function getAllHeaders()"
+        $output = $this->captureHelperOutput(\Krumo::headers(...));
+
+        $this->assertStringContainsString('This is a list of all HTTP request headers.', $output);
+        $this->assertStringContainsString('array (', $output);
+    }
+
     public function testPhpini(): void
     {
         $iniPath = (string) get_cfg_var('cfg_file_path');
