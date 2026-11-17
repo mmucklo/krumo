@@ -571,8 +571,8 @@ class Krumo
         if ($hive =& static::_hive($dummy)) {
             foreach ($hive as $i => $bee) {
                 if (is_object($bee)) {
-                    if (($hash = spl_object_hash($bee)) && isset(static::$objectRecursionProtection[$hash])) {
-                        unset(static::$objectRecursionProtection[$hash]);
+                    if (($id = spl_object_id($bee)) && isset(static::$objectRecursionProtection[$id])) {
+                        unset(static::$objectRecursionProtection[$id]);
                     }
                 } elseif (isset($hive[$i]->$_recursion_marker)) {
                     unset($hive[$i][$_recursion_marker]);
@@ -982,11 +982,11 @@ class Krumo
             // stain it
             $_recursion_marker = static::_marker();
             if (is_object($bee)) {
-                $hash = spl_object_hash($bee);
-                if ($hash && isset(static::$objectRecursionProtection[$hash])) {
-                    static::$objectRecursionProtection[$hash]++;
-                } elseif ($hash) {
-                    static::$objectRecursionProtection[$hash] = 1;
+                $id = spl_object_id($bee);
+                if ($id && isset(static::$objectRecursionProtection[$id])) {
+                    static::$objectRecursionProtection[$id]++;
+                } elseif ($id) {
+                    static::$objectRecursionProtection[$id] = 1;
                 }
             } else {
                 if (isset($bee[$_recursion_marker])) {
@@ -1023,8 +1023,8 @@ class Krumo
         $_recursion_marker = static::_marker();
 
         if ($_is_object) {
-            if (($hash = spl_object_hash($data)) && isset(static::$objectRecursionProtection[$hash])) {
-                $_r = static::$objectRecursionProtection[$hash];
+            if (($id = spl_object_id($data)) && isset(static::$objectRecursionProtection[$id])) {
+                $_r = static::$objectRecursionProtection[$id];
             } else {
                 $_r = null;
             }

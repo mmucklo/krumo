@@ -23,6 +23,16 @@ final class RecursionTest extends BaseTestCase
         $this->assertStringNotContainsString('Recursion', $html);
     }
 
+    public function testCircularObjectReferenceDetectedInHtml(): void
+    {
+        $obj = new \stdClass();
+        $obj->self = $obj;
+
+        $html = $this->renderHtml($obj);
+
+        $this->assertStringContainsString('Recursion', $html);
+    }
+
     public function testCircularArrayReferenceViaCli(): void
     {
         $a = [];
