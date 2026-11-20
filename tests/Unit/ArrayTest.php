@@ -81,4 +81,60 @@ final class ArrayTest extends BaseTestCase
 
         $this->assertStringContainsString('Sorted', $html);
     }
+
+    public function testCallableArrayRendersSignatureWithoutInvoking(): void
+    {
+        CallbackProbe::$invoked = false;
+
+        $html = $this->renderHtml([CallbackProbe::class, 'trigger']);
+
+        $this->assertStringContainsString('Callback', $html);
+        $this->assertStringContainsString('Krumo\Tests\CallbackProbe::trigger()', $html);
+        $this->assertFalse(CallbackProbe::$invoked, 'the callable must not be invoked during a dump');
+    }
+
+    public function testCallableArrayReturningStringDoesNotCrash(): void
+    {
+        // ['Krumo', 'version'] is a callable returning a string; the old code
+        // invoked it and hit a fatal TypeError in array_values().
+        $html = $this->renderHtml([\Krumo::class, 'version']);
+
+        $this->assertStringContainsString('Krumo::version()', $html);
+    }
+
+    public function testInstanceCallableArrayRendersClassName(): void
+    {
+        $html = $this->renderHtml([new CallbackProbe(), 'trigger']);
+
+        $this->assertStringContainsString('Krumo\Tests\CallbackProbe::trigger()', $html);
+    }
+
+    public function testCallableArrayMethodIsEscaped(): void
+    {
+        // __call makes any method name "callable", including hostile ones.
+        $html = $this->renderHtml([new CallbackMagicCall(), '<script>alert(1)</script>']);
+
+        $this->assertStringNotContainsString('<script>', $html);
+        $this->assertStringContainsString('&lt;script&gt;', $html);
+    }
+}
+
+class CallbackProbe
+{
+    public static bool $invoked = false;
+
+    public static function trigger(): array
+    {
+        self::$invoked = true;
+
+        return [CallbackProbe::class, 'trigger'];
+    }
+}
+
+class CallbackMagicCall
+{
+    public function __call(string $name, array $args): mixed
+    {
+        return null;
+    }
 }

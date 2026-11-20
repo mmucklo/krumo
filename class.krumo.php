@@ -1237,17 +1237,22 @@ class Krumo
 
         // callback
         if (is_callable($data)) {
-            $_ = array_values($data());
+            // Render the signature from the array contents only. Invoking the
+            // callable (with no arguments) during a dump causes side effects,
+            // and its return value is rarely the 2-element array expected
+            // below (fatal TypeError for non-array returns, undefined-offset
+            // warnings and null-to-string deprecations otherwise).
+            $_ = array_values($data);
             print "<span class=\"krumo-callback\"> |";
             print " (<em class=\"krumo-type\">Callback</em>) <strong class=\"krumo-string\">";
 
             if (!is_object($_[0])) {
-                echo htmlspecialchars($_[0]);
+                echo htmlspecialchars($_[0], ENT_QUOTES | ENT_SUBSTITUTE, static::getCharset());
             } else {
-                echo htmlspecialchars(get_class($_[0])) . "::";
+                echo htmlspecialchars(get_class($_[0]), ENT_QUOTES | ENT_SUBSTITUTE, static::getCharset());
             }
 
-            echo htmlspecialchars($_[1]) . "()</strong></span>";
+            echo "::" . htmlspecialchars($_[1], ENT_QUOTES | ENT_SUBSTITUTE, static::getCharset()) . "()</strong></span>";
         }
 
         print "</div>";
