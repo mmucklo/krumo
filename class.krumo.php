@@ -577,7 +577,7 @@ class Krumo
             if ($showVersion) {
 
                 if (!empty($GLOBALS['__KRUMO_DOG'])) {
-                    $dog_str = "<span style=\"margin-left: 4px;\">&#128021</span>";
+                    $dog_str = "<span style=\"margin-left: 4px;\">&#128021;</span>";
                 } else {
                     $dog_str = "";
                 }
