@@ -61,7 +61,28 @@ class Krumo
 
     protected static function getCharset()
     {
-        return static::_config('display', 'default_charset', 'UTF-8');
+        // Memoize per charset value: config may change between dumps, but
+        // re-validating the same value is wasteful.
+        static $validated = [];
+
+        $charset = static::_config('display', 'default_charset', 'UTF-8');
+
+        if (!is_string($charset) || $charset === '') {
+            return 'UTF-8';
+        }
+
+        if (!isset($validated[$charset])) {
+            try {
+                // A bogus charset would abort every dump with a ValueError
+                // from mb_strlen()/mb_substr(); fall back instead.
+                mb_strlen('x', $charset);
+                $validated[$charset] = $charset;
+            } catch (\ValueError) {
+                $validated[$charset] = 'UTF-8';
+            }
+        }
+
+        return $validated[$charset];
     }
 
     /**
@@ -1534,7 +1555,11 @@ class Krumo
             $_extra = true;
         }
 
-        $_ = htmlentities($_);
+        // htmlspecialchars with the configured charset: htmlentities() here
+        // used the php.ini default_charset (warning on bogus values, and a
+        // silent empty string on invalid UTF-8) and ignored Krumo's own
+        // charset setting.
+        $_ = htmlspecialchars($_, ENT_QUOTES | ENT_SUBSTITUTE, static::getCharset());
 
         // Check for and highlight any leading or trailing spaces/tabs
         $has_leading  = ltrim((string) $data, " \t") !== (string) $data;
@@ -1590,13 +1615,14 @@ class Krumo
         // callback
         if (is_callable($data)) {
             print "<span class=\"krumo-callback\"> | ";
-            print "(<em class=\"krumo-type\">Callback</em>) <strong class=\"krumo-string\">" . htmlspecialchars($_) . "()</strong></span>";
+            print "(<em class=\"krumo-type\">Callback</em>) <strong class=\"krumo-string\">" . htmlspecialchars($data, ENT_QUOTES | ENT_SUBSTITUTE, static::getCharset()) . "()</strong></span>";
         }
 
         print "</div>";
 
         if ($_extra) {
-            $data = htmlentities($data);
+            // Same escaping as above for the full-length preview.
+            $data = htmlspecialchars($data, ENT_QUOTES | ENT_SUBSTITUTE, static::getCharset());
             $data = nl2br($data);
 
             print "<div class=\"krumo-nest\" $collapse_style>";
