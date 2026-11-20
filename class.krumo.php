@@ -791,7 +791,12 @@ class Krumo
             $skin         = 'stylish';
             $rel_css_file = "skins/$skin/skin.css";
             $css_file     = __DIR__ . "/" . $rel_css_file;
-            $css          = file_get_contents($css_file);
+            // Guarded like the primary path above: skins/ may not sit next
+            // to the class file (partial deploy, moved library), and an
+            // unguarded read emits a file_get_contents() warning per dump.
+            if (is_readable($css_file)) {
+                $css = file_get_contents($css_file);
+            }
         }
 
         // print

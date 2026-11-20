@@ -39,6 +39,35 @@ final class SkinTest extends BaseTestCase
         $this->assertStringContainsString('<style>', $output);
     }
 
+    public function testMissingDefaultSkinDoesNotWarn(): void
+    {
+        // Simulate an installation where skins/ is not next to the class
+        // file (partial deploy, relocated library): the fallback read used
+        // to emit a file_get_contents() warning on every dump.
+        $tempDir = sys_get_temp_dir() . '/krumo-skin-' . uniqid();
+        mkdir($tempDir);
+        $tempClass = $tempDir . '/class.krumo.php';
+        copy(dirname(__DIR__, 2) . '/class.krumo.php', $tempClass);
+
+        try {
+            [$output, $exitCode] = $this->runPhpScript(
+                '(new ReflectionMethod("Krumo", "_css"))->invoke(null);'
+                . ' echo "CSS_DONE";',
+                PHP_BINARY,
+                '-d display_errors=1 -d error_reporting=E_ALL',
+                $tempClass
+            );
+        } finally {
+            @unlink($tempClass);
+            @rmdir($tempDir);
+        }
+
+        $this->assertSame(0, $exitCode);
+        $this->assertStringContainsString('CSS_DONE', $output);
+        $this->assertStringNotContainsString('Warning', $output);
+        $this->assertStringNotContainsString('<style>', $output);
+    }
+
     public function testSkinUrlPlaceholderIsReplaced(): void
     {
         [$output, $exitCode] = $this->runPhpScript(

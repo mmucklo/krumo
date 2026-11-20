@@ -56,18 +56,21 @@ abstract class BaseTestCase extends TestCase
      * Run a PHP snippet in a separate process, with class.krumo.php loaded
      * and the same hermetic config used in-process.
      *
+     * Pass $classFile to load the class from a custom location, e.g. a
+     * temporary copy without skins/ next to it.
+     *
      * The snippet runs with $_SERVER['DOCUMENT_ROOT'] pointing at the
      * project root, so Krumo can resolve its skin URLs without warnings.
      *
      * @return array{0: string, 1: int} combined stdout/stderr and exit code
      */
-    protected function runPhpScript(string $body, ?string $phpBinary = null, string $cliOptions = ''): array
+    protected function runPhpScript(string $body, ?string $phpBinary = null, string $cliOptions = '', ?string $classFile = null): array
     {
         $root = dirname(__DIR__, 2);
 
         $script = '<?php '
             . '$_SERVER["DOCUMENT_ROOT"] = ' . var_export($root, true) . '; '
-            . 'require ' . var_export($root . '/class.krumo.php', true) . '; '
+            . 'require ' . var_export($classFile ?? $root . '/class.krumo.php', true) . '; '
             . 'Krumo::setConfig(' . var_export(self::HERMETIC_CONFIG, true) . '); '
             . $body;
 
