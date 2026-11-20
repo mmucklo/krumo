@@ -608,7 +608,7 @@ class Krumo
                     if (($id = spl_object_id($bee)) && isset(static::$objectRecursionProtection[$id])) {
                         unset(static::$objectRecursionProtection[$id]);
                     }
-                } elseif (isset($hive[$i]->$_recursion_marker)) {
+                } elseif (isset($hive[$i][$_recursion_marker])) {
                     unset($hive[$i][$_recursion_marker]);
                 }
             }
@@ -1059,8 +1059,9 @@ class Krumo
      * Render a dump for the properties of an array or objeect
      *
      * @param mixed &$data
+     * @param array|null $sortedKeys pre-sorted key order (arrays only)
      */
-    private static function _vars(&$data)
+    private static function _vars(&$data, ?array $sortedKeys = null)
     {
         $_is_object = is_object($data);
 
@@ -1135,8 +1136,10 @@ class Krumo
                 }
             }
         } else {
-            // keys
-            $keys = array_keys($data);
+            // Iterate the real array by reference in the (possibly sorted)
+            // key order; the sort copy is only used for its ordering, so the
+            // recursion-marker stain stays on the actual array.
+            $keys = $sortedKeys ?? array_keys($data);
 
             $limit = (int) static::_config('display', 'truncate_array_length', 0);
             $truncated = 0;
@@ -1188,7 +1191,8 @@ class Krumo
                     </div>
 
                 </li>
-            </ul>';
+            </ul>
+        </div>';
 
         echo $html;
     }
@@ -1202,10 +1206,10 @@ class Krumo
     /**
      * Render a dump for an array
      *
-     * @param mixed $data
+     * @param mixed &$data
      * @param string $name
      */
-    private static function _array($data, $name)
+    private static function _array(&$data, $name)
     {
         if (static::$sort === false) {
             $config_sort = false;
@@ -1217,6 +1221,12 @@ class Krumo
         }
 
         // If the sort is enabled in the config (default = yes) and the array is assoc (non-numeric)
+        //
+        // $data itself is never rebound or sorted in place: only the key
+        // order comes from the sorted copy, so _vars() keeps iterating the
+        // real (possibly user-referenced) array and the recursion-marker
+        // stain needed to detect circular references stays effective.
+        $sortedKeys = null;
         if (count($data) > 1 && $config_sort && static::is_assoc($data)) {
             // Copy the array to a temp variable and sort it
             $new = $data;
@@ -1226,7 +1236,7 @@ class Krumo
             if ($new === $data) {
                 $sort = 0;
             } else {
-                $data = $new;
+                $sortedKeys = array_keys($new);
                 $sort = 1;
             }
         } else {
@@ -1284,7 +1294,7 @@ class Krumo
         print "</div>";
 
         if (!($data instanceof \Closure) && count($data)) {
-            static::_vars($data);
+            static::_vars($data, $sortedKeys);
         }
 
         print "</li>\n";
