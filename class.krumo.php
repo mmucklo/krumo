@@ -1630,8 +1630,12 @@ class Krumo
     {
         $caller = debug_backtrace();  // Get all of them
         $caller = array_pop($caller); // Get the last one
-        $file   = $caller['file'];
-        $line   = $caller['line'];
+
+        // The outermost frame may carry no file/line (e.g. when krumo()
+        // runs from a shutdown function), so fall back instead of
+        // triggering "Undefined array key" warnings.
+        $file   = $caller['file'] ?? 'unknown';
+        $line   = $caller['line'] ?? 'unknown';
         $bar    = str_repeat("-", 80) . "\n";
 
         $args = func_get_args();

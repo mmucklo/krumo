@@ -49,6 +49,20 @@ final class GlobalFunctionsTest extends BaseTestCase
         $this->assertStringNotContainsString('NEVER_REACHED', $output);
     }
 
+    public function testKrumoFromShutdownFunctionDoesNotWarn(): void
+    {
+        // At shutdown the outermost backtrace frame carries no file/line;
+        // cli_dump() used to warn with "Undefined array key" for both.
+        [$output, $exitCode] = $this->runPhpScript(
+            'register_shutdown_function("krumo", "shutdown_value");'
+        );
+
+        $this->assertSame(0, $exitCode);
+        $this->assertStringContainsString('shutdown_value', $output);
+        $this->assertStringContainsString('Called from', $output);
+        $this->assertStringNotContainsString('Warning', $output);
+    }
+
     public function testKdPrintsHtmlHeadersAndExitsUnderCgi(): void
     {
         if (self::phpCgiBinary() === null) {
